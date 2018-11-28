@@ -32,5 +32,8 @@
     <ClInclude Include="pcs_player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="pcs_effect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

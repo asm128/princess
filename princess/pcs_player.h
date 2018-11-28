@@ -9,6 +9,7 @@ namespace pcs
 		int32_t												CharactersKilled				= 0;
 		int32_t												CharactersBought				= 0;
 		int32_t												CharactersSold					= 0;
+
 		int32_t												MoneySpent						= 0;
 		int32_t												MoneyEarned						= 0;
 		int32_t												MoneyLost						= 0;

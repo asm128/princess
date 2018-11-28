@@ -19,11 +19,13 @@ namespace pcs
 	struct SPointsPower {
 		uint32_t			Mana	;
 		uint32_t			Energy	;
+		uint32_t			Stamina	;
 	};
 
 	struct SMultipliersPower {
 		double				Mana	;
 		double				Energy	;
+		double				Stamina	;
 	};
 #pragma pack (pop)
 } // namespace
