@@ -39,7 +39,8 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 
 		::pcs::SGame															Game;
 		::gpk::SGUI																BoardUI;
-		::gme::SCharacterUIControls												CharacterUI[2];
+		::gme::SCharacterUIControls												CharacterUIFieldNames[2];
+		::gme::SCharacterUIControls												CharacterUIFieldValue[2];
 
 																				SApplication									(::gpk::SRuntimeValues& runtimeValues)	: Framework(runtimeValues)		{}
 	};

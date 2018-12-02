@@ -71,16 +71,35 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 	::gpk::SControlConstraints												& controlConstraints		= gui.Controls.Constraints[app.IdExit];
 	controlConstraints.AttachSizeToText.y								= false;
 	controlConstraints.AttachSizeToText.x								= false;
-	::gpk::controlSetParent(gui, app.IdExit, 0);
-	gpk_necall(::gme::guiCreateCharacter(gui, app.CharacterUI[0]), "%s", "????");
-	gpk_necall(::gme::guiCreateCharacter(gui, app.CharacterUI[1]), "%s", "????");
+	::gpk::controlSetParent(gui, app.IdExit, controlTestRoot);
 
-	gui.Controls.Controls[app.CharacterUI[0].DialogCharacter].Area.Offset		= {0x0, 0x0};
-	gui.Controls.Controls[app.CharacterUI[1].DialogCharacter].Area.Offset		= {640, 0x0};
-	gui.Controls.Controls[app.CharacterUI[0].DialogCharacter].Area.Size.x		= 640;
-	gui.Controls.Controls[app.CharacterUI[1].DialogCharacter].Area.Size.x		= 640;
-	::gpk::controlSetParent(gui, app.CharacterUI[0].DialogCharacter, controlTestRoot);
-	::gpk::controlSetParent(gui, app.CharacterUI[1].DialogCharacter, controlTestRoot);
+	gpk_necall(::gme::guiCreateCharacter(gui, app.CharacterUIFieldNames[0]), "%s", "????");
+	gpk_necall(::gme::guiCreateCharacter(gui, app.CharacterUIFieldNames[1]), "%s", "????");
+
+	gui.Controls.Controls[app.CharacterUIFieldNames[0].DialogCharacter].Area.Offset		= {0x0, 0x0};
+	gui.Controls.Controls[app.CharacterUIFieldNames[1].DialogCharacter].Area.Offset		= {640, 0x0};
+	gui.Controls.Controls[app.CharacterUIFieldNames[0].DialogCharacter].Area.Size.x		= 320;
+	gui.Controls.Controls[app.CharacterUIFieldNames[1].DialogCharacter].Area.Size.x		= 320;
+	::gpk::controlSetParent(gui, app.CharacterUIFieldNames[0].DialogCharacter, controlTestRoot);
+	::gpk::controlSetParent(gui, app.CharacterUIFieldNames[1].DialogCharacter, controlTestRoot);
+
+
+	gpk_necall(::gme::guiCreateCharacter(gui, app.CharacterUIFieldValue[0]), "%s", "????");
+	gpk_necall(::gme::guiCreateCharacter(gui, app.CharacterUIFieldValue[1]), "%s", "????");
+
+	gui.Controls.Controls[app.CharacterUIFieldValue[0].DialogCharacter].Align = ::gpk::ALIGN_RIGHT;
+	gui.Controls.Controls[app.CharacterUIFieldValue[1].DialogCharacter].Align = ::gpk::ALIGN_RIGHT;
+	gui.Controls.Controls[app.CharacterUIFieldValue[0].DialogCharacter].Area.Size.x		= 100;
+	gui.Controls.Controls[app.CharacterUIFieldValue[1].DialogCharacter].Area.Size.x		= 100;
+	::gpk::controlSetParent(gui, app.CharacterUIFieldValue[0].DialogCharacter, app.CharacterUIFieldNames[0].DialogCharacter);
+	::gpk::controlSetParent(gui, app.CharacterUIFieldValue[1].DialogCharacter, app.CharacterUIFieldNames[1].DialogCharacter);
+	for(uint32_t iControl = app.CharacterUIFieldValue[0].DialogCharacter; iControl < gui.Controls.Controls.size(); ++iControl) {
+		gui.Controls.Text[iControl].Text	= "0";
+	}
+
+
+
+
 
 	::gpk::tcpipInitialize();
 

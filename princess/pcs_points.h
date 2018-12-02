@@ -43,11 +43,13 @@ namespace pcs
 	};
 
 	struct SPointsAttack {
-		int32_t						Range					;
-		int32_t						Hit						;
-		int32_t						Absorption				;
-		int32_t						Damage					;
-		SPointsHealth				DirectDamage			;
+		int32_t						Range			= {};
+		int32_t						Hit				= {};
+		int32_t						Absorption		= {};
+		int32_t						Damage			= {};
+		SPointsHealth				DirectDamage	= {};
+		SPointsHealth				DrainHealth		= {};
+		SPointsPower				DrainPower		= {};
 	};
 
 #pragma pack (pop)
