@@ -20,12 +20,45 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 	return 0;
 }
 
+			::gpk::error_t											setupPalette				(::gpk::view_array<int32_t> out_paletteIndices, ::gpk::array_pod<::gpk::array_static<::gpk::SColorBGRA, ::gpk::GUI_CONTROL_COLOR_COUNT>> & guiPalettes, ::gpk::SColorBGRA& baseColor)						{ 
+	out_paletteIndices[::gpk::GUI_CONTROL_STATE_COLORS_NORMAL				]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_NORMAL				;
+	out_paletteIndices[::gpk::GUI_CONTROL_STATE_COLORS_DISABLED				]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_DISABLED			;
+	out_paletteIndices[::gpk::GUI_CONTROL_STATE_COLORS_HOVER				]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_HOVER				;
+	out_paletteIndices[::gpk::GUI_CONTROL_STATE_COLORS_PRESSED				]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_PRESSED				;
+	out_paletteIndices[::gpk::GUI_CONTROL_STATE_COLORS_SELECTED				]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_SELECTED			;
+	out_paletteIndices[::gpk::GUI_CONTROL_STATE_COLORS_SELECTED_DISABLED	]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_SELECTED_DISABLED	;
+	out_paletteIndices[::gpk::GUI_CONTROL_STATE_COLORS_SELECTED_HOVER		]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_SELECTED_HOVER		;
+	out_paletteIndices[::gpk::GUI_CONTROL_STATE_COLORS_SELECTED_PRESSED		]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_SELECTED_PRESSED	;
+	out_paletteIndices[::gpk::GUI_CONTROL_STATE_COLORS_EXECUTE				]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_EXECUTE				;
+	out_paletteIndices[::gpk::GUI_CONTROL_STATE_COLORS_OUTDATED				]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_OUTDATED			;
+	return 0;
+}
 			::gpk::error_t											setup						(::gme::SApplication & app)						{ 
 	::gpk::SFramework														& framework					= app.Framework;
 	::gpk::SDisplay															& mainWindow				= framework.MainDisplay;
 	framework.Input.create();
 	error_if(errored(::gpk::mainWindowCreate(mainWindow, framework.RuntimeValues.PlatformDetail, framework.Input)), "Failed to create main window why?????!?!?!?!?");
 	::gpk::SGUI																& gui						= framework.GUI;
+	const int32_t															iShades					= 16;
+	gui.ThemeDefault													= app.PaletteColumn * iShades + app.PaletteRow;
+	gui.ColorModeDefault												= ::gpk::GUI_COLOR_MODE_3D;
+	int32_t																	controlTestRoot			= ::gpk::controlCreate(gui);	// control 0
+	::setupPalette(app.Palettes, gui.Palettes, gui.Palette[gui.ThemeDefault]);
+
+	::gpk::SControl															& controlRoot			= gui.Controls.Controls[controlTestRoot];
+	controlRoot.Area													= {{0, 0}, {320, 240}};
+	controlRoot.Border													= {1, 1, 1, 1};
+	controlRoot.Margin													= {20, 20, 20, 10};
+	controlRoot.Align													= ::gpk::ALIGN_CENTER					;
+	//gui.Controls.Modes[controlTestRoot].UseNewPalettes				= 1;
+	memcpy(controlRoot.Palettes, app.Palettes, sizeof(app.Palettes));
+
+	gui.Controls.Constraints[controlTestRoot].AttachSizeToControl		= {controlTestRoot, controlTestRoot};
+	//gui.Controls.Modes	[controlTestRoot].Design					= true;
+	::gpk::controlSetParent(gui, controlTestRoot, -1);
+
+
+
 	app.IdExit															= ::gpk::controlCreate(gui);
 	::gpk::SControl															& controlExit				= gui.Controls.Controls[app.IdExit];
 	controlExit.Area													= {{0, 0}, {64, 20}};
@@ -36,9 +69,19 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 	controlText.Text													= "Exit";
 	controlText.Align													= ::gpk::ALIGN_CENTER;
 	::gpk::SControlConstraints												& controlConstraints		= gui.Controls.Constraints[app.IdExit];
-	controlConstraints.AttachSizeToText.y								= app.IdExit;
-	controlConstraints.AttachSizeToText.x								= app.IdExit;
-	::gpk::controlSetParent(gui, app.IdExit, -1);
+	controlConstraints.AttachSizeToText.y								= false;
+	controlConstraints.AttachSizeToText.x								= false;
+	::gpk::controlSetParent(gui, app.IdExit, 0);
+	gpk_necall(::gme::guiCreateCharacter(gui, app.CharacterUI[0]), "%s", "????");
+	gpk_necall(::gme::guiCreateCharacter(gui, app.CharacterUI[1]), "%s", "????");
+
+	gui.Controls.Controls[app.CharacterUI[0].DialogCharacter].Area.Offset		= {0x0, 0x0};
+	gui.Controls.Controls[app.CharacterUI[1].DialogCharacter].Area.Offset		= {640, 0x0};
+	gui.Controls.Controls[app.CharacterUI[0].DialogCharacter].Area.Size.x		= 640;
+	gui.Controls.Controls[app.CharacterUI[1].DialogCharacter].Area.Size.x		= 640;
+	::gpk::controlSetParent(gui, app.CharacterUI[0].DialogCharacter, controlTestRoot);
+	::gpk::controlSetParent(gui, app.CharacterUI[1].DialogCharacter, controlTestRoot);
+
 	::gpk::tcpipInitialize();
 
 	app.Client.AddressConnect											= {};
@@ -84,7 +127,7 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 		::gpk::connectionPushData(app.Client, app.Client.Queue, "Message arrived! 3");
 		::gpk::connectionPushData(app.Client, app.Client.Queue, "Message arrived! 4");
 		::gpk::clientUpdate(app.Client);
-		::gpk::sleep(1000);
+		//::gpk::sleep(1000);
 	}
 
 	::gpk::SUDPClient															& connectTest				= app.ClientTest1;
