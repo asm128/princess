@@ -170,6 +170,7 @@
     <ClCompile Include="princess.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="pcs_cisc.h" />
     <ClInclude Include="pcs_character.h" />
     <ClInclude Include="pcs_effect.h" />
     <ClInclude Include="pcs_game.h" />

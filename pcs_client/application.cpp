@@ -14,6 +14,12 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 	::gpk::tcpipShutdown();
 	return 0; 
 }
+
+			::gpk::error_t											setupSimulatorUI			(::gme::SApplication & app)						{ 
+	::gpk::controlCreate(app.BoardUI);
+	return 0;
+}
+
 			::gpk::error_t											setup						(::gme::SApplication & app)						{ 
 	::gpk::SFramework														& framework					= app.Framework;
 	::gpk::SDisplay															& mainWindow				= framework.MainDisplay;

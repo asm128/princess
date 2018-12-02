@@ -172,6 +172,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="application.cpp" />
+    <ClCompile Include="gui_character.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h" />

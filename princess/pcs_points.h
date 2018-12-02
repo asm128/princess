@@ -7,26 +7,49 @@ namespace pcs
 {
 #pragma pack (push, 1)
 	struct SPointsHealth {
-		uint32_t			Health	;
-		uint32_t			Shield	;
+		int32_t						Health	;
+		int32_t						Shield	;
 	};
 
 	struct SMultipliersHealth {
-		double				Health	;
-		double				Shield	;
+		double						Health	;
+		double						Shield	;
 	};		
 
 	struct SPointsPower {
-		uint32_t			Mana	;
-		uint32_t			Energy	;
-		uint32_t			Stamina	;
+		int32_t						Mana	;
+		int32_t						Energy	;
+		int32_t						Stamina	;
 	};
 
 	struct SMultipliersPower {
-		double				Mana	;
-		double				Energy	;
-		double				Stamina	;
+		double						Mana	;
+		double						Energy	;
+		double						Stamina	;
 	};
+
+	struct SPointsFitness {
+		int32_t						Attack		;
+		int32_t						Movement	;
+		int32_t						Reflexes	;
+		int32_t						Sight		;
+	};
+
+	struct SMultipliersFitness {
+		double						Attack		;
+		double						Movement	;
+		double						Reflexes	;
+		double						Sight		;
+	};
+
+	struct SPointsAttack {
+		int32_t						Range					;
+		int32_t						Hit						;
+		int32_t						Absorption				;
+		int32_t						Damage					;
+		SPointsHealth				DirectDamage			;
+	};
+
 #pragma pack (pop)
 } // namespace
 
