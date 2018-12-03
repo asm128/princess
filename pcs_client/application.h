@@ -1,6 +1,7 @@
 #include "gpk_framework.h"
 #include "gpk_udp_client.h"
 #include "pcs_game.h"
+#include "gpk_dialog.h"
 
 #ifndef APPLICATION_H_2078934982734
 #define APPLICATION_H_2078934982734
@@ -12,16 +13,15 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 	struct SDialogFitness	{ int32_t Dialog; ::pcs::SPointsFitness	Fields = {-1, -1, -1, -1, };			};
 	struct SDialogAttack	{ int32_t Dialog; ::pcs::SPointsAttack	Fields = {-1, -1, -1, -1, -1, -1, };	};
 
-
 	struct SCharacterUIControls {
-		int32_t							DialogCharacter				= -1;
-		SDialogHealth					Health						= {};
-		SDialogPower					Power						= {};	
-		SDialogFitness					Fitness						= {};
-		SDialogAttack					Attack						= {};
-		//int32_t							ButtonAttack				= -1;
+		int32_t																	DialogCharacter				= -1;
+		SDialogHealth															Health						= {};
+		SDialogPower															Power						= {};	
+		SDialogFitness															Fitness						= {};
+		SDialogAttack															Attack						= {};
+		//int32_t																	ButtonAttack				= -1;
 	};
-	::gpk::error_t					guiCreateCharacter			(::gpk::SGUI & gui, ::gme::SCharacterUIControls	& character	);
+	::gpk::error_t															guiCreateCharacter			(::gpk::SGUI & gui, ::gme::SCharacterUIControls	& character	);
 	
 	struct SApplication {
 		::gpk::SFramework														Framework;
@@ -42,6 +42,8 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		::gpk::SGUI																BoardUI;
 		::gme::SCharacterUIControls												CharacterUIFieldNames[2];
 		::gme::SCharacterUIControls												CharacterUIFieldValue[2];
+
+		::gpk::SDialog															Dialog;
 
 																				SApplication									(::gpk::SRuntimeValues& runtimeValues)	: Framework(runtimeValues)		{}
 	};

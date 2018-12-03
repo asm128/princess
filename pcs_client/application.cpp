@@ -37,6 +37,7 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 	::gpk::SFramework														& framework					= app.Framework;
 	::gpk::SDisplay															& mainWindow				= framework.MainDisplay;
 	framework.Input.create();
+	app.Dialog.Input													= framework.Input;
 	error_if(errored(::gpk::mainWindowCreate(mainWindow, framework.RuntimeValues.PlatformDetail, framework.Input)), "Failed to create main window why?????!?!?!?!?");
 	::gpk::SGUI																& gui						= framework.GUI;
 	const int32_t															iShades					= 16;
@@ -103,7 +104,7 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 		gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].Attack	.Dialog].Align				= ::gpk::ALIGN_RIGHT;
 		//gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].DialogCharacter].Align				= ::gpk::ALIGN_RIGHT;
 		gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].DialogCharacter	].Area.Size.x		= 100;
-		::gpk::controlDelete(gui, app.CharacterUIFieldValue[iCharacter].DialogCharacter);
+		::gpk::controlDelete(gui, app.CharacterUIFieldValue[iCharacter].DialogCharacter, true);
 	}
 
 	::gpk::tcpipInitialize();
@@ -111,6 +112,15 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 	app.Client.AddressConnect											= {};
 	::gpk::tcpipAddress(9998, 0, ::gpk::TRANSPORT_PROTOCOL_UDP, app.Client.AddressConnect);
 	::gpk::clientConnect(app.Client);
+
+
+	struct SControlTest : public ::gpk::IDialogControl {
+		::gpk::error_t Update() { return 0; };
+	};
+
+	::gpk::ptr_nco<SControlTest>		 test;
+	app.Dialog.Create(test);
+
 	return 0; 
 }
 			::gpk::error_t											update						(::gme::SApplication & app, bool exitSignal)	{ 
@@ -143,6 +153,8 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 				return 1;
 		}
 	}
+
+	app.Dialog.Update();
 
 	reterr_error_if(app.Client.State != ::gpk::UDP_CONNECTION_STATE_IDLE, "Failed to connect to server.")
 	else {
