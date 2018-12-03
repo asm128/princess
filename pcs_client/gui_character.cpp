@@ -109,10 +109,10 @@ static	::gpk::error_t					guiCreateAttack			(::gpk::SGUI & gui, ::pcs::SPointsAt
 	character.DialogAttack					= ::gpk::controlCreate(gui); 
 
 
-	gui.Controls.Controls[character.DialogHealth	].Border = {};
-	gui.Controls.Controls[character.DialogPower		].Border = {};
-	gui.Controls.Controls[character.DialogFitness	].Border = {};
-	gui.Controls.Controls[character.DialogAttack	].Border = {};
+	gui.Controls.Controls[character.DialogHealth	].Border = gui.Controls.Controls[character.DialogHealth	].Margin = {};
+	gui.Controls.Controls[character.DialogPower		].Border = gui.Controls.Controls[character.DialogPower	].Margin = {};
+	gui.Controls.Controls[character.DialogFitness	].Border = gui.Controls.Controls[character.DialogFitness].Margin = {};
+	gui.Controls.Controls[character.DialogAttack	].Border = gui.Controls.Controls[character.DialogAttack	].Margin = {};
 
 
 	gpk_necall(::guiCreateHealth	(gui, character.Health	, character.DialogHealth	), "%s", "????");
