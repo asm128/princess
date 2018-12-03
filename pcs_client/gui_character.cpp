@@ -1,6 +1,6 @@
 #include "application.h"
 
-static	::gpk::error_t					guiCreateHealth			(::gpk::SGUI & gui, ::pcs::SPointsHealth	& fields, int32_t idParent)	{ 
+static	::gpk::error_t					guiCreateFieldsHealth		(::gpk::SGUI & gui, ::pcs::SPointsHealth	& fields, int32_t idParent)	{ 
 	fields.Health							= ::gpk::controlCreate(gui); 
 	fields.Shield							= ::gpk::controlCreate(gui); 
 	gui.Controls.Constraints[fields.Shield].DockToControl.Bottom	= fields.Health;
@@ -16,7 +16,7 @@ static	::gpk::error_t					guiCreateHealth			(::gpk::SGUI & gui, ::pcs::SPointsHe
 	return 0; 
 }
 
-static	::gpk::error_t					guiCreatePower				(::gpk::SGUI & gui, ::pcs::SPointsPower		& fields, int32_t idParent)	{ 
+static	::gpk::error_t					guiCreateFieldsPower				(::gpk::SGUI & gui, ::pcs::SPointsPower		& fields, int32_t idParent)	{ 
 	fields.Energy							= ::gpk::controlCreate(gui); 
 	fields.Mana								= ::gpk::controlCreate(gui); 
 	fields.Stamina							= ::gpk::controlCreate(gui); 
@@ -37,7 +37,7 @@ static	::gpk::error_t					guiCreatePower				(::gpk::SGUI & gui, ::pcs::SPointsPo
 	return 0; 
 }
 
-static	::gpk::error_t					guiCreateFitness			(::gpk::SGUI & gui, ::pcs::SPointsFitness	& fields, int32_t idParent)	{ 
+static	::gpk::error_t					guiCreateFieldsFitness			(::gpk::SGUI & gui, ::pcs::SPointsFitness	& fields, int32_t idParent)	{ 
 	fields.Attack							= ::gpk::controlCreate(gui); 
 	fields.Movement							= ::gpk::controlCreate(gui); 
 	fields.Sight							= ::gpk::controlCreate(gui); 
@@ -63,14 +63,14 @@ static	::gpk::error_t					guiCreateFitness			(::gpk::SGUI & gui, ::pcs::SPointsF
 	return 0; 
 }
 
-static	::gpk::error_t					guiCreateAttack			(::gpk::SGUI & gui, ::pcs::SPointsAttack	& fields, int32_t idParent)	{ 
+static	::gpk::error_t					guiCreateFieldsAttack			(::gpk::SGUI & gui, ::pcs::SPointsAttack	& fields, int32_t idParent)	{ 
 	fields.Range							= ::gpk::controlCreate(gui); 
 	fields.Hit								= ::gpk::controlCreate(gui); 
 	fields.Absorption						= ::gpk::controlCreate(gui); 
 	fields.Damage							= ::gpk::controlCreate(gui); 
-	::guiCreateHealth	(gui, fields.DirectDamage	, idParent); 
-	::guiCreateHealth	(gui, fields.DrainHealth	, idParent); 
-	::guiCreatePower	(gui, fields.DrainPower		, idParent); 
+	::guiCreateFieldsHealth	(gui, fields.DirectDamage	, idParent); 
+	::guiCreateFieldsHealth	(gui, fields.DrainHealth	, idParent); 
+	::guiCreateFieldsPower	(gui, fields.DrainPower		, idParent); 
 	gui.Controls.Constraints[fields.Hit					].DockToControl.Bottom	= fields.Range				;
 	gui.Controls.Constraints[fields.Absorption			].DockToControl.Bottom	= fields.Hit				;
 	gui.Controls.Constraints[fields.Damage				].DockToControl.Bottom	= fields.Absorption			;
@@ -88,66 +88,62 @@ static	::gpk::error_t					guiCreateAttack			(::gpk::SGUI & gui, ::pcs::SPointsAt
 	gui.Controls.Text[fields.Absorption					].Text	= "Absorption"	; //= {40, 0};
 	gui.Controls.Text[fields.Damage						].Text	= "Damage"		; //= {60, 0};
 
+	gui.Controls.Text[fields.DirectDamage.Health		].Text	= "Direct Damage (Health)";
+	gui.Controls.Text[fields.DirectDamage.Shield		].Text	= "Direct Damage (Shield)";
+
+	gui.Controls.Text[fields.DrainHealth.Health			].Text	= "Drain (Health) ";
+	gui.Controls.Text[fields.DrainHealth.Shield			].Text	= "Drain (Shield) ";
+
+	gui.Controls.Text[fields.DrainPower.Energy			].Text	= "Drain (Energy) ";
+	gui.Controls.Text[fields.DrainPower.Mana			].Text	= "Drain (Mana)   ";
+	gui.Controls.Text[fields.DrainPower.Stamina			].Text	= "Drain (Stamina)";
+
+
 	::gpk::controlSetParent(gui, fields.Range		, idParent);
 	::gpk::controlSetParent(gui, fields.Hit			, idParent);
 	::gpk::controlSetParent(gui, fields.Absorption	, idParent);
 	::gpk::controlSetParent(gui, fields.Damage		, idParent);
 	return 0; 
 }
-//static	::gpk::error_t					guiCreateHealth					(::gpk::SGUI & gui, int32_t idParent, ::pcs::SPointsHealth		& fields	) { gpk_necall(::guiCreateHealth	(gui, fields), "%s", "????"); return 0; }
-//static	::gpk::error_t					guiCreatePower					(::gpk::SGUI & gui, int32_t idParent, ::pcs::SPointsPower		& fields	) { gpk_necall(::guiCreatePower		(gui, fields), "%s", "????"); return 0; }
-//static	::gpk::error_t					guiCreateFitness				(::gpk::SGUI & gui, int32_t idParent, ::pcs::SPointsFitness		& fields	) { gpk_necall(::guiCreateFitness	(gui, fields), "%s", "????"); return 0; }
-//static	::gpk::error_t					guiCreateAttack					(::gpk::SGUI & gui, int32_t idParent, ::pcs::SPointsAttack		& fields	) { gpk_necall(::guiCreateAttack	(gui, fields), "%s", "????"); return 0; }
-		::gpk::error_t					gme::guiCreateCharacter			(::gpk::SGUI & gui, ::gme::SCharacterUIControls	& character	) {
+static	::gpk::error_t					guiCreateHealth					(::gpk::SGUI & gui, ::gme::SDialogHealth		& dialog )		{ dialog.Dialog = ::gpk::controlCreate(gui); gpk_necall(::guiCreateFieldsHealth		(gui, dialog.Fields, dialog.Dialog), "%s", "????"); return 0; }
+static	::gpk::error_t					guiCreatePower					(::gpk::SGUI & gui, ::gme::SDialogPower			& dialog )		{ dialog.Dialog = ::gpk::controlCreate(gui); gpk_necall(::guiCreateFieldsPower		(gui, dialog.Fields, dialog.Dialog), "%s", "????"); return 0; }
+static	::gpk::error_t					guiCreateFitness				(::gpk::SGUI & gui, ::gme::SDialogFitness		& dialog )		{ dialog.Dialog = ::gpk::controlCreate(gui); gpk_necall(::guiCreateFieldsFitness	(gui, dialog.Fields, dialog.Dialog), "%s", "????"); return 0; }
+static	::gpk::error_t					guiCreateAttack					(::gpk::SGUI & gui, ::gme::SDialogAttack		& dialog )		{ dialog.Dialog = ::gpk::controlCreate(gui); gpk_necall(::guiCreateFieldsAttack		(gui, dialog.Fields, dialog.Dialog), "%s", "????"); return 0; }
+		::gpk::error_t					gme::guiCreateCharacter			(::gpk::SGUI & gui, ::gme::SCharacterUIControls	& character	)	{
 	character.DialogCharacter				= ::gpk::controlCreate(gui); 
 
 	gui.Controls.States[character.DialogCharacter].Design	= true;
 
-	character.DialogHealth					= ::gpk::controlCreate(gui); 
-	character.DialogPower					= ::gpk::controlCreate(gui); 
-	character.DialogFitness					= ::gpk::controlCreate(gui); 
-	character.DialogAttack					= ::gpk::controlCreate(gui); 
+	gui.Controls.Controls[character.Health	.Dialog].Border = gui.Controls.Controls[character.Health	.Dialog].Margin = {};
+	gui.Controls.Controls[character.Power	.Dialog].Border = gui.Controls.Controls[character.Power		.Dialog].Margin = {};
+	gui.Controls.Controls[character.Fitness	.Dialog].Border = gui.Controls.Controls[character.Fitness	.Dialog].Margin = {};
+	gui.Controls.Controls[character.Attack	.Dialog].Border = gui.Controls.Controls[character.Attack	.Dialog].Margin = {};
 
 
-	gui.Controls.Controls[character.DialogHealth	].Border = gui.Controls.Controls[character.DialogHealth	].Margin = {};
-	gui.Controls.Controls[character.DialogPower		].Border = gui.Controls.Controls[character.DialogPower	].Margin = {};
-	gui.Controls.Controls[character.DialogFitness	].Border = gui.Controls.Controls[character.DialogFitness].Margin = {};
-	gui.Controls.Controls[character.DialogAttack	].Border = gui.Controls.Controls[character.DialogAttack	].Margin = {};
+	gpk_necall(::guiCreateHealth	(gui, character.Health	), "%s", "????");
+	gpk_necall(::guiCreatePower		(gui, character.Power	), "%s", "????");
+	gpk_necall(::guiCreateFitness	(gui, character.Fitness	), "%s", "????");
+	gpk_necall(::guiCreateAttack	(gui, character.Attack	), "%s", "????");
+
+	::gpk::controlSetParent(gui, character.Health	.Dialog, character.DialogCharacter);
+	::gpk::controlSetParent(gui, character.Power	.Dialog, character.DialogCharacter);
+	::gpk::controlSetParent(gui, character.Fitness	.Dialog, character.DialogCharacter);
+	::gpk::controlSetParent(gui, character.Attack	.Dialog, character.DialogCharacter);
 
 
-	gpk_necall(::guiCreateHealth	(gui, character.Health	, character.DialogHealth	), "%s", "????");
-	gpk_necall(::guiCreatePower		(gui, character.Power	, character.DialogPower		), "%s", "????");
-	gpk_necall(::guiCreateFitness	(gui, character.Fitness	, character.DialogFitness	), "%s", "????");
-	gpk_necall(::guiCreateAttack	(gui, character.Attack	, character.DialogAttack	), "%s", "????");
+	gui.Controls.Constraints[character.Power	.Dialog].DockToControl.Bottom		= character.Health	.Dialog;
+	gui.Controls.Constraints[character.Fitness	.Dialog].DockToControl.Bottom		= character.Power	.Dialog;
+	gui.Controls.Constraints[character.Attack	.Dialog].DockToControl.Bottom		= character.Fitness	.Dialog;
 
-	::gpk::controlSetParent(gui, character.DialogHealth	, character.DialogCharacter);
-	::gpk::controlSetParent(gui, character.DialogPower	, character.DialogCharacter);
-	::gpk::controlSetParent(gui, character.DialogFitness, character.DialogCharacter);
-	::gpk::controlSetParent(gui, character.DialogAttack	, character.DialogCharacter);
+	gui.Controls.Controls[character.Health	.Dialog].Area.Size.y		= 40;
+	gui.Controls.Controls[character.Power	.Dialog].Area.Size.y		= 60;
+	gui.Controls.Controls[character.Fitness	.Dialog].Area.Size.y		= 70;
+	gui.Controls.Controls[character.Attack	.Dialog].Area.Size.y		= 180;
 
-	gui.Controls.Text[character.Attack.DirectDamage.Health	].Text	= "Direct Damage (Health)";
-	gui.Controls.Text[character.Attack.DirectDamage.Shield	].Text	= "Direct Damage (Shield)";
-
-	gui.Controls.Text[character.Attack.DrainHealth.Health	].Text	= "Drain (Health) ";
-	gui.Controls.Text[character.Attack.DrainHealth.Shield	].Text	= "Drain (Shield) ";
-
-	gui.Controls.Text[character.Attack.DrainPower.Energy	].Text	= "Drain (Energy) ";
-	gui.Controls.Text[character.Attack.DrainPower.Mana		].Text	= "Drain (Mana)   ";
-	gui.Controls.Text[character.Attack.DrainPower.Stamina	].Text	= "Drain (Stamina)";
-
-	gui.Controls.Constraints[character.DialogPower		].DockToControl.Bottom		= character.DialogHealth	;
-	gui.Controls.Constraints[character.DialogFitness	].DockToControl.Bottom		= character.DialogPower		;
-	gui.Controls.Constraints[character.DialogAttack		].DockToControl.Bottom		= character.DialogFitness	;
-
-	gui.Controls.Controls[character.DialogHealth	].Area.Size.y		= 40;
-	gui.Controls.Controls[character.DialogPower		].Area.Size.y		= 60;
-	gui.Controls.Controls[character.DialogFitness	].Area.Size.y		= 70;
-	gui.Controls.Controls[character.DialogAttack	].Area.Size.y		= 180;
-
-	gui.Controls.Controls[character.DialogCharacter].Area.Size.y  = gui.Controls.Controls[character.DialogHealth	].Area.Size.y;
-	gui.Controls.Controls[character.DialogCharacter].Area.Size.y += gui.Controls.Controls[character.DialogPower		].Area.Size.y;
-	gui.Controls.Controls[character.DialogCharacter].Area.Size.y += gui.Controls.Controls[character.DialogFitness	].Area.Size.y;
-	gui.Controls.Controls[character.DialogCharacter].Area.Size.y += gui.Controls.Controls[character.DialogAttack	].Area.Size.y;
+	gui.Controls.Controls[character.DialogCharacter].Area.Size.y  = gui.Controls.Controls[character.Health	.Dialog].Area.Size.y;
+	gui.Controls.Controls[character.DialogCharacter].Area.Size.y += gui.Controls.Controls[character.Power	.Dialog].Area.Size.y;
+	gui.Controls.Controls[character.DialogCharacter].Area.Size.y += gui.Controls.Controls[character.Fitness	.Dialog].Area.Size.y;
+	gui.Controls.Controls[character.DialogCharacter].Area.Size.y += gui.Controls.Controls[character.Attack	.Dialog].Area.Size.y;
 	for(int32_t iControl = character.DialogCharacter + 1; iControl < (int32_t)gui.Controls.Controls.size(); ++iControl) {
 		//if(iControl == character.DialogHealth		) continue;
 		//if(iControl == character.DialogPower		) continue;

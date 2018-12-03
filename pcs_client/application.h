@@ -7,18 +7,19 @@
 
 namespace gme // I'm gonna use a different namespace in order to test a few things about the macros.
 {
+	struct SDialogHealth	{ int32_t Dialog; ::pcs::SPointsHealth	Fields = {-1, -1, };					};
+	struct SDialogPower		{ int32_t Dialog; ::pcs::SPointsPower	Fields = {-1, -1, -1, };				};
+	struct SDialogFitness	{ int32_t Dialog; ::pcs::SPointsFitness	Fields = {-1, -1, -1, -1, };			};
+	struct SDialogAttack	{ int32_t Dialog; ::pcs::SPointsAttack	Fields = {-1, -1, -1, -1, -1, -1, };	};
+
 
 	struct SCharacterUIControls {
 		int32_t							DialogCharacter				= -1;
-		int32_t							DialogHealth				= -1;
-		int32_t							DialogPower					= -1;
-		int32_t							DialogFitness				= -1;
-		int32_t							DialogAttack				= -1;
-		int32_t							ButtonAttack				= -1;
-		::pcs::SPointsHealth			Health						= {-1, -1, };
-		::pcs::SPointsPower				Power						= {-1, -1, -1, }; 
-		::pcs::SPointsFitness			Fitness						= {-1, -1, -1, -1, };
-		::pcs::SPointsAttack			Attack						= {-1, -1, -1, -1, -1, -1, };
+		SDialogHealth					Health						= {};
+		SDialogPower					Power						= {};	
+		SDialogFitness					Fitness						= {};
+		SDialogAttack					Attack						= {};
+		//int32_t							ButtonAttack				= -1;
 	};
 	::gpk::error_t					guiCreateCharacter			(::gpk::SGUI & gui, ::gme::SCharacterUIControls	& character	);
 	

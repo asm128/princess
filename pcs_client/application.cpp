@@ -76,8 +76,10 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 	gpk_necall(::gme::guiCreateCharacter(gui, app.CharacterUIFieldNames[0]), "%s", "????");
 	gpk_necall(::gme::guiCreateCharacter(gui, app.CharacterUIFieldNames[1]), "%s", "????");
 
-	gui.Controls.Controls[app.CharacterUIFieldNames[0].DialogCharacter].Area.Offset		= {0x0, 0x0};
-	gui.Controls.Controls[app.CharacterUIFieldNames[1].DialogCharacter].Area.Offset		= {640, 0x0};
+	//gui.Controls.Controls[app.CharacterUIFieldNames[0].DialogCharacter].Area.Offset		= {0x0, 0x0};
+	//gui.Controls.Controls[app.CharacterUIFieldNames[1].DialogCharacter].Area.Offset		= {640, 0x0};
+	gui.Controls.Controls[app.CharacterUIFieldNames[0].DialogCharacter].Align			= ::gpk::ALIGN_LEFT;
+	gui.Controls.Controls[app.CharacterUIFieldNames[1].DialogCharacter].Align			= ::gpk::ALIGN_RIGHT;
 	gui.Controls.Controls[app.CharacterUIFieldNames[0].DialogCharacter].Area.Size.x		= 320;
 	gui.Controls.Controls[app.CharacterUIFieldNames[1].DialogCharacter].Area.Size.x		= 320;
 	::gpk::controlSetParent(gui, app.CharacterUIFieldNames[0].DialogCharacter, controlTestRoot);
@@ -86,19 +88,19 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 	
 	for(uint32_t iCharacter = 0; iCharacter < ::gpk::size(app.CharacterUIFieldValue); ++iCharacter) {
 		gpk_necall(::gme::guiCreateCharacter(gui, app.CharacterUIFieldValue[iCharacter]), "%s", "????");
-		::gpk::controlSetParent(gui, app.CharacterUIFieldValue[iCharacter].DialogHealth	, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
-		::gpk::controlSetParent(gui, app.CharacterUIFieldValue[iCharacter].DialogPower	, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
-		::gpk::controlSetParent(gui, app.CharacterUIFieldValue[iCharacter].DialogFitness, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
-		::gpk::controlSetParent(gui, app.CharacterUIFieldValue[iCharacter].DialogAttack	, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
+		::gpk::controlSetParent(gui, app.CharacterUIFieldValue[iCharacter].Health	.Dialog, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
+		::gpk::controlSetParent(gui, app.CharacterUIFieldValue[iCharacter].Power	.Dialog, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
+		::gpk::controlSetParent(gui, app.CharacterUIFieldValue[iCharacter].Fitness	.Dialog, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
+		::gpk::controlSetParent(gui, app.CharacterUIFieldValue[iCharacter].Attack	.Dialog, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
 		//::gpk::controlSetParent(gui, app.CharacterUIFieldValue[iCharacter].DialogCharacter, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
 		for(uint32_t iControl = app.CharacterUIFieldValue[iCharacter].DialogCharacter; iControl < gui.Controls.Controls.size(); ++iControl) {
 			gui.Controls.Text[iControl].Text																= "0";
 			gui.Controls.Controls[iControl].Area.Size.x														= 100;
 		}
-		gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].DialogHealth	].Align				= ::gpk::ALIGN_RIGHT;
-		gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].DialogPower		].Align				= ::gpk::ALIGN_RIGHT;
-		gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].DialogFitness	].Align				= ::gpk::ALIGN_RIGHT;
-		gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].DialogAttack	].Align				= ::gpk::ALIGN_RIGHT;
+		gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].Health	.Dialog].Align				= ::gpk::ALIGN_RIGHT;
+		gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].Power	.Dialog].Align				= ::gpk::ALIGN_RIGHT;
+		gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].Fitness	.Dialog].Align				= ::gpk::ALIGN_RIGHT;
+		gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].Attack	.Dialog].Align				= ::gpk::ALIGN_RIGHT;
 		//gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].DialogCharacter].Align				= ::gpk::ALIGN_RIGHT;
 		gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].DialogCharacter	].Area.Size.x		= 100;
 		::gpk::controlDelete(gui, app.CharacterUIFieldValue[iCharacter].DialogCharacter);
