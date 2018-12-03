@@ -17,8 +17,8 @@ namespace pcs
 	};		
 
 	struct SPointsPower {
-		int32_t						Mana	;
 		int32_t						Energy	;
+		int32_t						Mana	;
 		int32_t						Stamina	;
 	};
 

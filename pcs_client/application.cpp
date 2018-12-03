@@ -83,23 +83,17 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 	::gpk::controlSetParent(gui, app.CharacterUIFieldNames[0].DialogCharacter, controlTestRoot);
 	::gpk::controlSetParent(gui, app.CharacterUIFieldNames[1].DialogCharacter, controlTestRoot);
 
-
-	gpk_necall(::gme::guiCreateCharacter(gui, app.CharacterUIFieldValue[0]), "%s", "????");
-	gpk_necall(::gme::guiCreateCharacter(gui, app.CharacterUIFieldValue[1]), "%s", "????");
-
-	gui.Controls.Controls[app.CharacterUIFieldValue[0].DialogCharacter].Align = ::gpk::ALIGN_RIGHT;
-	gui.Controls.Controls[app.CharacterUIFieldValue[1].DialogCharacter].Align = ::gpk::ALIGN_RIGHT;
-	gui.Controls.Controls[app.CharacterUIFieldValue[0].DialogCharacter].Area.Size.x		= 100;
-	gui.Controls.Controls[app.CharacterUIFieldValue[1].DialogCharacter].Area.Size.x		= 100;
-	::gpk::controlSetParent(gui, app.CharacterUIFieldValue[0].DialogCharacter, app.CharacterUIFieldNames[0].DialogCharacter);
-	::gpk::controlSetParent(gui, app.CharacterUIFieldValue[1].DialogCharacter, app.CharacterUIFieldNames[1].DialogCharacter);
-	for(uint32_t iControl = app.CharacterUIFieldValue[0].DialogCharacter; iControl < gui.Controls.Controls.size(); ++iControl) {
-		gui.Controls.Text[iControl].Text	= "0";
+	
+	for(uint32_t iCharacter = 0; iCharacter < ::gpk::size(app.CharacterUIFieldValue); ++iCharacter) {
+		gpk_necall(::gme::guiCreateCharacter(gui, app.CharacterUIFieldValue[iCharacter]), "%s", "????");
+		::gpk::controlSetParent(gui, app.CharacterUIFieldValue[iCharacter].DialogCharacter, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
+		for(uint32_t iControl = app.CharacterUIFieldValue[iCharacter].DialogCharacter; iControl < gui.Controls.Controls.size(); ++iControl) {
+			gui.Controls.Text[iControl].Text																= "0";
+			gui.Controls.Controls[iControl].Area.Size.x														= 100;
+		}
+		gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].DialogCharacter].Align				= ::gpk::ALIGN_RIGHT;
+		gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].DialogCharacter].Area.Size.x		= 100;
 	}
-
-
-
-
 
 	::gpk::tcpipInitialize();
 
