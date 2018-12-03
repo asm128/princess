@@ -153,7 +153,7 @@ static	::gpk::error_t					guiCreateAttack			(::gpk::SGUI & gui, ::pcs::SPointsAt
 		//if(iControl == character.DialogPower		) continue;
 		//if(iControl == character.DialogFitness		) continue;
 		//if(iControl == character.DialogAttack		) continue;
-		gui.Controls.Controls[iControl].Area.Size.x		= 200;
+		gui.Controls.Controls[iControl].Area.Size.x		= 210;
 		//gui.Controls.Controls[iControl];
 		//gui.Controls.Controls[iControl];
 		//gui.Controls.Controls[iControl];
