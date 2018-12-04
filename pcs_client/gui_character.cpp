@@ -3,7 +3,7 @@
 static	::gpk::error_t					guiCreateFieldsHealth		(::gpk::SGUI & gui, ::pcs::SPointsHealth	& fields, int32_t idParent)	{ 
 	fields.Health							= ::gpk::controlCreateChild(gui, idParent); 
 	fields.Shield							= ::gpk::controlCreateChild(gui, idParent); 
-	gui.Controls.Constraints[fields.Shield].DockToControl.Bottom	= fields.Health;
+	gui.Controls.Constraints[fields.Shield	].DockToControl.Bottom	= fields.Health;
 
 	gui.Controls.Constraints[fields.Health	].AttachSizeToControl	= {fields.Health	, -1};
 	gui.Controls.Constraints[fields.Shield	].AttachSizeToControl	= {fields.Shield	, -1};
@@ -92,6 +92,7 @@ static	::gpk::error_t					guiCreateFieldsAttack			(::gpk::SGUI & gui, ::pcs::SPo
 	gui.Controls.Text[fields.DrainPower.Stamina			].Text	= "Drain (Stamina)";
 	return 0; 
 }
+
 static	::gpk::error_t					guiCreateHealth					(::gpk::SGUI & gui, ::gme::SDialogHealth		& dialog )		{ dialog.Dialog = ::gpk::controlCreate(gui); gpk_necall(::guiCreateFieldsHealth	(gui, dialog.Fields, dialog.Dialog), "%s", "????"); return 0; }
 static	::gpk::error_t					guiCreatePower					(::gpk::SGUI & gui, ::gme::SDialogPower			& dialog )		{ dialog.Dialog = ::gpk::controlCreate(gui); gpk_necall(::guiCreateFieldsPower	(gui, dialog.Fields, dialog.Dialog), "%s", "????"); return 0; }
 static	::gpk::error_t					guiCreateFitness				(::gpk::SGUI & gui, ::gme::SDialogFitness		& dialog )		{ dialog.Dialog = ::gpk::controlCreate(gui); gpk_necall(::guiCreateFieldsFitness(gui, dialog.Fields, dialog.Dialog), "%s", "????"); return 0; }
