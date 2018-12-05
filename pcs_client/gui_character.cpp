@@ -62,19 +62,12 @@ static	::gpk::error_t					guiCreateFieldsAttack			(::gpk::SGUI & gui, ::pcs::SPo
 	for(uint32_t iControl = fields.Range; iControl < (uint32_t)fields.Damage; ++iControl)
 		gui.Controls.Constraints[iControl + 1].DockToControl.Bottom	= iControl;
 
-	//gui.Controls.Constraints[fields.Hit					].DockToControl.Bottom	= fields.Range				;
-	//gui.Controls.Constraints[fields.Absorption			].DockToControl.Bottom	= fields.Hit				;
-	//gui.Controls.Constraints[fields.Damage				].DockToControl.Bottom	= fields.Absorption			;
 	gui.Controls.Constraints[fields.DirectDamage.Health	].DockToControl.Bottom	= fields.Damage				;
 	gui.Controls.Constraints[fields.DrainHealth.Health	].DockToControl.Bottom	= fields.DirectDamage.Shield;
 	gui.Controls.Constraints[fields.DrainPower.Energy	].DockToControl.Bottom	= fields.DrainHealth.Shield	;
 
 	for(uint32_t iControl = fields.Range; iControl <= (uint32_t)fields.Damage; ++iControl)
 		gui.Controls.Constraints[iControl].AttachSizeToControl	= {(int32_t)iControl, -1,};
-	//gui.Controls.Constraints[fields.Range				].AttachSizeToControl	= {fields.Range			, -1,};
-	//gui.Controls.Constraints[fields.Hit					].AttachSizeToControl	= {fields.Hit			, -1,};
-	//gui.Controls.Constraints[fields.Absorption			].AttachSizeToControl	= {fields.Absorption	, -1,};
-	//gui.Controls.Constraints[fields.Damage				].AttachSizeToControl	= {fields.Damage		, -1,};
 
 	gui.Controls.Text[fields.Range						].Text	= "Range"		; //= {00, 0};
 	gui.Controls.Text[fields.Hit						].Text	= "Hit"			; //= {20, 0};
