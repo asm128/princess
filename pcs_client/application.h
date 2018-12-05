@@ -8,10 +8,15 @@
 
 namespace gme // I'm gonna use a different namespace in order to test a few things about the macros.
 {
-	struct SDialogHealth	{ int32_t Dialog; ::pcs::SPointsHealth	Fields = {-1, -1, };					};
-	struct SDialogPower		{ int32_t Dialog; ::pcs::SPointsPower	Fields = {-1, -1, -1, };				};
-	struct SDialogFitness	{ int32_t Dialog; ::pcs::SPointsFitness	Fields = {-1, -1, -1, -1, };			};
-	struct SDialogAttack	{ int32_t Dialog; ::pcs::SPointsAttack	Fields = {-1, -1, -1, -1, -1, -1, };	};
+	struct STunersHealth	{ ::pcs::SPointsLife		Fields = {-1, -1,										}; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerHealth	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerShield	; };
+	struct STunersPower		{ ::pcs::SPointsPower		Fields = {-1, -1, -1,									}; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerEnergy	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerMana		; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerStamina		; };
+	struct STunersFitness	{ ::pcs::SPointsFitness		Fields = {-1, -1, -1, -1,								}; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerAttack	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerMovement	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerReflexes		; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerSight	; };
+	struct STunersAttack	{ ::pcs::SPointsAttackFull	Fields = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,	}; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerRange	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerHit		; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerAbsorption	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerDamage	; };
+
+	struct SDialogHealth	{ int32_t Dialog; ::pcs::SPointsLife		Fields = {-1, -1,										}; };
+	struct SDialogPower		{ int32_t Dialog; ::pcs::SPointsPower		Fields = {-1, -1, -1,									}; };
+	struct SDialogFitness	{ int32_t Dialog; ::pcs::SPointsFitness		Fields = {-1, -1, -1, -1,								}; };
+	struct SDialogAttack	{ int32_t Dialog; ::pcs::SPointsAttackFull	Fields = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,	}; };
 
 	struct SCharacterUIControls {
 		int32_t																	DialogCharacter				= -1;
@@ -39,11 +44,10 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		::gpk::SUDPClient														ClientTest1;
 
 		::pcs::SGame															Game;
-		::gpk::SGUI																BoardUI;
 		::gme::SCharacterUIControls												CharacterUIFieldNames[2];
 		::gme::SCharacterUIControls												CharacterUIFieldValue[2];
 
-		::gpk::SDialog															Dialog;
+		::gpk::SDialog															DialogCharacter[2];
 
 																				SApplication									(::gpk::SRuntimeValues& runtimeValues)	: Framework(runtimeValues)		{}
 	};
