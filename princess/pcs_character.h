@@ -53,7 +53,7 @@ namespace pcs
 	};
 
 	struct SCharacter {
-		::pcs::SPointsLife							Health				;
+		::pcs::SPointsLife							Life				;
 		::pcs::SPointsPower							Power				;
 		::pcs::SPointsFitness						Fitness				;
 		int32_t										CharacterProfile	;

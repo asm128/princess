@@ -8,19 +8,19 @@
 
 namespace gme // I'm gonna use a different namespace in order to test a few things about the macros.
 {
-	struct STunersHealth	{ ::pcs::SPointsLife		Fields = {-1, -1,										}; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerHealth	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerShield	; };
+	struct STunersLife		{ ::pcs::SPointsLife		Fields = {-1, -1,										}; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerHealth	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerShield	; };
 	struct STunersPower		{ ::pcs::SPointsPower		Fields = {-1, -1, -1,									}; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerEnergy	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerMana		; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerStamina		; };
 	struct STunersFitness	{ ::pcs::SPointsFitness		Fields = {-1, -1, -1, -1,								}; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerAttack	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerMovement	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerReflexes		; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerSight	; };
 	struct STunersAttack	{ ::pcs::SPointsAttackFull	Fields = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,	}; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerRange	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerHit		; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerAbsorption	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerDamage	; };
 
-	struct SDialogHealth	{ int32_t Dialog; ::pcs::SPointsLife		Fields = {-1, -1,										}; };
+	struct SDialogLife		{ int32_t Dialog; ::pcs::SPointsLife		Fields = {-1, -1,										}; };
 	struct SDialogPower		{ int32_t Dialog; ::pcs::SPointsPower		Fields = {-1, -1, -1,									}; };
 	struct SDialogFitness	{ int32_t Dialog; ::pcs::SPointsFitness		Fields = {-1, -1, -1, -1,								}; };
 	struct SDialogAttack	{ int32_t Dialog; ::pcs::SPointsAttackFull	Fields = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,	}; };
 
 	struct SCharacterUIControls {
 		int32_t																	DialogCharacter				= -1;
-		SDialogHealth															Health						= {};
+		SDialogLife																Life						= {};
 		SDialogPower															Power						= {};	
 		SDialogFitness															Fitness						= {};
 		SDialogAttack															Attack						= {};
@@ -32,7 +32,7 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		::gpk::SFramework														Framework;
 		::gpk::ptr_obj<::gpk::SRenderTarget<::gpk::SColorBGRA, uint32_t>>		Offscreen										= {};
 
-		int32_t																	Palettes[::gpk::GUI_CONTROL_STATE_COLORS_COUNT]	= {};
+		int32_t																	Palettes[::gpk::GUI_CONTROL_PALETTE_COUNT]	= {};
 		int32_t																	PaletteRow										= 10;
 		int32_t																	PaletteColumn									= 16;
 		int32_t																	IdExit											= -1;
