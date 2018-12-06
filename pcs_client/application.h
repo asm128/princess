@@ -18,12 +18,30 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 	struct SDialogFitness	{ int32_t Dialog; ::pcs::SPointsFitness		Fields = {-1, -1, -1, -1,								}; };
 	struct SDialogAttack	{ int32_t Dialog; ::pcs::SPointsAttackFull	Fields = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,	}; };
 
+#pragma pack(push, 1)
+	struct SCharacterPropertyGroups {
+		GPKMNDF(::pcs, SCharacterPropertyGroups, , int32_t, Life	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF(::pcs, SCharacterPropertyGroups, , int32_t, Power	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF(::pcs, SCharacterPropertyGroups, , int32_t, Fitness	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF(::pcs, SCharacterPropertyGroups, , int32_t, Attack	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKM_REGISTRY
+			(	GPKM_NAME(Life		)
+			,	GPKM_NAME(Power		)
+			,	GPKM_NAME(Fitness	)
+			,	GPKM_NAME(Attack	)
+			);
+	};
+#pragma pack(pop)
+
 	struct SCharacterUIControls {
 		int32_t																	DialogCharacter				= -1;
-		SDialogLife																Life						= {};
-		SDialogPower															Power						= {};	
-		SDialogFitness															Fitness						= {};
-		SDialogAttack															Attack						= {};
+
+		SCharacterPropertyGroups												DialogStatGroups			= {};
+
+		::pcs::SPointsLife														Life						= {-1, -1,										}; 
+		::pcs::SPointsPower														Power						= {-1, -1, -1,									}; 	
+		::pcs::SPointsFitness													Fitness						= {-1, -1, -1, -1,								}; 
+		::pcs::SPointsAttackFull												Attack						= {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,	}; 
 		//int32_t																	ButtonAttack				= -1;
 	};
 	::gpk::error_t															guiCreateCharacter			(::gpk::SGUI & gui, ::gme::SCharacterUIControls	& character	);

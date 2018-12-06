@@ -22,37 +22,36 @@ static		::gpk::error_t											setupSimulatorUI			(::gme::SApplication & app)	
 	app.DialogCharacter[0].GUI.Controls.Controls[app.CharacterUIFieldNames[0].DialogCharacter].Align			= ::gpk::ALIGN_LEFT;
 	app.DialogCharacter[1].GUI.Controls.Controls[app.CharacterUIFieldNames[1].DialogCharacter].Align			= ::gpk::ALIGN_RIGHT;
 	for(uint32_t iCharacter = 0; iCharacter < ::gpk::size(app.CharacterUIFieldValue); ++iCharacter) {
-		app.DialogCharacter[iCharacter].GUI.Controls.Controls[app.CharacterUIFieldNames[iCharacter].DialogCharacter].Area.Size.x		= 320;
-		::gpk::controlSetParent(app.DialogCharacter[iCharacter].GUI, app.CharacterUIFieldNames[iCharacter].DialogCharacter, 0);
+		::gpk::SGUI															& guiCharacter				= app.DialogCharacter[iCharacter].GUI;
+		guiCharacter.Controls.Controls[app.CharacterUIFieldNames[iCharacter].DialogCharacter].Area.Size.x		= 320;
+		::gpk::controlSetParent(guiCharacter, app.CharacterUIFieldNames[iCharacter].DialogCharacter, 0);
 	}
 
 	for(uint32_t iCharacter = 0; iCharacter < ::gpk::size(app.CharacterUIFieldValue); ++iCharacter) {
-		gpk_necall(::gme::guiCreateCharacter(app.DialogCharacter[iCharacter].GUI, app.CharacterUIFieldValue[iCharacter]), "%s", "????");
-		::gpk::controlSetParent(app.DialogCharacter[iCharacter].GUI, app.CharacterUIFieldValue[iCharacter].Life		.Dialog, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
-		::gpk::controlSetParent(app.DialogCharacter[iCharacter].GUI, app.CharacterUIFieldValue[iCharacter].Power	.Dialog, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
-		::gpk::controlSetParent(app.DialogCharacter[iCharacter].GUI, app.CharacterUIFieldValue[iCharacter].Fitness	.Dialog, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
-		::gpk::controlSetParent(app.DialogCharacter[iCharacter].GUI, app.CharacterUIFieldValue[iCharacter].Attack	.Dialog, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
-		//::gpk::controlSetParent(gui, app.CharacterUIFieldValue[iCharacter].DialogCharacter, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
-
-		for(uint32_t iControl = app.CharacterUIFieldValue[iCharacter].DialogCharacter + 1; iControl < app.DialogCharacter[iCharacter].GUI.Controls.Controls.size(); ++iControl) {
-			app.DialogCharacter[iCharacter].GUI.Controls.Controls[iControl].Area.Size.x														= 110;
-			if(iControl == (uint32_t)app.CharacterUIFieldValue[iCharacter].Life		.Dialog) { app.DialogCharacter[iCharacter].GUI.Controls.Text[iControl].Text = {}; continue; }
-			if(iControl == (uint32_t)app.CharacterUIFieldValue[iCharacter].Power	.Dialog) { app.DialogCharacter[iCharacter].GUI.Controls.Text[iControl].Text = {}; continue; }
-			if(iControl == (uint32_t)app.CharacterUIFieldValue[iCharacter].Fitness	.Dialog) { app.DialogCharacter[iCharacter].GUI.Controls.Text[iControl].Text = {}; continue; }
-			if(iControl == (uint32_t)app.CharacterUIFieldValue[iCharacter].Attack	.Dialog) { app.DialogCharacter[iCharacter].GUI.Controls.Text[iControl].Text = {}; continue; }
-			app.DialogCharacter[iCharacter].GUI.Controls.Constraints[iControl].AttachSizeToControl.x										= iControl;
-			app.DialogCharacter[iCharacter].GUI.Controls.Text[iControl].Text																= "0";
+		::gpk::SGUI									& guiCharacter			= app.DialogCharacter[iCharacter].GUI;
+		::gme::SCharacterUIControls					& controlsCharValues	= app.CharacterUIFieldValue[iCharacter];
+		gpk_necall(::gme::guiCreateCharacter(guiCharacter, controlsCharValues), "%s", "????");
+		for(uint32_t iChild = 0; iChild < guiCharacter.Controls.Children[controlsCharValues.DialogCharacter].size(); ++iChild) {
+			int32_t										idControl				= guiCharacter.Controls.Children[controlsCharValues.DialogCharacter][iChild];
+			guiCharacter.Controls.Controls	[idControl].Align	= ::gpk::ALIGN_RIGHT;
+			guiCharacter.Controls.Text		[idControl].Text	= {}; 
 		}
-		app.DialogCharacter[iCharacter].GUI.Controls.Controls[app.CharacterUIFieldValue[iCharacter].Life	.Dialog].Align				= ::gpk::ALIGN_RIGHT;
-		app.DialogCharacter[iCharacter].GUI.Controls.Controls[app.CharacterUIFieldValue[iCharacter].Power	.Dialog].Align				= ::gpk::ALIGN_RIGHT;
-		app.DialogCharacter[iCharacter].GUI.Controls.Controls[app.CharacterUIFieldValue[iCharacter].Fitness	.Dialog].Align				= ::gpk::ALIGN_RIGHT;
-		app.DialogCharacter[iCharacter].GUI.Controls.Controls[app.CharacterUIFieldValue[iCharacter].Attack	.Dialog].Align				= ::gpk::ALIGN_RIGHT;
-		//gui.Controls.Controls[app.CharacterUIFieldValue[iCharacter].DialogCharacter].Align				= ::gpk::ALIGN_RIGHT;
-		//app.DialogCharacter[iCharacter].GUI.Controls.Controls[app.CharacterUIFieldValue[iCharacter].DialogCharacter		].Area.Size.x			= 110;
-		app.DialogCharacter[iCharacter].GUI.Controls.Constraints[app.CharacterUIFieldValue[iCharacter].DialogCharacter	].AttachSizeToControl.x = -1;
-		//for(uint32_t iControl = app.CharacterUIFieldValue[iCharacter].DialogCharacter + 1; iControl < app.DialogCharacter[iCharacter].GUI.Controls.Controls.size(); ++iControl) 
-			//app.DialogCharacter[iCharacter].GUI.Controls.Controls[iControl].Area.Size.x														= 110;
-		::gpk::controlDelete(app.DialogCharacter[iCharacter].GUI, app.CharacterUIFieldValue[iCharacter].DialogCharacter, true);
+		while(guiCharacter.Controls.Children[controlsCharValues.DialogCharacter].size()) {
+			int32_t						idControl				= guiCharacter.Controls.Children[controlsCharValues.DialogCharacter][0];
+			::gpk::controlSetParent(guiCharacter, idControl, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
+		}
+
+		for(uint32_t iControl = controlsCharValues.DialogCharacter + 1; iControl < guiCharacter.Controls.Controls.size(); ++iControl) {
+			guiCharacter.Controls.Controls[iControl].Area.Size.x														= 110;
+			if(iControl == (uint32_t)controlsCharValues.DialogStatGroups.Life	) continue; 
+			if(iControl == (uint32_t)controlsCharValues.DialogStatGroups.Power	) continue; 
+			if(iControl == (uint32_t)controlsCharValues.DialogStatGroups.Fitness) continue; 
+			if(iControl == (uint32_t)controlsCharValues.DialogStatGroups.Attack	) continue; 
+			guiCharacter.Controls.Constraints[iControl].AttachSizeToControl.x										= iControl;
+			guiCharacter.Controls.Text[iControl].Text																= "0";
+		}
+		guiCharacter.Controls.Constraints	[controlsCharValues.DialogCharacter				].AttachSizeToControl.x = -1;
+		::gpk::controlDelete(guiCharacter, controlsCharValues.DialogCharacter, true);
 	}
 	return 0;
 }
@@ -60,10 +59,10 @@ static		::gpk::error_t											setupSimulatorUI			(::gme::SApplication & app)	
 			::gpk::error_t											setupPalette				(::gpk::view_array<int32_t> out_paletteIndices, ::gpk::array_pod<::gpk::array_static<::gpk::SColorBGRA, ::gpk::GUI_CONTROL_COLOR_COUNT>> & guiPalettes, ::gpk::SColorBGRA& baseColor)						{ 
 	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_NORMAL				]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_NORMAL				;
 	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_DISABLED				]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_DISABLED			;
-	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_HOVER				]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_HOVER				;
+	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_HOVER					]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_HOVER				;
 	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_PRESSED				]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_PRESSED				;
 	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_SELECTED				]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_SELECTED			;
-	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_SELECTED_DISABLED	]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_SELECTED_DISABLED	;
+	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_SELECTED_DISABLED		]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_SELECTED_DISABLED	;
 	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_SELECTED_HOVER		]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_SELECTED_HOVER		;
 	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_SELECTED_PRESSED		]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_SELECTED_PRESSED	;
 	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_EXECUTE				]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_EXECUTE				;
