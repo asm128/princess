@@ -75,7 +75,7 @@ static		::gpk::error_t											setupSimulatorUI			(::gme::SApplication & app)	
 	framework.Input.create();
 	app.DialogCharacter[0].Input										= framework.Input;
 	app.DialogCharacter[1].Input										= framework.Input;
-	error_if(errored(::gpk::mainWindowCreate(mainWindow, framework.RuntimeValues.PlatformDetail, framework.Input)), "Failed to create main window why?????!?!?!?!?");
+	error_if(errored(::gpk::mainWindowCreate(mainWindow, framework.RuntimeValues.PlatformDetail, framework.Input)), "%s", "Failed to create main window why?????!?!?!?!?");
 	::gpk::SGUI																& gui						= framework.GUI;
 	const int32_t															iShades					= 16;
 	gui.ThemeDefault													= app.PaletteColumn * iShades + app.PaletteRow;
