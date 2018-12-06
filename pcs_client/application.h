@@ -8,43 +8,31 @@
 
 namespace gme // I'm gonna use a different namespace in order to test a few things about the macros.
 {
-#pragma pack(push, 1)
-	struct STunersHealth	{ ::pcs::SPointsLife		Fields = {-1, -1,			}; ::gpk::ptr_nco<::gpk::SDialogTuner> Tuners[::pcs::SPointsLife	::TRegistry::get_member_count()]; };
-	struct STunersPower		{ ::pcs::SPointsPower		Fields = {-1, -1, -1,		}; ::gpk::ptr_nco<::gpk::SDialogTuner> Tuners[::pcs::SPointsPower	::TRegistry::get_member_count()]; };
-	struct STunersFitness	{ ::pcs::SPointsFitness		Fields = {-1, -1, -1, -1,	}; ::gpk::ptr_nco<::gpk::SDialogTuner> Tuners[::pcs::SPointsFitness	::TRegistry::get_member_count()]; };
+	struct STunersHealth	{ ::pcs::SPointsLife		Fields = {-1, -1,										}; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerHealth	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerShield	; };
+	struct STunersPower		{ ::pcs::SPointsPower		Fields = {-1, -1, -1,									}; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerEnergy	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerMana		; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerStamina		; };
+	struct STunersFitness	{ ::pcs::SPointsFitness		Fields = {-1, -1, -1, -1,								}; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerAttack	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerMovement	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerReflexes		; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerSight	; };
+	struct STunersAttack	{ ::pcs::SPointsAttackFull	Fields = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,	}; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerRange	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerHit		; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerAbsorption	; ::gpk::ptr_nco<::gpk::SDialogTuner> TunerDamage	; };
 
-	struct SCharacterDialogs {
-		GPKMNDF(::pcs, SCharacterDialogs, , int32_t, Life		, ::gpk::DATA_TYPE_INT32) = -1;
-		GPKMNDF(::pcs, SCharacterDialogs, , int32_t, Power		, ::gpk::DATA_TYPE_INT32) = -1;
-		GPKMNDF(::pcs, SCharacterDialogs, , int32_t, Fitness	, ::gpk::DATA_TYPE_INT32) = -1;
-		GPKMNDF(::pcs, SCharacterDialogs, , int32_t, Attack		, ::gpk::DATA_TYPE_INT32) = -1;
-		GPKM_REGISTRY
-			(	GPKM_NAME(Life		)
-			,	GPKM_NAME(Power		)
-			,	GPKM_NAME(Fitness	)
-			,	GPKM_NAME(Attack	)
-			);
-	};
+	struct SDialogHealth	{ int32_t Dialog; ::pcs::SPointsLife		Fields = {-1, -1,										}; };
+	struct SDialogPower		{ int32_t Dialog; ::pcs::SPointsPower		Fields = {-1, -1, -1,									}; };
+	struct SDialogFitness	{ int32_t Dialog; ::pcs::SPointsFitness		Fields = {-1, -1, -1, -1,								}; };
+	struct SDialogAttack	{ int32_t Dialog; ::pcs::SPointsAttackFull	Fields = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,	}; };
 
 	struct SCharacterUIControls {
 		int32_t																	DialogCharacter				= -1;
-		SCharacterDialogs														DialogPoints				= {};
-
-		::pcs::SPointsLife														Life						= {};
-		::pcs::SPointsPower														Power						= {};	
-		::pcs::SPointsFitness													Fitness						= {};
-		::pcs::SPointsAttackFull													Attack						= {};
+		SDialogHealth															Health						= {};
+		SDialogPower															Power						= {};	
+		SDialogFitness															Fitness						= {};
+		SDialogAttack															Attack						= {};
 		//int32_t																	ButtonAttack				= -1;
 	};
-
-#pragma pack(pop)
 	::gpk::error_t															guiCreateCharacter			(::gpk::SGUI & gui, ::gme::SCharacterUIControls	& character	);
 	
 	struct SApplication {
 		::gpk::SFramework														Framework;
 		::gpk::ptr_obj<::gpk::SRenderTarget<::gpk::SColorBGRA, uint32_t>>		Offscreen										= {};
 
-		int32_t																	Palettes[::gpk::GUI_CONTROL_PALETTE_COUNT]		= {};
+		int32_t																	Palettes[::gpk::GUI_CONTROL_STATE_COLORS_COUNT]	= {};
 		int32_t																	PaletteRow										= 10;
 		int32_t																	PaletteColumn									= 16;
 		int32_t																	IdExit											= -1;
