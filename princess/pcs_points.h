@@ -8,8 +8,8 @@ namespace pcs
 #pragma pack (push, 1)
 
 	struct SPointsLife {
-		GPKMNDF(::pcs, SPointsLife, , int32_t, Health, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF(::pcs, SPointsLife, , int32_t, Shield, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF(, int32_t, Health, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF(, int32_t, Shield, ::gpk::DATA_TYPE_INT32)	= 0;
 		GPKM_REGISTRY
 			(	GPKM_NAME(Health)
 			,	GPKM_NAME(Shield)
@@ -17,8 +17,8 @@ namespace pcs
 	};
 
 	struct SMultipliersLife {
-		GPKMNDF(::pcs, SMultipliersLife, ::gpk, float64_t, Health, ::gpk::DATA_TYPE_FLOAT64)	= 0;
-		GPKMNDF(::pcs, SMultipliersLife, ::gpk, float64_t, Shield, ::gpk::DATA_TYPE_FLOAT64)	= 0;
+		GPKMNDF(::gpk, float64_t, Health, ::gpk::DATA_TYPE_FLOAT64)	= 0;
+		GPKMNDF(::gpk, float64_t, Shield, ::gpk::DATA_TYPE_FLOAT64)	= 0;
 		GPKM_REGISTRY
 			(	GPKM_NAME(Health)
 			,	GPKM_NAME(Shield)
@@ -26,9 +26,9 @@ namespace pcs
 	};		
 
 	struct SPointsPower {
-		GPKMNDF(::pcs, SPointsPower, , int32_t, Energy	, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF(::pcs, SPointsPower, , int32_t, Mana	, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF(::pcs, SPointsPower, , int32_t, Stamina	, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t, Energy	, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t, Mana	, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t, Stamina	, ::gpk::DATA_TYPE_INT32)	= 0;
 		GPKM_REGISTRY
 			(	GPKM_NAME(Energy	)
 			,	GPKM_NAME(Mana		)
@@ -37,9 +37,9 @@ namespace pcs
 	};
 
 	struct SMultipliersPower {
-		GPKMNDF(::pcs, SMultipliersPower, ::gpk, float64_t, Energy	, ::gpk::DATA_TYPE_FLOAT64)	= 0;
-		GPKMNDF(::pcs, SMultipliersPower, ::gpk, float64_t, Mana	, ::gpk::DATA_TYPE_FLOAT64)	= 0;
-		GPKMNDF(::pcs, SMultipliersPower, ::gpk, float64_t, Stamina	, ::gpk::DATA_TYPE_FLOAT64)	= 0;
+		GPKMNDF(::gpk, float64_t, Energy	, ::gpk::DATA_TYPE_FLOAT64)	= 0;
+		GPKMNDF(::gpk, float64_t, Mana		, ::gpk::DATA_TYPE_FLOAT64)	= 0;
+		GPKMNDF(::gpk, float64_t, Stamina	, ::gpk::DATA_TYPE_FLOAT64)	= 0;
 		GPKM_REGISTRY
 			(	GPKM_NAME(Energy	)
 			,	GPKM_NAME(Mana		)
@@ -48,10 +48,10 @@ namespace pcs
 	};
 
 	struct SPointsFitness {
-		GPKMNDF(::pcs, SPointsFitness, , int32_t, Attack	, ::gpk::DATA_TYPE_INT32) = 0;
-		GPKMNDF(::pcs, SPointsFitness, , int32_t, Movement	, ::gpk::DATA_TYPE_INT32) = 0;
-		GPKMNDF(::pcs, SPointsFitness, , int32_t, Reflexes	, ::gpk::DATA_TYPE_INT32) = 0;
-		GPKMNDF(::pcs, SPointsFitness, , int32_t, Sight		, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMNDF(, int32_t, Attack	, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMNDF(, int32_t, Movement	, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMNDF(, int32_t, Reflexes	, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMNDF(, int32_t, Sight	, ::gpk::DATA_TYPE_INT32) = 0;
 		GPKM_REGISTRY
 			(	GPKM_NAME(Attack	)
 			,	GPKM_NAME(Movement	)
@@ -61,10 +61,10 @@ namespace pcs
 	};
 
 	struct SMultipliersFitness {
-		GPKMNDF(::pcs, SMultipliersFitness, ::gpk, float64_t, Attack	, ::gpk::DATA_TYPE_FLOAT64) = 0;
-		GPKMNDF(::pcs, SMultipliersFitness, ::gpk, float64_t, Movement	, ::gpk::DATA_TYPE_FLOAT64) = 0;
-		GPKMNDF(::pcs, SMultipliersFitness, ::gpk, float64_t, Reflexes	, ::gpk::DATA_TYPE_FLOAT64) = 0;
-		GPKMNDF(::pcs, SMultipliersFitness, ::gpk, float64_t, Sight		, ::gpk::DATA_TYPE_FLOAT64) = 0;
+		GPKMNDF(::gpk, float64_t, Attack	, ::gpk::DATA_TYPE_FLOAT64) = 0;
+		GPKMNDF(::gpk, float64_t, Movement	, ::gpk::DATA_TYPE_FLOAT64) = 0;
+		GPKMNDF(::gpk, float64_t, Reflexes	, ::gpk::DATA_TYPE_FLOAT64) = 0;
+		GPKMNDF(::gpk, float64_t, Sight		, ::gpk::DATA_TYPE_FLOAT64) = 0;
 		GPKM_REGISTRY
 			(	GPKM_NAME(Attack	)
 			,	GPKM_NAME(Movement	)
@@ -74,10 +74,10 @@ namespace pcs
 	};
 
 	struct SPointsAttackRaw {
-		GPKMNDF(::pcs, SPointsAttackRaw, , int32_t, Range		, ::gpk::DATA_TYPE_INT32) = 0;
-		GPKMNDF(::pcs, SPointsAttackRaw, , int32_t, Hit			, ::gpk::DATA_TYPE_INT32) = 0;
-		GPKMNDF(::pcs, SPointsAttackRaw, , int32_t, Absorption	, ::gpk::DATA_TYPE_INT32) = 0;
-		GPKMNDF(::pcs, SPointsAttackRaw, , int32_t, Damage		, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMNDF( , int32_t, Range		, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMNDF( , int32_t, Hit			, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMNDF( , int32_t, Absorption	, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMNDF( , int32_t, Damage		, ::gpk::DATA_TYPE_INT32) = 0;
 		GPKM_REGISTRY
 			(	GPKM_NAME(Range			)
 			,	GPKM_NAME(Hit			)
@@ -87,10 +87,10 @@ namespace pcs
 	};
 
 	struct SMultipliersAttackRaw {
-		GPKMNDF(::pcs, SMultipliersAttackRaw, ::gpk, float64_t, Range		, ::gpk::DATA_TYPE_FLOAT64) = 0;
-		GPKMNDF(::pcs, SMultipliersAttackRaw, ::gpk, float64_t, Hit			, ::gpk::DATA_TYPE_FLOAT64) = 0;
-		GPKMNDF(::pcs, SMultipliersAttackRaw, ::gpk, float64_t, Absorption	, ::gpk::DATA_TYPE_FLOAT64) = 0;
-		GPKMNDF(::pcs, SMultipliersAttackRaw, ::gpk, float64_t, Damage		, ::gpk::DATA_TYPE_FLOAT64) = 0;
+		GPKMNDF(::gpk, float64_t, Range			, ::gpk::DATA_TYPE_FLOAT64) = 0;
+		GPKMNDF(::gpk, float64_t, Hit			, ::gpk::DATA_TYPE_FLOAT64) = 0;
+		GPKMNDF(::gpk, float64_t, Absorption	, ::gpk::DATA_TYPE_FLOAT64) = 0;
+		GPKMNDF(::gpk, float64_t, Damage		, ::gpk::DATA_TYPE_FLOAT64) = 0;
 		GPKM_REGISTRY
 			(	GPKM_NAME(Range			)
 			,	GPKM_NAME(Hit			)
