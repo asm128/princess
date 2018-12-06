@@ -22,17 +22,9 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 			);
 	};
 
-	struct STunersLife		{ ::gpk::ptr_nco<::gpk::SDialogTuner> Tuners[::pcs::SPointsLife			::TRegistry::get_member_count()]; };
-	struct STunersPower		{ ::gpk::ptr_nco<::gpk::SDialogTuner> Tuners[::pcs::SPointsPower		::TRegistry::get_member_count()]; };
-	struct STunersFitness	{ ::gpk::ptr_nco<::gpk::SDialogTuner> Tuners[::pcs::SPointsFitness		::TRegistry::get_member_count()]; };
-	struct STunersAttack	{ ::gpk::ptr_nco<::gpk::SDialogTuner> Tuners
-		[ ::pcs::SPointsAttackRaw	::TRegistry::get_member_count()
-		+ ::pcs::SPointsLife		::TRegistry::get_member_count() * 2
-		+ ::pcs::SPointsPower		::TRegistry::get_member_count()
-		]; };
-
 	struct SCharacterUIControls {
 		int32_t																	DialogCharacter				= -1;
+		//int32_t																	ButtonAttack				= -1;
 
 		SCharacterPropertyGroups												DialogStatGroups			= {};
 
@@ -40,7 +32,14 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		::pcs::SPointsPower														Power						= {-1, -1, -1,									}; 	
 		::pcs::SPointsFitness													Fitness						= {-1, -1, -1, -1,								}; 
 		::pcs::SPointsAttackFull												Attack						= {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,	}; 
-		//int32_t																	ButtonAttack				= -1;
+		::gpk::ptr_nco<::gpk::SDialogTuner> TunersLife		[::pcs::SPointsLife		::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner> TunersPower		[::pcs::SPointsPower	::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner> TunersFitness	[::pcs::SPointsFitness	::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner> TunersAttack
+			[ ::pcs::SPointsAttackRaw	::TRegistry::get_member_count()
+			+ ::pcs::SPointsLife		::TRegistry::get_member_count() * 2
+			+ ::pcs::SPointsPower		::TRegistry::get_member_count()
+			]																								= {}; 
 	};
 
 #pragma pack(pop)
@@ -62,10 +61,10 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		::gpk::SUDPClient														ClientTest1;
 
 		::pcs::SGame															Game;
-		::gme::SCharacterUIControls												CharacterUIFieldNames[2];
-		::gme::SCharacterUIControls												CharacterUIFieldValue[2];
+		::gpk::array_static<::gme::SCharacterUIControls, 2>						CharacterUIFieldNames;
+		::gpk::array_static<::gme::SCharacterUIControls, 2>						CharacterUIFieldValue;
 
-		::gpk::SDialog															DialogCharacter[2];
+		::gpk::array_static<::gpk::SDialog, 2>									DialogCharacter;
 
 																				SApplication									(::gpk::SRuntimeValues& runtimeValues)	: Framework(runtimeValues)		{}
 	};

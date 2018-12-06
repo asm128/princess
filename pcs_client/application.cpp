@@ -16,42 +16,44 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 }
 
 static		::gpk::error_t											setupSimulatorUI			(::gme::SApplication & app)						{ 
-	for(uint32_t iCharacter = 0; iCharacter < ::gpk::size(app.CharacterUIFieldValue); ++iCharacter)
-		gpk_necall(::gme::guiCreateCharacter(app.DialogCharacter[iCharacter].GUI, app.CharacterUIFieldNames[iCharacter]), "%s", "????");
-
-	app.DialogCharacter[0].GUI.Controls.Controls[app.CharacterUIFieldNames[0].DialogCharacter].Align			= ::gpk::ALIGN_LEFT;
-	app.DialogCharacter[1].GUI.Controls.Controls[app.CharacterUIFieldNames[1].DialogCharacter].Align			= ::gpk::ALIGN_RIGHT;
-	for(uint32_t iCharacter = 0; iCharacter < ::gpk::size(app.CharacterUIFieldValue); ++iCharacter) {
-		::gpk::SGUI															& guiCharacter				= app.DialogCharacter[iCharacter].GUI;
-		guiCharacter.Controls.Controls[app.CharacterUIFieldNames[iCharacter].DialogCharacter].Area.Size.x		= 320;
-		::gpk::controlSetParent(guiCharacter, app.CharacterUIFieldNames[iCharacter].DialogCharacter, 0);
+	for(uint32_t iCharacter = 0; iCharacter < app.CharacterUIFieldNames.size(); ++iCharacter) {
+		::gpk::SGUI																& guiCharacter				= app.DialogCharacter[iCharacter].GUI;
+		::gme::SCharacterUIControls												& controlsName				= app.CharacterUIFieldNames[iCharacter];
+		gpk_necall(::gme::guiCreateCharacter(guiCharacter, controlsName), "%s", "????");
+		guiCharacter.Controls.Controls[controlsName.DialogCharacter].Align	= iCharacter ? ::gpk::ALIGN_RIGHT : ::gpk::ALIGN_LEFT;
+	}
+	for(uint32_t iCharacter = 0; iCharacter < app.CharacterUIFieldNames.size(); ++iCharacter) {
+		::gpk::SGUI																& guiCharacter				= app.DialogCharacter[iCharacter].GUI;
+		::gme::SCharacterUIControls												& fields					= app.CharacterUIFieldNames[iCharacter];
+		guiCharacter.Controls.Controls[fields.DialogCharacter].Area.Size.x	= 320;
+		::gpk::controlSetParent(guiCharacter, fields.DialogCharacter, 0);
 	}
 
-	for(uint32_t iCharacter = 0; iCharacter < ::gpk::size(app.CharacterUIFieldValue); ++iCharacter) {
-		::gpk::SGUI									& guiCharacter			= app.DialogCharacter[iCharacter].GUI;
-		::gme::SCharacterUIControls					& controlsCharValues	= app.CharacterUIFieldValue[iCharacter];
-		gpk_necall(::gme::guiCreateCharacter(guiCharacter, controlsCharValues), "%s", "????");
-		for(uint32_t iChild = 0; iChild < guiCharacter.Controls.Children[controlsCharValues.DialogCharacter].size(); ++iChild) {
-			int32_t										idControl				= guiCharacter.Controls.Children[controlsCharValues.DialogCharacter][iChild];
-			guiCharacter.Controls.Controls	[idControl].Align	= ::gpk::ALIGN_RIGHT;
-			guiCharacter.Controls.Text		[idControl].Text	= {}; 
+	for(uint32_t iCharacter = 0; iCharacter < app.CharacterUIFieldValue.size(); ++iCharacter) {
+		::gpk::SGUI																& guiCharacter				= app.DialogCharacter[iCharacter].GUI;
+		::gme::SCharacterUIControls												& fieldsValues				= app.CharacterUIFieldValue[iCharacter];
+		gpk_necall(::gme::guiCreateCharacter(guiCharacter, fieldsValues), "%s", "????");
+		for(uint32_t iChild = 0; iChild < guiCharacter.Controls.Children[fieldsValues.DialogCharacter].size(); ++iChild) {
+			int32_t																	idControl					= guiCharacter.Controls.Children[fieldsValues.DialogCharacter][iChild];
+			guiCharacter.Controls.Controls	[idControl].Align					= ::gpk::ALIGN_RIGHT;
+			guiCharacter.Controls.Text		[idControl].Text					= {}; 
 		}
-		while(guiCharacter.Controls.Children[controlsCharValues.DialogCharacter].size()) {
-			int32_t						idControl				= guiCharacter.Controls.Children[controlsCharValues.DialogCharacter][0];
+		while(guiCharacter.Controls.Children[fieldsValues.DialogCharacter].size()) {
+			int32_t																	idControl					= guiCharacter.Controls.Children[fieldsValues.DialogCharacter][0];
 			::gpk::controlSetParent(guiCharacter, idControl, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
+			guiCharacter.Controls.Controls[idControl].Area.Size.x				= 110;
 		}
 
-		for(uint32_t iControl = controlsCharValues.DialogCharacter + 1; iControl < guiCharacter.Controls.Controls.size(); ++iControl) {
-			guiCharacter.Controls.Controls[iControl].Area.Size.x														= 110;
-			if(iControl == (uint32_t)controlsCharValues.DialogStatGroups.Life	) continue; 
-			if(iControl == (uint32_t)controlsCharValues.DialogStatGroups.Power	) continue; 
-			if(iControl == (uint32_t)controlsCharValues.DialogStatGroups.Fitness) continue; 
-			if(iControl == (uint32_t)controlsCharValues.DialogStatGroups.Attack	) continue; 
+		for(uint32_t iControl = fieldsValues.DialogCharacter + 1; iControl < guiCharacter.Controls.Controls.size(); ++iControl) {
+			if(iControl == (uint32_t)fieldsValues.DialogStatGroups.Life		) continue; 
+			if(iControl == (uint32_t)fieldsValues.DialogStatGroups.Power	) continue; 
+			if(iControl == (uint32_t)fieldsValues.DialogStatGroups.Fitness	) continue; 
+			if(iControl == (uint32_t)fieldsValues.DialogStatGroups.Attack	) continue; 
 			guiCharacter.Controls.Constraints[iControl].AttachSizeToControl.x										= iControl;
 			guiCharacter.Controls.Text[iControl].Text																= "0";
 		}
-		guiCharacter.Controls.Constraints	[controlsCharValues.DialogCharacter				].AttachSizeToControl.x = -1;
-		::gpk::controlDelete(guiCharacter, controlsCharValues.DialogCharacter, true);
+		guiCharacter.Controls.Constraints [fieldsValues.DialogCharacter].AttachSizeToControl.x = -1;
+		::gpk::controlDelete(guiCharacter, fieldsValues.DialogCharacter, true);
 	}
 	return 0;
 }
@@ -150,7 +152,7 @@ static		::gpk::error_t											setupSimulatorUI			(::gme::SApplication & app)	
 		}
 	}
 
-	for(uint32_t iCharacter = 0; iCharacter < ::gpk::size(app.DialogCharacter); ++iCharacter) 
+	for(uint32_t iCharacter = 0; iCharacter < app.DialogCharacter.size(); ++iCharacter) 
 		app.DialogCharacter[iCharacter].Update();
 
 	reterr_error_if(app.Client.State != ::gpk::UDP_CONNECTION_STATE_IDLE, "Failed to connect to server.")
@@ -187,7 +189,7 @@ static		::gpk::error_t											setupSimulatorUI			(::gme::SApplication & app)	
 	//	::gpk::controlDrawHierarchy(app.Framework.GUI, 0, target->Color.View);
 	//}
 	
-	for(uint32_t iCharacter = 0; iCharacter < ::gpk::size(app.DialogCharacter); ++iCharacter) {
+	for(uint32_t iCharacter = 0; iCharacter < app.DialogCharacter.size(); ++iCharacter) {
 		::gpk::mutex_guard															lock					(app.LockGUI);
 		::gpk::controlDrawHierarchy(app.DialogCharacter[iCharacter].GUI, 0, target->Color.View);
 	}
