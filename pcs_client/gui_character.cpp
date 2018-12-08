@@ -77,7 +77,7 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 		::gpk::SControl														& controlCharacter					= gui.Controls.Controls[character.DialogCharacter];
 		gui.Controls.States[character.DialogCharacter].Design			= false;
 		controlCharacter.Border = controlCharacter.Margin				= {};
-		controlCharacter.Area.Size.x									= 320;
+		controlCharacter.Area.Size.x									= 220;
 	}
 
 	gpk_necall(::guiCreateFieldArray(dialog, character.DialogStatGroups			, character.DialogCharacter						), "%s", "????");	// Create group control array
@@ -109,7 +109,7 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 			gui.Controls.Text[idControl].Align								= ::gpk::ALIGN_TOP_LEFT;
 			//gui.Controls.Modes[idControl].ColorMode							= ::gpk::GUI_COLOR_MODE_FLAT;
 			constraints[idControl].AttachSizeToControl						= {-1, -1};
-			controlGroup.Area.Size.x										= 320; 
+			controlGroup.Area.Size.x										= 220; 
 			controlGroup.Area.Offset										= {};
 			//controlGroup.Border	/*= controlGroup.Margin*/					= {};
 			//controlGroup.Margin.Top											= 4;
@@ -119,7 +119,7 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 			for(uint32_t iChildField = 0; iChildField < childFields.size(); ++iChildField) {
 				int32_t																idField							= childFields[iChildField];
 				constraints[idField].AttachSizeToControl						= {-1, -1};
-				gui.Controls.Controls[idField].Area.Size.x						= 210;
+				gui.Controls.Controls[idField].Area.Size.x						= 110;
 				::gpk::memcpy_s(gui.Controls.Controls[idField].Palettes, character.PaletteFields.Storage);//gui.DefaultColors);
 			}
 			::gpk::memcpy_s(controlGroup.Palettes, character.PaletteGroups.Storage);//gui.DefaultColors);

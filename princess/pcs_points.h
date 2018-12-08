@@ -52,11 +52,13 @@ namespace pcs
 		GPKMNDF(, int32_t, Movement	, ::gpk::DATA_TYPE_INT32) = 0;
 		GPKMNDF(, int32_t, Reflexes	, ::gpk::DATA_TYPE_INT32) = 0;
 		GPKMNDF(, int32_t, Sight	, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMNDF(, int32_t, Moral	, ::gpk::DATA_TYPE_INT32) = 0;
 		GPKM_REGISTRY
 			(	GPKM_NAME(Attack	)
 			,	GPKM_NAME(Movement	)
 			,	GPKM_NAME(Reflexes	)
 			,	GPKM_NAME(Sight		)
+			,	GPKM_NAME(Moral		)
 			);
 	};
 
@@ -74,10 +76,10 @@ namespace pcs
 	};
 
 	struct SPointsAttack {
-		GPKMNDF( , int32_t, Range		, ::gpk::DATA_TYPE_INT32) = 0;
-		GPKMNDF( , int32_t, Hit			, ::gpk::DATA_TYPE_INT32) = 0;
-		GPKMNDF( , int32_t, Absorption	, ::gpk::DATA_TYPE_INT32) = 0;
-		GPKMNDF( , int32_t, Damage		, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMNDF(, int32_t, Range		, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMNDF(, int32_t, Hit			, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMNDF(, int32_t, Absorption	, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMNDF(, int32_t, Damage		, ::gpk::DATA_TYPE_INT32) = 0;
 		GPKM_REGISTRY
 			(	GPKM_NAME(Range			)
 			,	GPKM_NAME(Hit			)
