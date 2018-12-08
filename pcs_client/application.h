@@ -1,7 +1,7 @@
 #include "gpk_framework.h"
 #include "gpk_udp_client.h"
 #include "pcs_game.h"
-#include "gpk_dialog.h"
+#include "gpk_dialog_controls.h"
 
 #ifndef APPLICATION_H_2078934982734
 #define APPLICATION_H_2078934982734
@@ -10,15 +10,23 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 {
 #pragma pack(push, 1)
 	struct SCharacterPropertyGroups {
-		GPKMNDF( , int32_t, Life	, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, Power	, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, Fitness	, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, Attack	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, Life				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, Power				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, Fitness				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, Attack				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, DirectDamageLife	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, DirectDamagePower	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, DrainLife			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, DrainPower			, ::gpk::DATA_TYPE_INT32)				= -1;
 		GPKM_REGISTRY
-			(	GPKM_NAME(Life		)
-			,	GPKM_NAME(Power		)
-			,	GPKM_NAME(Fitness	)
-			,	GPKM_NAME(Attack	)
+			(	GPKM_NAME(Life				)
+			,	GPKM_NAME(Power				)
+			,	GPKM_NAME(Fitness			)
+			,	GPKM_NAME(Attack			)
+			,	GPKM_NAME(DirectDamageLife	)
+			,	GPKM_NAME(DirectDamagePower	)
+			,	GPKM_NAME(DrainLife			)
+			,	GPKM_NAME(DrainPower		)
 			);
 	};
 
@@ -28,18 +36,23 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 
 		SCharacterPropertyGroups												DialogStatGroups			= {};
 
-		::pcs::SPointsLife														Life						= {-1, -1,										}; 
-		::pcs::SPointsPower														Power						= {-1, -1, -1,									}; 	
-		::pcs::SPointsFitness													Fitness						= {-1, -1, -1, -1,								}; 
-		::pcs::SPointsAttackFull												Attack						= {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,	}; 
-		::gpk::ptr_nco<::gpk::SDialogTuner> TunersLife		[::pcs::SPointsLife		::TRegistry::get_member_count()]	= {}; 
-		::gpk::ptr_nco<::gpk::SDialogTuner> TunersPower		[::pcs::SPointsPower	::TRegistry::get_member_count()]	= {}; 
-		::gpk::ptr_nco<::gpk::SDialogTuner> TunersFitness	[::pcs::SPointsFitness	::TRegistry::get_member_count()]	= {}; 
-		::gpk::ptr_nco<::gpk::SDialogTuner> TunersAttack
-			[ ::pcs::SPointsAttackRaw	::TRegistry::get_member_count()
-			+ ::pcs::SPointsLife		::TRegistry::get_member_count() * 2
-			+ ::pcs::SPointsPower		::TRegistry::get_member_count()
-			]																								= {}; 
+		::pcs::SPointsLife														Life						= {-1, -1,			}; 
+		::pcs::SPointsPower														Power						= {-1, -1, -1,		}; 	
+		::pcs::SPointsFitness													Fitness						= {-1, -1, -1, -1,	}; 
+		::pcs::SPointsAttack													Attack						= {-1, -1, -1, -1,	}; 
+		::pcs::SPointsLife														DirectDamageLife			= {-1, -1,			}; 
+		::pcs::SPointsLife														DirectDamagePower			= {-1, -1,			}; 
+		::pcs::SPointsLife														DrainLife					= {-1, -1,			}; 
+		::pcs::SPointsPower														DrainPower					= {-1, -1, -1,		}; 	
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersLife				[::pcs::SPointsLife		::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersPower				[::pcs::SPointsPower	::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersFitness			[::pcs::SPointsFitness	::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersAttack			[::pcs::SPointsAttack	::TRegistry::get_member_count()]	= {};
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersDirectDamageLife	[::pcs::SPointsLife		::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersDirectDamagePower	[::pcs::SPointsPower	::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersDrainLife			[::pcs::SPointsLife		::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersDrainPower		[::pcs::SPointsPower	::TRegistry::get_member_count()]	= {}; 
+
 	};
 
 #pragma pack(pop)

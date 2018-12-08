@@ -73,7 +73,7 @@ namespace pcs
 			);
 	};
 
-	struct SPointsAttackRaw {
+	struct SPointsAttack {
 		GPKMNDF( , int32_t, Range		, ::gpk::DATA_TYPE_INT32) = 0;
 		GPKMNDF( , int32_t, Hit			, ::gpk::DATA_TYPE_INT32) = 0;
 		GPKMNDF( , int32_t, Absorption	, ::gpk::DATA_TYPE_INT32) = 0;
@@ -86,7 +86,7 @@ namespace pcs
 			);
 	};
 
-	struct SMultipliersAttackRaw {
+	struct SMultipliersAttack {
 		GPKMNDF(::gpk, float64_t, Range			, ::gpk::DATA_TYPE_FLOAT64) = 0;
 		GPKMNDF(::gpk, float64_t, Hit			, ::gpk::DATA_TYPE_FLOAT64) = 0;
 		GPKMNDF(::gpk, float64_t, Absorption	, ::gpk::DATA_TYPE_FLOAT64) = 0;
@@ -97,13 +97,6 @@ namespace pcs
 			,	GPKM_NAME(Absorption	)
 			,	GPKM_NAME(Damage		)
 			);
-	};
-
-	struct SPointsAttackFull {
-		SPointsAttackRaw			Raw				= {};
-		SPointsLife					DirectDamage	= {};
-		SPointsLife					DrainHealth		= {};
-		SPointsPower				DrainPower		= {};
 	};
 
 #pragma pack (pop)
