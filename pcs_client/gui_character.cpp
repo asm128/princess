@@ -27,6 +27,27 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 	return 0; 
 }
 
+					::gpk::error_t								dialogCreateTuners					(::gpk::SDialog & dialog, int32_t idGroup, ::gpk::view_array<::gpk::ptr_nco<::gpk::SDialogTuner>> tuners)	{
+	::gpk::SGUIControlTable												& controlTable						= dialog.GUI.Controls;
+	for(uint32_t iField = 0, countFields = controlTable.Children[idGroup].size(); iField < countFields; ++iField) { 
+		int32_t																idLabel								= controlTable.Children[idGroup][iField]; 
+		::gpk::tunerCreate(dialog, tuners[iField]); 
+		tuners[iField]->ValueLimits.Min									= 0; 
+		tuners[iField]->ValueLimits.Max									= 0xFFFFFFFF; 
+		int32_t																idControl							= tuners[iField]->IdGUIControl; 
+		::gpk::SControl														& control							= controlTable.Controls[idControl]; 
+		control.Align													= ::gpk::ALIGN_TOP_RIGHT; 
+		control.Area.Size.x												= 110; 
+		control.Area.Size.y												= controlTable.Controls[idLabel].Area.Size.y; 
+		if(iField) 
+			controlTable.Constraints[idControl].DockToControl.Bottom		= tuners[iField - 1]->IdGUIControl; 
+		else 
+			control.Area.Offset.y											= control.Area.Size.y;
+		::gpk::controlSetParent(dialog.GUI, idControl, idGroup); 
+	}
+	return 0;
+}
+
 					::gpk::error_t								gme::dialogCreateCharacter			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls	& character	)	{
 	::gpk::SGUI															& gui								= dialog.GUI;
 	character.DialogCharacter										= ::gpk::controlCreate(gui); 
@@ -34,7 +55,8 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 		::gpk::SControl														& controlCharacter					= gui.Controls.Controls[character.DialogCharacter];
 		gui.Controls.States[character.DialogCharacter].Design			= false;
 		::gpk::memcpy_s(gui.Controls.Controls[character.DialogCharacter].Palettes, gui.DefaultColors);
-		controlCharacter.Border = controlCharacter.Margin			= {};
+		controlCharacter.Border = controlCharacter.Margin				= {};
+		controlCharacter.Area.Size.x									= 320;
 	}
 	gpk_necall(::guiCreateFieldArray(dialog, character.DialogStatGroups		, character.DialogCharacter	), "%s", "????"); 
 	gpk_necall(::guiCreateFieldArray(dialog, character.Life					, character.DialogStatGroups.Life				), "%s", "????"); 
@@ -80,15 +102,13 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 	}
 
 	// Create tuners.
-	for(uint32_t iField = 0, countFields = gui.Controls.Children[character.DialogStatGroups.Life				].size(); iField < countFields; ++iField) { int32_t idLabel = gui.Controls.Children[character.DialogStatGroups.Life					][iField]; ::gpk::tunerCreate(dialog, character.TunersLife				[iField]); character.TunersLife					[iField]->ValueLimits.Min = 0; character.TunersLife					[iField]->ValueLimits.Max = 0xFFFFFFFF; int32_t idControl = character.TunersLife				[iField]->IdGUIControl; ::gpk::SControl& control = gui.Controls.Controls[idControl]; control.Align = ::gpk::ALIGN_TOP_RIGHT; control.Area.Size.x = 110; control.Area.Size.y = gui.Controls.Controls[idLabel].Area.Size.y; {if(iField) gui.Controls.Constraints[idControl].DockToControl.Bottom = character.TunersLife				[iField - 1]->IdGUIControl; else control.Area.Offset.y = control.Area.Size.y;} ::gpk::controlSetParent(gui, idControl, character.DialogStatGroups.Life				); }
-	for(uint32_t iField = 0, countFields = gui.Controls.Children[character.DialogStatGroups.Power				].size(); iField < countFields; ++iField) { int32_t idLabel = gui.Controls.Children[character.DialogStatGroups.Power				][iField]; ::gpk::tunerCreate(dialog, character.TunersPower				[iField]); character.TunersPower				[iField]->ValueLimits.Min = 0; character.TunersPower				[iField]->ValueLimits.Max = 0xFFFFFFFF; int32_t idControl = character.TunersPower				[iField]->IdGUIControl; ::gpk::SControl& control = gui.Controls.Controls[idControl]; control.Align = ::gpk::ALIGN_TOP_RIGHT; control.Area.Size.x = 110; control.Area.Size.y = gui.Controls.Controls[idLabel].Area.Size.y; {if(iField) gui.Controls.Constraints[idControl].DockToControl.Bottom = character.TunersPower				[iField - 1]->IdGUIControl; else control.Area.Offset.y = control.Area.Size.y;} ::gpk::controlSetParent(gui, idControl, character.DialogStatGroups.Power				); }
-	for(uint32_t iField = 0, countFields = gui.Controls.Children[character.DialogStatGroups.Fitness				].size(); iField < countFields; ++iField) { int32_t idLabel = gui.Controls.Children[character.DialogStatGroups.Fitness				][iField]; ::gpk::tunerCreate(dialog, character.TunersFitness			[iField]); character.TunersFitness				[iField]->ValueLimits.Min = 0; character.TunersFitness				[iField]->ValueLimits.Max = 0xFFFFFFFF; int32_t idControl = character.TunersFitness				[iField]->IdGUIControl; ::gpk::SControl& control = gui.Controls.Controls[idControl]; control.Align = ::gpk::ALIGN_TOP_RIGHT; control.Area.Size.x = 110; control.Area.Size.y = gui.Controls.Controls[idLabel].Area.Size.y; {if(iField) gui.Controls.Constraints[idControl].DockToControl.Bottom = character.TunersFitness			[iField - 1]->IdGUIControl; else control.Area.Offset.y = control.Area.Size.y;} ::gpk::controlSetParent(gui, idControl, character.DialogStatGroups.Fitness			); }
-	for(uint32_t iField = 0, countFields = gui.Controls.Children[character.DialogStatGroups.Attack				].size(); iField < countFields; ++iField) { int32_t idLabel = gui.Controls.Children[character.DialogStatGroups.Attack				][iField]; ::gpk::tunerCreate(dialog, character.TunersAttack			[iField]); character.TunersAttack				[iField]->ValueLimits.Min = 0; character.TunersAttack				[iField]->ValueLimits.Max = 0xFFFFFFFF; int32_t idControl = character.TunersAttack				[iField]->IdGUIControl; ::gpk::SControl& control = gui.Controls.Controls[idControl]; control.Align = ::gpk::ALIGN_TOP_RIGHT; control.Area.Size.x = 110; control.Area.Size.y = gui.Controls.Controls[idLabel].Area.Size.y; {if(iField) gui.Controls.Constraints[idControl].DockToControl.Bottom = character.TunersAttack				[iField - 1]->IdGUIControl; else control.Area.Offset.y = control.Area.Size.y;} ::gpk::controlSetParent(gui, idControl, character.DialogStatGroups.Attack			); }
-	for(uint32_t iField = 0, countFields = gui.Controls.Children[character.DialogStatGroups.DirectDamageLife	].size(); iField < countFields; ++iField) { int32_t idLabel = gui.Controls.Children[character.DialogStatGroups.DirectDamageLife		][iField]; ::gpk::tunerCreate(dialog, character.TunersDirectDamageLife	[iField]); character.TunersDirectDamageLife		[iField]->ValueLimits.Min = 0; character.TunersDirectDamageLife		[iField]->ValueLimits.Max = 0xFFFFFFFF; int32_t idControl = character.TunersDirectDamageLife	[iField]->IdGUIControl; ::gpk::SControl& control = gui.Controls.Controls[idControl]; control.Align = ::gpk::ALIGN_TOP_RIGHT; control.Area.Size.x = 110; control.Area.Size.y = gui.Controls.Controls[idLabel].Area.Size.y; {if(iField) gui.Controls.Constraints[idControl].DockToControl.Bottom = character.TunersDirectDamageLife	[iField - 1]->IdGUIControl; else control.Area.Offset.y = control.Area.Size.y;} ::gpk::controlSetParent(gui, idControl, character.DialogStatGroups.DirectDamageLife	); }
-	for(uint32_t iField = 0, countFields = gui.Controls.Children[character.DialogStatGroups.DirectDamagePower	].size(); iField < countFields; ++iField) { int32_t idLabel = gui.Controls.Children[character.DialogStatGroups.DirectDamagePower	][iField]; ::gpk::tunerCreate(dialog, character.TunersDirectDamagePower	[iField]); character.TunersDirectDamagePower	[iField]->ValueLimits.Min = 0; character.TunersDirectDamagePower	[iField]->ValueLimits.Max = 0xFFFFFFFF; int32_t idControl = character.TunersDirectDamagePower	[iField]->IdGUIControl; ::gpk::SControl& control = gui.Controls.Controls[idControl]; control.Align = ::gpk::ALIGN_TOP_RIGHT; control.Area.Size.x = 110; control.Area.Size.y = gui.Controls.Controls[idLabel].Area.Size.y; {if(iField) gui.Controls.Constraints[idControl].DockToControl.Bottom = character.TunersDirectDamagePower	[iField - 1]->IdGUIControl; else control.Area.Offset.y = control.Area.Size.y;} ::gpk::controlSetParent(gui, idControl, character.DialogStatGroups.DirectDamagePower	); }
-	for(uint32_t iField = 0, countFields = gui.Controls.Children[character.DialogStatGroups.DrainLife			].size(); iField < countFields; ++iField) { int32_t idLabel = gui.Controls.Children[character.DialogStatGroups.DrainLife			][iField]; ::gpk::tunerCreate(dialog, character.TunersDrainLife			[iField]); character.TunersDrainLife			[iField]->ValueLimits.Min = 0; character.TunersDrainLife			[iField]->ValueLimits.Max = 0xFFFFFFFF; int32_t idControl = character.TunersDrainLife			[iField]->IdGUIControl; ::gpk::SControl& control = gui.Controls.Controls[idControl]; control.Align = ::gpk::ALIGN_TOP_RIGHT; control.Area.Size.x = 110; control.Area.Size.y = gui.Controls.Controls[idLabel].Area.Size.y; {if(iField) gui.Controls.Constraints[idControl].DockToControl.Bottom = character.TunersDrainLife			[iField - 1]->IdGUIControl; else control.Area.Offset.y = control.Area.Size.y;} ::gpk::controlSetParent(gui, idControl, character.DialogStatGroups.DrainLife			); }
-	for(uint32_t iField = 0, countFields = gui.Controls.Children[character.DialogStatGroups.DrainPower			].size(); iField < countFields; ++iField) { int32_t idLabel = gui.Controls.Children[character.DialogStatGroups.DrainPower			][iField]; ::gpk::tunerCreate(dialog, character.TunersDrainPower		[iField]); character.TunersDrainPower			[iField]->ValueLimits.Min = 0; character.TunersDrainPower			[iField]->ValueLimits.Max = 0xFFFFFFFF; int32_t idControl = character.TunersDrainPower			[iField]->IdGUIControl; ::gpk::SControl& control = gui.Controls.Controls[idControl]; control.Align = ::gpk::ALIGN_TOP_RIGHT; control.Area.Size.x = 110; control.Area.Size.y = gui.Controls.Controls[idLabel].Area.Size.y; {if(iField) gui.Controls.Constraints[idControl].DockToControl.Bottom = character.TunersDrainPower			[iField - 1]->IdGUIControl; else control.Area.Offset.y = control.Area.Size.y;} ::gpk::controlSetParent(gui, idControl, character.DialogStatGroups.DrainPower		); }
-	gui.Controls.Controls[character.DialogCharacter].Area.Size.x		= 320;
-
+	::dialogCreateTuners(dialog, character.DialogStatGroups.Life				, character.TunersLife				);
+	::dialogCreateTuners(dialog, character.DialogStatGroups.Power				, character.TunersPower				);
+	::dialogCreateTuners(dialog, character.DialogStatGroups.Fitness				, character.TunersFitness			);
+	::dialogCreateTuners(dialog, character.DialogStatGroups.Attack				, character.TunersAttack			);
+	::dialogCreateTuners(dialog, character.DialogStatGroups.DirectDamageLife	, character.TunersDirectDamageLife	);
+	::dialogCreateTuners(dialog, character.DialogStatGroups.DirectDamagePower	, character.TunersDirectDamagePower	);
+	::dialogCreateTuners(dialog, character.DialogStatGroups.DrainLife			, character.TunersDrainLife			);
+	::dialogCreateTuners(dialog, character.DialogStatGroups.DrainPower			, character.TunersDrainPower		);
 	return 0;
 }
