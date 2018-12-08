@@ -30,20 +30,21 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 			);
 	};
 
+
 	struct SCharacterUIControls {
 		int32_t																	DialogCharacter				= -1;
 		//int32_t																	ButtonAttack				= -1;
 
 		SCharacterPropertyGroups												DialogStatGroups			= {};
 
-		::pcs::SPointsLife														Life						= {-1, -1,			}; 
-		::pcs::SPointsPower														Power						= {-1, -1, -1,		}; 	
-		::pcs::SPointsFitness													Fitness						= {-1, -1, -1, -1,	}; 
-		::pcs::SPointsAttack													Attack						= {-1, -1, -1, -1,	}; 
-		::pcs::SPointsLife														DirectDamageLife			= {-1, -1,			}; 
-		::pcs::SPointsLife														DirectDamagePower			= {-1, -1,			}; 
-		::pcs::SPointsLife														DrainLife					= {-1, -1,			}; 
-		::pcs::SPointsPower														DrainPower					= {-1, -1, -1,		}; 	
+		::pcs::SPointsLife														LabelsLife					= {-1, -1,			}; 
+		::pcs::SPointsPower														LabelsPower					= {-1, -1, -1,		}; 	
+		::pcs::SPointsFitness													LabelsFitness				= {-1, -1, -1, -1,	}; 
+		::pcs::SPointsAttack													LabelsAttack				= {-1, -1, -1, -1,	}; 
+		::pcs::SPointsLife														LabelsDirectDamageLife		= {-1, -1,			}; 
+		::pcs::SPointsLife														LabelsDirectDamagePower		= {-1, -1,			}; 
+		::pcs::SPointsLife														LabelsDrainLife				= {-1, -1,			}; 
+		::pcs::SPointsPower														LabelsDrainPower			= {-1, -1, -1,		}; 	
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersLife				[::pcs::SPointsLife		::TRegistry::get_member_count()]	= {}; 
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersPower				[::pcs::SPointsPower	::TRegistry::get_member_count()]	= {}; 
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersFitness			[::pcs::SPointsFitness	::TRegistry::get_member_count()]	= {}; 
@@ -75,6 +76,8 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		::gpk::SUDPClient														ClientTest1;
 
 		::pcs::SGame															Game;
+		int32_t																	Player											= -1;
+
 		::gpk::array_static<::gme::SCharacterUIControls, 2>						CharacterUIFieldNames;
 
 

@@ -16,7 +16,7 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 		gui.Controls.Modes		[idControl].UseNewPalettes				= true;
 		gui.Controls.Constraints[idControl].AttachSizeToControl			= {idControl, -1};
 		gui.Controls.Controls	[idControl].Area.Size.y					= heightOfField;
-		gui.Controls.Controls	[idControl].Margin						= {2, 2, 2, 2};
+		gui.Controls.Controls	[idControl].Margin						= {4, 2, 0, 0};
 		gui.Controls.Controls	[idParent].Area.Size.y					+= heightOfField;
 		if(iMember)
 			gui.Controls.Constraints[idControl].DockToControl.Bottom		= idControl - 1;
@@ -31,7 +31,7 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 	::gpk::SGUIControlTable												& controlTable						= dialog.GUI.Controls;
 	for(uint32_t iField = 0, countFields = controlTable.Children[idGroup].size(); iField < countFields; ++iField) { 
 		int32_t																idLabel								= controlTable.Children[idGroup][iField]; 
-		::gpk::tunerCreate(dialog, tuners[iField]); 
+		gpk_necall(::gpk::tunerCreate(dialog, tuners[iField]), "%s", "????"); 
 		tuners[iField]->ValueLimits.Min									= 0; 
 		tuners[iField]->ValueLimits.Max									= 0xFFFFFFFF; 
 		int32_t																idControl							= tuners[iField]->IdGUIControl; 
@@ -43,7 +43,7 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 			controlTable.Constraints[idControl].DockToControl.Bottom		= tuners[iField - 1]->IdGUIControl; 
 		else 
 			control.Area.Offset.y											= control.Area.Size.y;
-		::gpk::controlSetParent(dialog.GUI, idControl, idGroup); 
+		gpk_necall(::gpk::controlSetParent(dialog.GUI, idControl, idGroup), "Invalid group id: %i.", idGroup); 
 	}
 	return 0;
 }
@@ -58,15 +58,16 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 		controlCharacter.Border = controlCharacter.Margin				= {};
 		controlCharacter.Area.Size.x									= 320;
 	}
-	gpk_necall(::guiCreateFieldArray(dialog, character.DialogStatGroups		, character.DialogCharacter	), "%s", "????"); 
-	gpk_necall(::guiCreateFieldArray(dialog, character.Life					, character.DialogStatGroups.Life				), "%s", "????"); 
-	gpk_necall(::guiCreateFieldArray(dialog, character.Power				, character.DialogStatGroups.Power				), "%s", "????"); 
-	gpk_necall(::guiCreateFieldArray(dialog, character.Fitness				, character.DialogStatGroups.Fitness			), "%s", "????"); 
-	gpk_necall(::guiCreateFieldArray(dialog, character.Attack				, character.DialogStatGroups.Attack				), "%s", "????"); 
-	gpk_necall(::guiCreateFieldArray(dialog, character.DirectDamageLife		, character.DialogStatGroups.DirectDamageLife	), "%s", "????"); 
-	gpk_necall(::guiCreateFieldArray(dialog, character.DirectDamagePower	, character.DialogStatGroups.DirectDamagePower	), "%s", "????"); 
-	gpk_necall(::guiCreateFieldArray(dialog, character.DrainLife			, character.DialogStatGroups.DrainLife			), "%s", "????"); 
-	gpk_necall(::guiCreateFieldArray(dialog, character.DrainPower			, character.DialogStatGroups.DrainPower			), "%s", "????"); 
+
+	gpk_necall(::guiCreateFieldArray(dialog, character.DialogStatGroups			, character.DialogCharacter						), "%s", "????");	// Create group control array
+	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsLife				, character.DialogStatGroups.Life				), "%s", "????");	// Create label control array
+	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsPower				, character.DialogStatGroups.Power				), "%s", "????"); 	// Create label control array
+	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsFitness			, character.DialogStatGroups.Fitness			), "%s", "????"); 	// Create label control array
+	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsAttack				, character.DialogStatGroups.Attack				), "%s", "????"); 	// Create label control array
+	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsDirectDamageLife	, character.DialogStatGroups.DirectDamageLife	), "%s", "????"); 	// Create label control array
+	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsDirectDamagePower	, character.DialogStatGroups.DirectDamagePower	), "%s", "????"); 	// Create label control array
+	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsDrainLife			, character.DialogStatGroups.DrainLife			), "%s", "????"); 	// Create label control array
+	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsDrainPower			, character.DialogStatGroups.DrainPower			), "%s", "????"); 	// Create label control array
 
 	// -- Fix group titles
 	gui.Controls.Text[character.DialogStatGroups.DirectDamageLife	].Text	= "Direct Damage (Life)";
@@ -86,7 +87,7 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 			controlCharacter.Area.Size.y									+= controlGroup.Area.Size.y;
 			gui.Controls.Text[idControl].Align								= ::gpk::ALIGN_TOP_LEFT;
 			constraints[idControl].AttachSizeToControl						= {-1, -1};
-			controlGroup.Area.Size.x										= 320; //210;
+			controlGroup.Area.Size.x										= 320; 
 			controlGroup.Area.Offset										= {};
 			controlGroup.Border	/*= controlGroup.Margin*/					= {};
 			controlGroup.Margin.Top											= 4;
