@@ -56,11 +56,12 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 	};
 
 #pragma pack(pop)
-	::gpk::error_t															guiCreateCharacter			(::gpk::SGUI & gui, ::gme::SCharacterUIControls	& character	);
+	::gpk::error_t															dialogCreateCharacter			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls	& character	);
 	
 	struct SApplication {
 		::gpk::SFramework														Framework;
 		::gpk::ptr_obj<::gpk::SRenderTarget<::gpk::SColorBGRA, uint32_t>>		Offscreen										= {};
+		::gpk::array_static<::gpk::SDialog, 2>									DialogCharacter;
 
 		int32_t																	Palettes[::gpk::GUI_CONTROL_PALETTE_COUNT]	= {};
 		int32_t																	PaletteRow										= 10;
@@ -75,9 +76,7 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 
 		::pcs::SGame															Game;
 		::gpk::array_static<::gme::SCharacterUIControls, 2>						CharacterUIFieldNames;
-		::gpk::array_static<::gme::SCharacterUIControls, 2>						CharacterUIFieldValue;
 
-		::gpk::array_static<::gpk::SDialog, 2>									DialogCharacter;
 
 																				SApplication									(::gpk::SRuntimeValues& runtimeValues)	: Framework(runtimeValues)		{}
 	};

@@ -17,48 +17,18 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 
 static		::gpk::error_t											setupSimulatorUI			(::gme::SApplication & app)						{ 
 	for(uint32_t iCharacter = 0; iCharacter < app.CharacterUIFieldNames.size(); ++iCharacter) {
-		::gpk::SGUI																& guiCharacter				= app.DialogCharacter[iCharacter].GUI;
+		::gpk::SDialog															& dialogCharacter			= app.DialogCharacter[iCharacter];
 		::gme::SCharacterUIControls												& controlsName				= app.CharacterUIFieldNames[iCharacter];
-		gpk_necall(::gme::guiCreateCharacter(guiCharacter, controlsName), "%s", "????");
-		guiCharacter.Controls.Controls[controlsName.DialogCharacter].Align	= iCharacter ? ::gpk::ALIGN_RIGHT : ::gpk::ALIGN_LEFT;
+		gpk_necall(::gme::dialogCreateCharacter(dialogCharacter, controlsName), "%s", "????");
+		dialogCharacter.GUI.Controls.Controls[controlsName.DialogCharacter].Align	= iCharacter ? ::gpk::ALIGN_RIGHT : ::gpk::ALIGN_LEFT;
 	}
 	for(uint32_t iCharacter = 0; iCharacter < app.CharacterUIFieldNames.size(); ++iCharacter) {
-		::gpk::SGUI																& guiCharacter				= app.DialogCharacter[iCharacter].GUI;
+		::gpk::SDialog															& dialogCharacter			= app.DialogCharacter[iCharacter];
+		::gpk::SGUI																& guiCharacter				= dialogCharacter.GUI;
+		::gpk::SGUIControlTable													& controlTable				= dialogCharacter.GUI.Controls;
 		::gme::SCharacterUIControls												& fields					= app.CharacterUIFieldNames[iCharacter];
-		guiCharacter.Controls.Controls[fields.DialogCharacter].Area.Size.x	= 320;
 		::gpk::controlSetParent(guiCharacter, fields.DialogCharacter, 0);
-	}
-
-	for(uint32_t iCharacter = 0; iCharacter < app.CharacterUIFieldValue.size(); ++iCharacter) {
-		::gpk::SGUI																& guiCharacter				= app.DialogCharacter[iCharacter].GUI;
-		::gme::SCharacterUIControls												& fieldsValues				= app.CharacterUIFieldValue[iCharacter];
-		gpk_necall(::gme::guiCreateCharacter(guiCharacter, fieldsValues), "%s", "????");
-		for(uint32_t iChild = 0; iChild < guiCharacter.Controls.Children[fieldsValues.DialogCharacter].size(); ++iChild) {
-			int32_t																	idControl					= guiCharacter.Controls.Children[fieldsValues.DialogCharacter][iChild];
-			guiCharacter.Controls.Controls	[idControl].Align					= ::gpk::ALIGN_RIGHT;
-			guiCharacter.Controls.Text		[idControl].Text					= {}; 
-		}
-		while(guiCharacter.Controls.Children[fieldsValues.DialogCharacter].size()) {
-			int32_t																	idControl					= guiCharacter.Controls.Children[fieldsValues.DialogCharacter][0];
-			::gpk::controlSetParent(guiCharacter, idControl, app.CharacterUIFieldNames[iCharacter].DialogCharacter);
-			guiCharacter.Controls.Controls[idControl].Area.Size.x				= 110;
-		}
-
-		::gpk::view_array<uint32_t>												idGroups					= {(uint32_t*)&fieldsValues.DialogStatGroups, fieldsValues.DialogStatGroups.get_member_registry().get_member_count()};
-		for(uint32_t iControl = fieldsValues.DialogCharacter + 1; iControl < guiCharacter.Controls.Controls.size(); ++iControl) {
-			bool																	isGroup						= false;
-			for(uint32_t iGroup = 0; iGroup < idGroups.size(); ++iGroup)
-				if(iControl == idGroups[iGroup]) {
-					isGroup																= true;
-					break;
-				} 
-			if(isGroup)
-				continue;
-			guiCharacter.Controls.Constraints[iControl].AttachSizeToControl.x									= iControl;
-			guiCharacter.Controls.Text[iControl].Text															= "0";
-		}
-		guiCharacter.Controls.Constraints [fieldsValues.DialogCharacter].AttachSizeToControl.x = -1;
-		::gpk::controlDelete(guiCharacter, fieldsValues.DialogCharacter, true);
+		controlTable.Controls[fields.DialogCharacter].Area.Size.x	= 320;
 	}
 	return 0;
 }
