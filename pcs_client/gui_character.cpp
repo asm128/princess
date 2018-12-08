@@ -16,7 +16,7 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 		gui.Controls.Modes		[idControl].UseNewPalettes				= true;
 		gui.Controls.Constraints[idControl].AttachSizeToControl			= {idControl, -1};
 		gui.Controls.Controls	[idControl].Area.Size.y					= heightOfField;
-		gui.Controls.Controls	[idControl].Margin						= {4, 2, 0, 0};
+		gui.Controls.Controls	[idControl].Margin						= {3, 2, 0, 0};
 		gui.Controls.Controls	[idParent].Area.Size.y					+= heightOfField;
 		if(iMember)
 			gui.Controls.Constraints[idControl].DockToControl.Bottom		= idControl - 1;
@@ -50,11 +50,32 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 
 					::gpk::error_t								gme::dialogCreateCharacter			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls	& character	)	{
 	::gpk::SGUI															& gui								= dialog.GUI;
+	character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_NORMAL				] = gui.Palettes.push_back({{::gpk::GRAY			, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::WHITE		* .9	,}});
+	character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_DISABLED				] = gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.3	, ::gpk::ORANGE		, ::gpk::YELLOW		, ::gpk::MAGENTA	, ::gpk::CYAN		, {}, ::gpk::LIGHTGRAY	* 1.2	,}});
+	character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_HOVER				] = character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_NORMAL	]; // gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.2	, ::gpk::GRAY		, ::gpk::GRAY		, ::gpk::GRAY		, ::gpk::GRAY		, {}, ::gpk::DARKBLUE	 * .5	,}});
+	character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_PRESSED				] = character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_NORMAL	]; // gui.Palettes.push_back({{::gpk::LIGHTGRAY		, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, {}, ::gpk::BLUE				,}});
+	character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_SELECTED				] = character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_NORMAL	];
+	character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_SELECTED_DISABLED	] = character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_DISABLED	];
+	character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_SELECTED_HOVER		] = character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_HOVER	];
+	character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_SELECTED_PRESSED		] = character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
+	character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_EXECUTE				] = character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
+	character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_OUTDATED				] = character.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_NORMAL	];
+
+	character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_NORMAL				] = gui.Palettes.push_back({{::gpk::DARKGRAY		, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::WHITE		* .9	,}});
+	character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_DISABLED				] = gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.3	, ::gpk::ORANGE		, ::gpk::YELLOW		, ::gpk::MAGENTA	, ::gpk::CYAN		, {}, ::gpk::LIGHTGRAY	* 1.2	,}});
+	character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_HOVER				] = character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_NORMAL	]; //gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.2	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::DARKBLUE	 * .5	,}});
+	character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_PRESSED				] = character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_NORMAL	]; //gui.Palettes.push_back({{::gpk::LIGHTGRAY		, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, {}, ::gpk::BLUE				,}});
+	character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_SELECTED				] = character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_NORMAL	];
+	character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_SELECTED_DISABLED	] = character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_DISABLED	];
+	character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_SELECTED_HOVER		] = character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_HOVER	];
+	character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_SELECTED_PRESSED		] = character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
+	character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_EXECUTE				] = character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
+	character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_OUTDATED				] = character.PaletteFields[::gpk::GUI_CONTROL_PALETTE_NORMAL	];
+
 	character.DialogCharacter										= ::gpk::controlCreate(gui); 
 	{
 		::gpk::SControl														& controlCharacter					= gui.Controls.Controls[character.DialogCharacter];
 		gui.Controls.States[character.DialogCharacter].Design			= false;
-		::gpk::memcpy_s(gui.Controls.Controls[character.DialogCharacter].Palettes, gui.DefaultColors);
 		controlCharacter.Border = controlCharacter.Margin				= {};
 		controlCharacter.Area.Size.x									= 320;
 	}
@@ -86,11 +107,12 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 			::gpk::SControl														& controlGroup					= gui.Controls.Controls[idControl];
 			controlCharacter.Area.Size.y									+= controlGroup.Area.Size.y;
 			gui.Controls.Text[idControl].Align								= ::gpk::ALIGN_TOP_LEFT;
+			//gui.Controls.Modes[idControl].ColorMode							= ::gpk::GUI_COLOR_MODE_FLAT;
 			constraints[idControl].AttachSizeToControl						= {-1, -1};
 			controlGroup.Area.Size.x										= 320; 
 			controlGroup.Area.Offset										= {};
-			controlGroup.Border	/*= controlGroup.Margin*/					= {};
-			controlGroup.Margin.Top											= 4;
+			//controlGroup.Border	/*= controlGroup.Margin*/					= {};
+			//controlGroup.Margin.Top											= 4;
 			if(iChild)
 				constraints[idControl].DockToControl.Bottom						= characterChildGroups[iChild - 1];
 			const ::gpk::array_pod<int32_t>										& childFields					= gui.Controls.Children[idControl];
@@ -98,7 +120,9 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 				int32_t																idField							= childFields[iChildField];
 				constraints[idField].AttachSizeToControl						= {-1, -1};
 				gui.Controls.Controls[idField].Area.Size.x						= 210;
+				::gpk::memcpy_s(gui.Controls.Controls[idField].Palettes, character.PaletteFields.Storage);//gui.DefaultColors);
 			}
+			::gpk::memcpy_s(controlGroup.Palettes, character.PaletteGroups.Storage);//gui.DefaultColors);
 		}
 	}
 

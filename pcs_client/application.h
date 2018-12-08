@@ -37,12 +37,15 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 
 		SCharacterPropertyGroups												DialogStatGroups			= {};
 
+		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			PaletteGroups				= {};
+		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			PaletteFields				= {};
+
 		::pcs::SPointsLife														LabelsLife					= {-1, -1,			}; 
 		::pcs::SPointsPower														LabelsPower					= {-1, -1, -1,		}; 	
 		::pcs::SPointsFitness													LabelsFitness				= {-1, -1, -1, -1,	}; 
 		::pcs::SPointsAttack													LabelsAttack				= {-1, -1, -1, -1,	}; 
 		::pcs::SPointsLife														LabelsDirectDamageLife		= {-1, -1,			}; 
-		::pcs::SPointsLife														LabelsDirectDamagePower		= {-1, -1,			}; 
+		::pcs::SPointsPower														LabelsDirectDamagePower		= {-1, -1, -1,		}; 
 		::pcs::SPointsLife														LabelsDrainLife				= {-1, -1,			}; 
 		::pcs::SPointsPower														LabelsDrainPower			= {-1, -1, -1,		}; 	
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersLife				[::pcs::SPointsLife		::TRegistry::get_member_count()]	= {}; 

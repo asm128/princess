@@ -134,13 +134,6 @@ static		::gpk::error_t											setupSimulatorUI			(::gme::SApplication & app)	
 		//::gpk::sleep(1000);
 	}
 
-	::gpk::SUDPClient															& connectTest				= app.ClientTest1;
-	connectTest.AddressConnect												= app.Client.AddressConnect;
-	::gpk::clientConnect		(connectTest);
-	::gpk::connectionPushData	(connectTest, connectTest.Queue, "Connect test!");
-	::gpk::clientUpdate			(connectTest);
-	::gpk::clientDisconnect		(connectTest);
-
 	//timer.Frame();
 	//warning_printf("Update time: %f.", (float)timer.LastTimeSeconds);
 	return 0; 
