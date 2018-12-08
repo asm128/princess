@@ -18,17 +18,11 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 static		::gpk::error_t											setupSimulatorUI			(::gme::SApplication & app)						{ 
 	for(uint32_t iCharacter = 0; iCharacter < app.CharacterUIFieldNames.size(); ++iCharacter) {
 		::gpk::SDialog															& dialogCharacter			= app.DialogCharacter[iCharacter];
-		::gme::SCharacterUIControls												& controlsName				= app.CharacterUIFieldNames[iCharacter];
-		gpk_necall(::gme::dialogCreateCharacter(dialogCharacter, controlsName), "%s", "????");
-		dialogCharacter.GUI.Controls.Controls[controlsName.DialogCharacter].Align	= iCharacter ? ::gpk::ALIGN_RIGHT : ::gpk::ALIGN_LEFT;
-	}
-	for(uint32_t iCharacter = 0; iCharacter < app.CharacterUIFieldNames.size(); ++iCharacter) {
-		::gpk::SDialog															& dialogCharacter			= app.DialogCharacter[iCharacter];
-		::gpk::SGUI																& guiCharacter				= dialogCharacter.GUI;
+		::gme::SCharacterUIControls												& controls					= app.CharacterUIFieldNames[iCharacter];
 		::gpk::SGUIControlTable													& controlTable				= dialogCharacter.GUI.Controls;
-		::gme::SCharacterUIControls												& fields					= app.CharacterUIFieldNames[iCharacter];
-		::gpk::controlSetParent(guiCharacter, fields.DialogCharacter, 0);
-		controlTable.Controls[fields.DialogCharacter].Area.Size.x	= 320;
+		gpk_necall(::gme::dialogCreateCharacter(dialogCharacter, controls), "%s", "????");
+		controlTable.Controls[controls.DialogCharacter].Align				= iCharacter ? ::gpk::ALIGN_RIGHT : ::gpk::ALIGN_LEFT;
+		gpk_necall(::gpk::controlSetParent(dialogCharacter.GUI, controls.DialogCharacter, 0), "%s", "????");
 	}
 	return 0;
 }
