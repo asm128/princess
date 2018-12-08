@@ -57,9 +57,9 @@ namespace pcs
 		::pcs::SPointsPower							Power					;
 		::pcs::SPointsFitness						Fitness					;
 		::pcs::SPointsAttack						Attack					;
-		::pcs::SPointsLife							Life					;
+		::pcs::SPointsLife							DirectDamageLife					;
 		::pcs::SPointsPower							DirectDamagePower		;
-		::pcs::SPointsLife							DirectDamageDrainLife	;
+		::pcs::SPointsLife							DrainLife	;
 		::pcs::SPointsPower							DrainPower				;
 		int32_t										CharacterProfile		;
 	};
