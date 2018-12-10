@@ -39,17 +39,17 @@ namespace pcs
 
 	};
 
-	static constexpr const size_t CHARACTER_SCORE_TABLE_SIZE = sizeof(::pcs::SCharacterScore);
+	static constexpr	const size_t			CHARACTER_SCORE_TABLE_SIZE		= sizeof(::pcs::SCharacterScore);
 
 	struct SCharacterProfile {
-		int32_t										Height					;
-		int32_t										Weight					;
-		int64_t										TimeBirth				;
-		int64_t										TimeDeath				;
-		SCharacterScore								Score					;
-		::gpk::array_pod<::gpk::view_const_string>	NamesFirst				;
-		::gpk::array_pod<::gpk::view_const_string>	NamesLast				;
-		::gpk::array_pod<::gpk::view_const_string>	Nationalities			;
+		int32_t										Height			;
+		int32_t										Weight			;
+		int64_t										TimeBirth		;
+		int64_t										TimeDeath		;
+		SCharacterScore								Score			;
+		::gpk::array_pod<::gpk::view_const_string>	NamesFirst		;
+		::gpk::array_pod<::gpk::view_const_string>	NamesLast		;
+		::gpk::array_pod<::gpk::view_const_string>	Nationalities	;
 	};
 
 	struct SCharacter {
@@ -57,13 +57,12 @@ namespace pcs
 		::pcs::SPointsPower							Power					;
 		::pcs::SPointsFitness						Fitness					;
 		::pcs::SPointsAttack						Attack					;
-		::pcs::SPointsLife							DirectDamageLife					;
+		::pcs::SPointsLife							DirectDamageLife		;
 		::pcs::SPointsPower							DirectDamagePower		;
-		::pcs::SPointsLife							DrainLife	;
+		::pcs::SPointsLife							DrainLife				;
 		::pcs::SPointsPower							DrainPower				;
 		int32_t										CharacterProfile		;
 	};
-
 #pragma pack (pop)
 } // namespace
 
