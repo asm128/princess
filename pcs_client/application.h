@@ -9,7 +9,13 @@
 namespace gme // I'm gonna use a different namespace in order to test a few things about the macros.
 {
 #pragma pack(push, 1)
-	struct SCharacterPropertyGroups {
+	struct SGameUIPalettes {
+		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			PaletteGroups				= {};
+		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			PaletteFields				= {};
+		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			PaletteTitles				= {};
+	};
+
+	struct SEntityPropertyGroups {
 		GPKMNDF( , int32_t, Life				, ::gpk::DATA_TYPE_INT32)				= -1;
 		GPKMNDF( , int32_t, Power				, ::gpk::DATA_TYPE_INT32)				= -1;
 		GPKMNDF( , int32_t, Fitness				, ::gpk::DATA_TYPE_INT32)				= -1;
@@ -35,10 +41,9 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		int32_t																	DialogCharacter				= -1;
 		//int32_t																	ButtonAttack				= -1;
 
-		SCharacterPropertyGroups												DialogStatGroups			= {};
-
-		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			PaletteGroups				= {};
-		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			PaletteFields				= {};
+		SEntityPropertyGroups													DialogStatGroups			= {};
+		SEntityPropertyGroups													DialogStatGroupFrames		= {};
+		SEntityPropertyGroups													DialogStatGroupLabels		= {};
 
 		::pcs::SPointsLife														LabelsLife					= {-1, -1,			}; 
 		::pcs::SPointsPower														LabelsPower					= {-1, -1, -1,		}; 	
@@ -60,16 +65,19 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 	};
 
 #pragma pack(pop)
-	::gpk::error_t															dialogCreateCharacter			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls	& character	);
+	::gpk::error_t															dialogCreateCharacter			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character, const SGameUIPalettes & palettes);
 	
 	struct SApplication {
 		::gpk::SFramework														Framework;
 		::gpk::ptr_obj<::gpk::SRenderTarget<::gpk::SColorBGRA, uint32_t>>		Offscreen										= {};
 		::gpk::array_static<::gpk::SDialog, 2>									DialogCharacter;
 
-		int32_t																	Palettes[::gpk::GUI_CONTROL_PALETTE_COUNT]	= {};
+		int32_t																	Palettes[::gpk::GUI_CONTROL_PALETTE_COUNT]		= {};
 		int32_t																	PaletteRow										= 10;
 		int32_t																	PaletteColumn									= 16;
+
+		SGameUIPalettes															GameUIPalettes									= {};
+
 		int32_t																	IdExit											= -1;
 
 		::std::mutex															LockGUI;

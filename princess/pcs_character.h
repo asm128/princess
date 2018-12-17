@@ -1,4 +1,5 @@
 #include "pcs_points.h"
+#include "pcs_effect.h"
 #include "gpk_array.h"
 
 #ifndef PCS_CHArACTER_H_0237498234
@@ -53,16 +54,20 @@ namespace pcs
 	};
 
 	struct SCharacter {
-		::pcs::SPointsLife							Life					;
-		::pcs::SPointsPower							Power					;
-		::pcs::SPointsFitness						Fitness					;
-		::pcs::SPointsAttack						Attack					;
-		::pcs::SPointsLife							DirectDamageLife		;
-		::pcs::SPointsPower							DirectDamagePower		;
-		::pcs::SPointsLife							DrainLife				;
-		::pcs::SPointsPower							DrainPower				;
-		int32_t										CharacterProfile		;
+		::pcs::SPointsLife							Life					= {};
+		::pcs::SPointsPower							Power					= {};
+		::pcs::SPointsFitness						Fitness					= {};
+		::pcs::SPointsAttack						Attack					= {};
+		::pcs::SPointsLife							DirectDamageLife		= {};
+		::pcs::SPointsPower							DirectDamagePower		= {};
+		::pcs::SPointsLife							DrainLife				= {};
+		::pcs::SPointsPower							DrainPower				= {};
+		::pcs::SCombatStatus						ImmunityInflict			= {};
+		::pcs::SCombatStatus						ResistanceLevel			= {};
+		int32_t										CharacterProfile		= -1;
 	};
+
+	static constexpr const size_t      Charsize = sizeof(SCharacter);
 #pragma pack (pop)
 } // namespace
 
