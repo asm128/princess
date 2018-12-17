@@ -5,15 +5,19 @@ static constexpr	const uint16_t								heightOfField					= 20;
 static				::gpk::error_t								guiCreateField					(::gpk::SDialog & dialog, const ::gpk::view_const_string& text, int32_t idParent)	{ 
 	::gpk::SGUI															& gui							= *dialog.GUI;
 	int32_t																idControl						= ::gpk::controlCreateChild(gui, idParent);
-	gui.Controls.Text		[idControl].Align						= ::gpk::ALIGN_CENTER_LEFT; 
-	gui.Controls.Text		[idControl].Text						= text; 
-	gui.Controls.Modes		[idControl].ColorMode					= ::gpk::GUI_COLOR_MODE_3D; 
-	gui.Controls.Modes		[idControl].UseNewPalettes				= true;
+	::gpk::SControl														& control						= gui.Controls.Controls	[idControl];
+	::gpk::SControlText													& controlText					= gui.Controls.Text		[idControl];
+	::gpk::SControlMode													& controlMode					= gui.Controls.Modes	[idControl];
+	::gpk::memcpy_s(control.Palettes, dialog.ColorsControl);
+	control.Area.Size.y												= heightOfField;
+	controlText.Align												= ::gpk::ALIGN_CENTER_LEFT; 
+	controlText.Text												= text; 
+	controlMode.ColorMode											= ::gpk::GUI_COLOR_MODE_DEFAULT; 
+	controlMode.UseNewPalettes										= true;
+	controlMode.FrameOut											= true;
+	controlMode.NoHoverEffect										= true;
 	gui.Controls.Constraints[idControl].AttachSizeToControl			= {idControl, -1};
-	gui.Controls.Controls	[idControl].Area.Size.y					= heightOfField;
-	gui.Controls.Controls	[idControl].Margin						= {3, 2, 0, 0};
 	gui.Controls.Controls	[idParent].Area.Size.y					+= heightOfField;
-	::gpk::memcpy_s(gui.Controls.Controls[idControl].Palettes, dialog.ColorsControl);
 	return idControl;
 }
 
@@ -33,9 +37,10 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 	::gpk::SGUIControlTable												& controlTable						= dialog.GUI->Controls;
 	for(uint32_t iField = 0, countFields = controlTable.Children[idGroup].size(); iField < countFields; ++iField) { 
 		int32_t																idLabel								= controlTable.Children[idGroup][iField]; 
-		gpk_necall(::gpk::tunerCreate(dialog, tuners[iField]), "%s", "????"); 
-		tuners[iField]->ValueLimits.Min									= 0; 
-		tuners[iField]->ValueLimits.Max									= 0xFFFFFFFF; 
+		gpk_necall(::gpk::tunerCreate(dialog, tuners[iField]), "%s", "????");
+		::gpk::SDialogTuner													& tuner								= *tuners[iField];
+		tuner.ValueLimits.Min											= 0; 
+		tuner.ValueLimits.Max											= 0xFFFFFFFF; 
 		int32_t																idControl							= tuners[iField]->IdGUIControl; 
 		::gpk::SControl														& control							= controlTable.Controls[idControl]; 
 		control.Align													= ::gpk::ALIGN_TOP_RIGHT; 
@@ -43,8 +48,6 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 		control.Area.Size.y												= controlTable.Controls[idLabel].Area.Size.y; 
 		if(iField) 
 			controlTable.Constraints[idControl].DockToControl.Bottom		= tuners[iField - 1]->IdGUIControl; 
-		//else 
-		//	control.Area.Offset.y											= control.Area.Size.y;
 		gpk_necall(::gpk::controlSetParent(*dialog.GUI, idControl, idGroup), "Invalid group id: %i.", idGroup); 
 	}
 	return 0;
@@ -53,15 +56,22 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 					::gpk::error_t								gme::dialogCreateCharacter			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character, const ::gme::SGameUIPalettes & palettes)	{
 	::gpk::SGUI															& gui								= *dialog.GUI;
 
+	::gpk::SControlMode													defaultMode							= {};
+	defaultMode.ColorMode											= ::gpk::GUI_COLOR_MODE_3D;
+	defaultMode.NoHoverEffect										= 1;
+	defaultMode.FrameOut											= 1;
+	defaultMode.UseNewPalettes										= 1;
 	character.DialogCharacter										= ::gpk::controlCreate(gui); 
 	{
-		::gpk::SControl														& controlCharacter					= gui.Controls.Controls[character.DialogCharacter];
-		gui.Controls.States[character.DialogCharacter].Design			= false;
+		::gpk::SControl														& controlCharacter					= gui.Controls.Controls	[character.DialogCharacter];
+		::gpk::SControlMode													& modes								= gui.Controls.Modes	[character.DialogCharacter];
+		modes															= defaultMode;
+		modes.Design													= false;
 		controlCharacter.Border = controlCharacter.Margin				= {};
 		controlCharacter.Area.Size.x									= 220;
 	}
 
-	gpk_necall(::guiCreateFieldArray(dialog, character.DialogStatGroups			, character.DialogCharacter						), "%s", "????");	// Create group control array
+	gpk_necall(::guiCreateFieldArray(dialog, character.DialogStatGroups, character.DialogCharacter), "%s", "????");	// Create group control array
 	// -- Fix group titles
 	gui.Controls.Text[character.DialogStatGroups.DirectDamageLife	].Text	= "Direct Damage (Life)";
 	gui.Controls.Text[character.DialogStatGroups.DirectDamagePower	].Text	= "Direct Damage (Power)";
@@ -70,30 +80,40 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 
 	for(uint32_t iMember = 0; iMember < ::gme::SEntityPropertyGroups::TRegistry::get_member_count(); ++iMember) {	// For each section
 		int32_t																idSection							= ((int32_t*)&character.DialogStatGroups)[iMember];
+		{
+			::gpk::SControlMode													& modes								= gui.Controls.Modes[idSection];
+			modes															= defaultMode;
+			::gpk::memcpy_s(gui.Controls.Controls[idSection].Palettes, palettes.Fields.Storage);
+		}
 		{ // Create field group
+			// Set up section
 			int32_t																idControl							= ::guiCreateField(dialog, "", idSection);
 			gpk_necall(((int32_t*)&character.DialogStatGroupFrames)[iMember] = idControl, "%s", "????");	// Create group control array
-			gui.Controls.Controls	[idControl].Area.Offset					= {0, heightOfField + 2};
-			gui.Controls.Controls	[idControl].Area.Size					= {0, 2};
-			gui.Controls.Controls	[idControl].Border						= {1, 1, 1, 1};
-			gui.Controls.Controls	[idControl].Margin						= {};
-			gui.Controls.States		[idControl].Frame						= true;
-			gui.Controls.Modes		[idControl].ColorMode					= ::gpk::GUI_COLOR_MODE_3D;
-			gui.Controls.Text		[idControl].Text						= gui.Controls.Text[idSection].Text;
-			::gpk::memcpy_s(gui.Controls.Controls	[idControl].Palettes, palettes.PaletteFields.Storage);
-			::gpk::memcpy_s(gui.Controls.Controls	[idSection].Palettes, palettes.PaletteFields.Storage);
+
+			::gpk::SControl														& control							= gui.Controls.Controls[idControl];
+			control.Area.Offset												= {0, heightOfField + 2};
+			control.Area.Size												= {0, 2};
+			control.Margin													= {};
+
+			::gpk::SControlMode													& modes								= gui.Controls.Modes[idControl];
+			modes															= defaultMode;
+			gui.Controls.Text[idControl].Text								= gui.Controls.Text[idSection].Text;
+			::gpk::memcpy_s(control.Palettes, palettes.Fields.Storage);
+
 		}
 		{ // Create section title
 			int32_t																idControl							= ::guiCreateField(dialog, "", idSection);
 			gpk_necall(((int32_t*)&character.DialogStatGroupLabels)[iMember] = idControl, "%s", "????");	// Create group control array
-			gui.Controls.Controls	[idControl].Area.Offset					= {};
-			gui.Controls.Controls	[idControl].Area.Size					= {0, heightOfField};
-			gui.Controls.Controls	[idControl].Border						= {1, 1, 1, 1};
-			gui.Controls.Controls	[idControl].Margin						= {4, 1, 1, 1};
-			gui.Controls.Text		[idControl].Text						= gui.Controls.Text[idSection].Text;
-			gui.Controls.States		[idControl].Frame						= true;
-			gui.Controls.Modes		[idControl].ColorMode					= ::gpk::GUI_COLOR_MODE_3D;
-			::gpk::memcpy_s(gui.Controls.Controls	[idControl].Palettes, palettes.PaletteTitles.Storage);
+
+			::gpk::SControl														& control							= gui.Controls.Controls[idControl];
+			control.Area.Offset												= {};
+			control.Area.Size												= {0, heightOfField};
+			control.Margin.Left												= 4;
+
+			::gpk::SControlMode													& modes								= gui.Controls.Modes[idControl];
+			modes															= defaultMode;
+			gui.Controls.Text[idControl].Text								= gui.Controls.Text[idSection].Text;
+			::gpk::memcpy_s(control.Palettes, palettes.Titles.Storage);
 		}
 	}
 
@@ -112,10 +132,11 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 		int32_t																idLabel								= gui.Controls.Children[idSection][1];
 		const ::gpk::SCoord2<int16_t>										groupSize							= gui.Controls.Controls[idGroup].Area.Size + gui.Controls.Controls[idLabel].Area.Size;
 		gui.Controls.Controls[idSection].Area.Size						= {groupSize.x, groupSize.y + 6};
-		gui.Controls.Controls[idSection].Margin							= {1, 1, 1, 1};
 		const ::gpk::array_pod<int32_t>										& characterChildGroups				= gui.Controls.Children[idGroup];
-		for(uint32_t iChild = 0; iChild < characterChildGroups.size(); ++iChild)	// Set palette to field labels
-			::gpk::memcpy_s(gui.Controls.Controls[gui.Controls.Children[idGroup][iChild]].Palettes, palettes.PaletteFields.Storage);
+		for(uint32_t iChild = 0; iChild < characterChildGroups.size(); ++iChild){	// Set palette to field labels
+			gui.Controls.Controls[gui.Controls.Children[idGroup][iChild]].Margin	= {3, 2};
+			::gpk::memcpy_s(gui.Controls.Controls[gui.Controls.Children[idGroup][iChild]].Palettes, palettes.Fields.Storage);
+		}
 	}
 
 	// Create tuners.

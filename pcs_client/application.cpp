@@ -16,38 +16,38 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 }
 
 static		::gpk::error_t											setupGameUIPalettes		(::gpk::SGUI & gui, ::gme::SGameUIPalettes & palettes)						{ 
-	palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_NORMAL				] = gui.Palettes.push_back({{::gpk::GRAY			, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::WHITE		* .9	,}});
-	palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_DISABLED				] = gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.3	, ::gpk::ORANGE		, ::gpk::YELLOW		, ::gpk::MAGENTA	, ::gpk::CYAN		, {}, ::gpk::LIGHTGRAY	* 1.2	,}});
-	palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_HOVER					] = palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_NORMAL	]; // gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.2	, ::gpk::GRAY		, ::gpk::GRAY		, ::gpk::GRAY		, ::gpk::GRAY		, {}, ::gpk::DARKBLUE	 * .5	,}});
-	palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_PRESSED				] = palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_NORMAL	]; // gui.Palettes.push_back({{::gpk::LIGHTGRAY		, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, {}, ::gpk::BLUE				,}});
-	palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_SELECTED				] = palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_NORMAL	];
-	palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_SELECTED_DISABLED		] = palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_DISABLED	];
-	palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_SELECTED_HOVER		] = palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_HOVER		];
-	palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_SELECTED_PRESSED		] = palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
-	palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_EXECUTE				] = palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
-	palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_OUTDATED				] = palettes.PaletteGroups[::gpk::GUI_CONTROL_PALETTE_NORMAL	];
+	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_NORMAL				]	= gui.Palettes.push_back({{::gpk::GRAY				, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::WHITE		* .9	,}});
+	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_DISABLED				]	= gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.3	, ::gpk::ORANGE		, ::gpk::YELLOW		, ::gpk::MAGENTA	, ::gpk::CYAN		, {}, ::gpk::LIGHTGRAY	* 1.2	,}});
+	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_HOVER				]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_NORMAL		]; // gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.2	, ::gpk::GRAY		, ::gpk::GRAY		, ::gpk::GRAY		, ::gpk::GRAY		, {}, ::gpk::DARKBLUE	 * .5	,}});
+	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_PRESSED				]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_NORMAL		]; // gui.Palettes.push_back({{::gpk::LIGHTGRAY		, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, {}, ::gpk::BLUE				,}});
+	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_SELECTED				]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_NORMAL		];
+	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_SELECTED_DISABLED	]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_DISABLED	];
+	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_SELECTED_HOVER		]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_HOVER		];
+	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_SELECTED_PRESSED		]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
+	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_EXECUTE				]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
+	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_OUTDATED				]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_NORMAL		];
 
-	palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_NORMAL				] = gui.Palettes.push_back({{::gpk::DARKGRAY		, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::WHITE		* .9	,}});
-	palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_DISABLED				] = gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.3	, ::gpk::ORANGE		, ::gpk::YELLOW		, ::gpk::MAGENTA	, ::gpk::CYAN		, {}, ::gpk::LIGHTGRAY	* 1.2	,}});
-	palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_HOVER					] = palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_NORMAL	]; //gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.2	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::DARKBLUE	 * .5	,}});
-	palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_PRESSED				] = palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_NORMAL	]; //gui.Palettes.push_back({{::gpk::LIGHTGRAY		, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, {}, ::gpk::BLUE				,}});
-	palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_SELECTED				] = palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_NORMAL	];
-	palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_SELECTED_DISABLED		] = palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_DISABLED	];
-	palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_SELECTED_HOVER		] = palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_HOVER		];
-	palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_SELECTED_PRESSED		] = palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
-	palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_EXECUTE				] = palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
-	palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_OUTDATED				] = palettes.PaletteFields[::gpk::GUI_CONTROL_PALETTE_NORMAL	];
+	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_NORMAL				]	= gui.Palettes.push_back({{::gpk::DARKGRAY			, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::WHITE		* .9	,}});
+	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_DISABLED				]	= gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.3	, ::gpk::ORANGE		, ::gpk::YELLOW		, ::gpk::MAGENTA	, ::gpk::CYAN		, {}, ::gpk::LIGHTGRAY	* 1.2	,}});
+	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_HOVER				]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_NORMAL		]; //gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.2	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::DARKBLUE	 * .5	,}});
+	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_PRESSED				]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_NORMAL		]; //gui.Palettes.push_back({{::gpk::LIGHTGRAY		, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, {}, ::gpk::BLUE				,}});
+	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_SELECTED				]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_NORMAL		];
+	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_SELECTED_DISABLED	]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_DISABLED	];
+	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_SELECTED_HOVER		]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_HOVER		];
+	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_SELECTED_PRESSED		]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
+	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_EXECUTE				]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
+	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_OUTDATED				]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_NORMAL		];
 
-	palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_NORMAL				] = gui.Palettes.push_back({{::gpk::LIGHTGRAY		, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::BLACK		* .9	,}});
-	palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_DISABLED				] = gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.3	, ::gpk::ORANGE		, ::gpk::YELLOW		, ::gpk::MAGENTA	, ::gpk::CYAN		, {}, ::gpk::LIGHTGRAY	* 1.2	,}});
-	palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_HOVER					] = palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_NORMAL	]; //gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.2	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::DARKBLUE	 * .5	,}});
-	palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_PRESSED				] = palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_NORMAL	]; //gui.Palettes.push_back({{::gpk::LIGHTGRAY		, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, {}, ::gpk::BLUE				,}});
-	palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_SELECTED				] = palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_NORMAL	];
-	palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_SELECTED_DISABLED		] = palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_DISABLED	];
-	palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_SELECTED_HOVER		] = palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_HOVER	];
-	palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_SELECTED_PRESSED		] = palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
-	palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_EXECUTE				] = palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
-	palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_OUTDATED				] = palettes.PaletteTitles[::gpk::GUI_CONTROL_PALETTE_NORMAL	];
+	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_NORMAL				]	= gui.Palettes.push_back({{::gpk::LIGHTGRAY			, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::BLACK		* .9	,}});
+	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_DISABLED				]	= gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.3	, ::gpk::ORANGE		, ::gpk::YELLOW		, ::gpk::MAGENTA	, ::gpk::CYAN		, {}, ::gpk::LIGHTGRAY	* 1.2	,}});
+	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_HOVER				]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_NORMAL		]; //gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.2	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::DARKBLUE	 * .5	,}});
+	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_PRESSED				]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_NORMAL		]; //gui.Palettes.push_back({{::gpk::LIGHTGRAY		, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, {}, ::gpk::BLUE				,}});
+	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_SELECTED				]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_NORMAL		];
+	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_SELECTED_DISABLED	]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_DISABLED	];
+	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_SELECTED_HOVER		]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_HOVER		];
+	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_SELECTED_PRESSED		]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
+	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_EXECUTE				]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
+	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_OUTDATED				]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_NORMAL		];
 	return 0;
 }
 static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)						{ 
@@ -119,29 +119,21 @@ static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)					
 	::gpk::SFramework														& framework					= app.Framework;
 	retval_info_if(::gpk::APPLICATION_STATE_EXIT, ::gpk::APPLICATION_STATE_EXIT == ::gpk::updateFramework(app.Framework), "Exit requested by framework update.");
 
-	::gpk::SGUI																& gui						= *framework.GUI;
-	{
-		::gpk::mutex_guard														lock						(app.LockGUI);
-		::gpk::guiProcessInput(gui, *app.Framework.Input);
-	}
 	for(uint32_t iCharacter = 0; iCharacter < app.DialogCharacter.size(); ++iCharacter) 
 		app.DialogCharacter[iCharacter].Update();
-	if(app.Framework.Input->MouseCurrent.Deltas.z) {
-		gui.Zoom.ZoomLevel													+= app.Framework.Input->MouseCurrent.Deltas.z * (1.0 / (120 * 4));
-		::gpk::guiUpdateMetrics(gui, app.Offscreen->Color.metrics(), true);
-	}
  
-	for(uint32_t iControl = 0, countControls = gui.Controls.Controls.size(); iControl < countControls; ++iControl) {
-		const ::gpk::SControlState												& controlState				= gui.Controls.States[iControl];
-		if(controlState.Unused || controlState.Disabled)
-			continue;
+	::gpk::SGUI																& gui						= *framework.GUI;
+	::gpk::array_pod<uint32_t>												controlsToProcess			= {};
+	::gpk::guiGetProcessableControls(gui, controlsToProcess);
+	for(uint32_t iControl = 0, countControls = controlsToProcess.size(); iControl < countControls; ++iControl) {
+		uint32_t																idControl					= controlsToProcess[iControl];
+		const ::gpk::SControlState												& controlState				= gui.Controls.States[idControl];
 		if(controlState.Execute) {
-			info_printf("Executed %u.", iControl);
-			if(iControl == (uint32_t)app.IdExit)
+			info_printf("Executed %u.", idControl);
+			if(idControl == (uint32_t)app.IdExit)
 				return 1;
 		}
 	}
-
 
 	reterr_error_if(app.Client.State != ::gpk::UDP_CONNECTION_STATE_IDLE, "Failed to connect to server.")
 	else {

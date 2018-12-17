@@ -10,9 +10,9 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 {
 #pragma pack(push, 1)
 	struct SGameUIPalettes {
-		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			PaletteGroups				= {};
-		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			PaletteFields				= {};
-		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			PaletteTitles				= {};
+		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			Groups				= {};
+		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			Fields				= {};
+		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			Titles				= {};
 	};
 
 	struct SEntityPropertyGroups {
