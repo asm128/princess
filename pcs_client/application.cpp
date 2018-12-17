@@ -65,20 +65,6 @@ static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)					
 	return 0;
 }
 
-			::gpk::error_t											setupPalette				(::gpk::view_array<int32_t> out_paletteIndices, ::gpk::array_pod<::gpk::array_static<::gpk::SColorBGRA, ::gpk::GUI_CONTROL_COLOR_COUNT>> & guiPalettes, ::gpk::SColorBGRA& baseColor)						{ 
-	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_NORMAL			]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_NORMAL				;
-	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_DISABLED			]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_DISABLED			;
-	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_HOVER				]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_HOVER				;
-	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_PRESSED			]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_PRESSED				;
-	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_SELECTED			]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_SELECTED			;
-	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_SELECTED_DISABLED	]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_SELECTED_DISABLED	;
-	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_SELECTED_HOVER	]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_SELECTED_HOVER		;
-	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_SELECTED_PRESSED	]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_SELECTED_PRESSED	;
-	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_EXECUTE			]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_EXECUTE				;
-	out_paletteIndices[::gpk::GUI_CONTROL_PALETTE_OUTDATED			]	= guiPalettes.push_back({baseColor, {}, {}, {}, {}, {}, ::gpk::RED, {}, {}, {}, });// gui.DefaultColors.CONTROL_OUTDATED			;
-	return 0;
-}
-
 			::gpk::error_t											setup						(::gme::SApplication & app)						{ 
 	::gpk::SFramework														& framework					= app.Framework;
 	::gpk::SDisplay															& mainWindow				= framework.MainDisplay;
@@ -90,15 +76,12 @@ static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)					
 	gui.ThemeDefault													= app.PaletteColumn * iShades + app.PaletteRow;
 	gui.ColorModeDefault												= ::gpk::GUI_COLOR_MODE_3D;
 	int32_t																	controlTestRoot			= ::gpk::controlCreate(gui);	// control 0
-	::setupPalette(app.Palettes, gui.Palettes, gui.Palette[gui.ThemeDefault]);
 
 	::gpk::SControl															& controlRoot			= gui.Controls.Controls[controlTestRoot];
 	controlRoot.Area													= {{0, 0}, {320, 240}};
 	controlRoot.Border													= {1, 1, 1, 1};
 	controlRoot.Margin													= {0, 0, 0, 10};
 	controlRoot.Align													= ::gpk::ALIGN_CENTER					;
-	//gui.Controls.Modes[controlTestRoot].UseNewPalettes				= 1;
-	memcpy(controlRoot.Palettes, app.Palettes, sizeof(app.Palettes));
 
 	gui.Controls.Constraints[controlTestRoot].AttachSizeToControl		= {controlTestRoot, controlTestRoot};
 	//gui.Controls.States		[controlTestRoot].Design					= true;
@@ -110,7 +93,7 @@ static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)					
 	controlExit.Area													= {{0, 0}, {64, 20}};
 	controlExit.Border													= {1, 1, 1, 1};
 	controlExit.Margin													= {1, 1, 1, 1};
-	controlExit.Align													= ::gpk::ALIGN_BOTTOM_RIGHT;
+	controlExit.Align													= ::gpk::ALIGN_CENTER_BOTTOM;
 	::gpk::SControlText														& controlText				= gui.Controls.Text[app.IdExit];
 	controlText.Text													= "Exit";
 	controlText.Align													= ::gpk::ALIGN_CENTER;
