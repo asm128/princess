@@ -1,8 +1,7 @@
 #include "application.h"
 
 static constexpr	const uint16_t								heightOfField					= 20;
-
-static				::gpk::error_t								guiCreateField					(::gpk::SDialog & dialog, const ::gpk::view_const_string& text, int32_t idParent)	{ 
+static				::gpk::error_t								dialogCreateField				(::gpk::SDialog & dialog, const ::gpk::view_const_string& text, int32_t idParent)	{ 
 	::gpk::SGUI															& gui							= *dialog.GUI;
 	int32_t																idControl						= ::gpk::controlCreateChild(gui, idParent);
 	::gpk::SControl														& control						= gui.Controls.Controls	[idControl];
@@ -20,19 +19,32 @@ static				::gpk::error_t								guiCreateField					(::gpk::SDialog & dialog, con
 	gui.Controls.Controls	[idParent].Area.Size.y					+= heightOfField;
 	return idControl;
 }
-
 template<typename _TPoints>
-static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog, _TPoints & fields, int32_t idParent)	{ 
+static				::gpk::error_t								dialogCreateFieldArray			(::gpk::SDialog & dialog, _TPoints & fields, int32_t idParent)	{ 
 	::gpk::SGUI															& gui							= *dialog.GUI;
 	::gpk::view_array<int32_t>											fieldValues						= {((int32_t*)&fields), _TPoints::TRegistry::get_member_count()};
 	for(uint32_t iMember = 0; iMember < fieldValues.size(); ++iMember) {
-		int32_t																idControl					= fieldValues[iMember] = guiCreateField(dialog, _TPoints::TRegistry::get_names()[iMember], idParent);
-	if(iMember)
-		gui.Controls.Constraints[idControl].DockToControl.Bottom		= idControl - 1;
+		int32_t																idControl					= fieldValues[iMember] = ::dialogCreateField(dialog, _TPoints::TRegistry::get_names()[iMember], idParent);
+		if(iMember)
+			gui.Controls.Constraints[idControl].DockToControl.Bottom		= idControl - 1;
 	}	
 	return 0; 
 }
-
+template<typename _TPoints>
+static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dialog, _TPoints & fields, int32_t idParent)	{ 
+	::gpk::SGUI															& gui							= *dialog.GUI;
+	::gpk::view_array<int32_t>											fieldValues						= {((int32_t*)&fields), _TPoints::TRegistry::get_member_count()};
+	for(uint32_t iMember = 0; iMember < fieldValues.size(); ++iMember) {
+		::gpk::ptr_obj<::gpk::SDialogViewport>								viewport;
+		int32_t																idDialogControl					= fieldValues[iMember] = ::gpk::viewportCreate(dialog, viewport);
+		gui.Controls.Text[viewport->IdTitle].Text						= _TPoints::TRegistry::get_names()[iMember];
+		viewport->DisplacementLock										= {true, true};
+		if(iMember)
+			gui.Controls.Constraints[viewport->IdGUIControl].DockToControl.Bottom	= dialog.Controls[idDialogControl - 1]->IdGUIControl;
+		gpk_necall(::gpk::controlSetParent(gui, viewport->IdGUIControl, idParent), "Invalid group id: %i.", idParent); 
+	}	
+	return 0; 
+}
 					::gpk::error_t								dialogCreateTuners					(::gpk::SDialog & dialog, int32_t idGroup, ::gpk::view_array<::gpk::ptr_nco<::gpk::SDialogTuner>> tuners)	{
 	::gpk::SGUIControlTable												& controlTable						= dialog.GUI->Controls;
 	for(uint32_t iField = 0, countFields = controlTable.Children[idGroup].size(); iField < countFields; ++iField) { 
@@ -52,101 +64,55 @@ static				::gpk::error_t								guiCreateFieldArray				(::gpk::SDialog & dialog,
 	}
 	return 0;
 }
-
-					::gpk::error_t								gme::dialogCreateCharacter			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character, const ::gme::SGameUIPalettes & palettes)	{
+					::gpk::error_t								gme::dialogCreateCharacter			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character)	{
 	::gpk::SGUI															& gui								= *dialog.GUI;
+	::gpk::ptr_obj<::gpk::SDialogViewport>								viewport							= {};
+	character.ViewportCharacter										= ::gpk::viewportCreate(dialog, viewport);
+	character.DialogCharacter										= viewport->IdClient;//::gpk::controlCreate(gui); 
+	::gpk::SControl														& controlCharacter					= gui.Controls.Controls[viewport->IdGUIControl];
+	controlCharacter.Area.Size.x									= 220;
+	controlCharacter.Area.Size.y									= 2;
+	gui.Controls.Text[viewport->IdTitle].Text						= "Entity Points";
+	::gpk::viewportAdjustSize(controlCharacter.Area.Size, controlCharacter.Area.Size);
 
-	::gpk::SControlMode													defaultMode							= {};
-	defaultMode.ColorMode											= ::gpk::GUI_COLOR_MODE_3D;
-	defaultMode.NoHoverEffect										= 1;
-	defaultMode.FrameOut											= 1;
-	defaultMode.UseNewPalettes										= 1;
-	character.DialogCharacter										= ::gpk::controlCreate(gui); 
-	{
-		::gpk::SControl														& controlCharacter					= gui.Controls.Controls	[character.DialogCharacter];
-		::gpk::SControlMode													& modes								= gui.Controls.Modes	[character.DialogCharacter];
-		modes															= defaultMode;
-		modes.Design													= false;
-		controlCharacter.Border = controlCharacter.Margin				= {};
-		controlCharacter.Area.Size.x									= 220;
-	}
+	::gme::SEntityPropertyGroups										& viewportIds						= character.DialogStatGroupViewports;
+	gpk_necall(::dialogCreateViewportArray(dialog, viewportIds, character.DialogCharacter), "%s", "????");	// Create group control array
+	// -- Fix viewport titles
+	dialog.Controls[viewportIds.DirectDamageLife	].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Direct Damage (Life)";
+	dialog.Controls[viewportIds.DirectDamagePower	].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Direct Damage (Power)";
+	dialog.Controls[viewportIds.DrainLife			].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Drain (Life)";
+	dialog.Controls[viewportIds.DrainPower			].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Drain (Power)";
 
-	gpk_necall(::guiCreateFieldArray(dialog, character.DialogStatGroups, character.DialogCharacter), "%s", "????");	// Create group control array
-	// -- Fix group titles
-	gui.Controls.Text[character.DialogStatGroups.DirectDamageLife	].Text	= "Direct Damage (Life)";
-	gui.Controls.Text[character.DialogStatGroups.DirectDamagePower	].Text	= "Direct Damage (Power)";
-	gui.Controls.Text[character.DialogStatGroups.DrainLife			].Text	= "Drain (Life)";
-	gui.Controls.Text[character.DialogStatGroups.DrainPower			].Text	= "Drain (Power)";
-
-	for(uint32_t iMember = 0; iMember < ::gme::SEntityPropertyGroups::TRegistry::get_member_count(); ++iMember) {	// For each section
-		int32_t																idSection							= ((int32_t*)&character.DialogStatGroups)[iMember];
-		{
-			::gpk::SControlMode													& modes								= gui.Controls.Modes[idSection];
-			modes															= defaultMode;
-			::gpk::memcpy_s(gui.Controls.Controls[idSection].Palettes, palettes.Fields.Storage);
-		}
-		{ // Create field group
-			// Set up section
-			int32_t																idControl							= ::guiCreateField(dialog, "", idSection);
-			gpk_necall(((int32_t*)&character.DialogStatGroupFrames)[iMember] = idControl, "%s", "????");	// Create group control array
-
-			::gpk::SControl														& control							= gui.Controls.Controls[idControl];
-			control.Area.Offset												= {0, heightOfField + 2};
-			control.Area.Size												= {0, 2};
-			control.Margin													= {};
-
-			::gpk::SControlMode													& modes								= gui.Controls.Modes[idControl];
-			modes															= defaultMode;
-			gui.Controls.Text[idControl].Text								= gui.Controls.Text[idSection].Text;
-			::gpk::memcpy_s(control.Palettes, palettes.Fields.Storage);
-
-		}
-		{ // Create section title
-			int32_t																idControl							= ::guiCreateField(dialog, "", idSection);
-			gpk_necall(((int32_t*)&character.DialogStatGroupLabels)[iMember] = idControl, "%s", "????");	// Create group control array
-
-			::gpk::SControl														& control							= gui.Controls.Controls[idControl];
-			control.Area.Offset												= {};
-			control.Area.Size												= {0, heightOfField};
-			control.Margin.Left												= 4;
-
-			::gpk::SControlMode													& modes								= gui.Controls.Modes[idControl];
-			modes															= defaultMode;
-			gui.Controls.Text[idControl].Text								= gui.Controls.Text[idSection].Text;
-			::gpk::memcpy_s(control.Palettes, palettes.Titles.Storage);
-		}
-	}
-
-
-	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsLife				, character.DialogStatGroupFrames.Life				), "%s", "????");	// Create label control array
-	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsPower				, character.DialogStatGroupFrames.Power				), "%s", "????"); 	// Create label control array
-	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsFitness			, character.DialogStatGroupFrames.Fitness			), "%s", "????"); 	// Create label control array
-	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsAttack				, character.DialogStatGroupFrames.Attack			), "%s", "????"); 	// Create label control array
-	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsDirectDamageLife	, character.DialogStatGroupFrames.DirectDamageLife	), "%s", "????"); 	// Create label control array
-	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsDirectDamagePower	, character.DialogStatGroupFrames.DirectDamagePower	), "%s", "????"); 	// Create label control array
-	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsDrainLife			, character.DialogStatGroupFrames.DrainLife			), "%s", "????"); 	// Create label control array
-	gpk_necall(::guiCreateFieldArray(dialog, character.LabelsDrainPower			, character.DialogStatGroupFrames.DrainPower		), "%s", "????"); 	// Create label control array
+	::gpk::SGUIControlTable												& controlTable						= gui.Controls;
+	gpk_necall(::dialogCreateFieldArray(dialog, character.LabelsLife				, controlTable.Children[dialog.Controls[viewportIds.Life				]->IdGUIControl][0]), "%s", "????");	// Create label control array
+	gpk_necall(::dialogCreateFieldArray(dialog, character.LabelsPower				, controlTable.Children[dialog.Controls[viewportIds.Power				]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
+	gpk_necall(::dialogCreateFieldArray(dialog, character.LabelsFitness				, controlTable.Children[dialog.Controls[viewportIds.Fitness				]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
+	gpk_necall(::dialogCreateFieldArray(dialog, character.LabelsAttack				, controlTable.Children[dialog.Controls[viewportIds.Attack				]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
+	gpk_necall(::dialogCreateFieldArray(dialog, character.LabelsDirectDamageLife	, controlTable.Children[dialog.Controls[viewportIds.DirectDamageLife	]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
+	gpk_necall(::dialogCreateFieldArray(dialog, character.LabelsDirectDamagePower	, controlTable.Children[dialog.Controls[viewportIds.DirectDamagePower	]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
+	gpk_necall(::dialogCreateFieldArray(dialog, character.LabelsDrainLife			, controlTable.Children[dialog.Controls[viewportIds.DrainLife			]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
+	gpk_necall(::dialogCreateFieldArray(dialog, character.LabelsDrainPower			, controlTable.Children[dialog.Controls[viewportIds.DrainPower			]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
+	// Adjust 
 	for(uint32_t iMember = 0; iMember < ::gme::SEntityPropertyGroups::TRegistry::get_member_count(); ++iMember) {
-		int32_t																idSection							= ((int32_t*)&character.DialogStatGroups)[iMember];
-		int32_t																idGroup								= gui.Controls.Children[idSection][0];
-		int32_t																idLabel								= gui.Controls.Children[idSection][1];
-		const ::gpk::SCoord2<int16_t>										groupSize							= gui.Controls.Controls[idGroup].Area.Size + gui.Controls.Controls[idLabel].Area.Size;
-		gui.Controls.Controls[idSection].Area.Size						= {groupSize.x, groupSize.y + 6};
-		const ::gpk::array_pod<int32_t>										& characterChildGroups				= gui.Controls.Children[idGroup];
-		for(uint32_t iChild = 0; iChild < characterChildGroups.size(); ++iChild){	// Set palette to field labels
-			gui.Controls.Controls[gui.Controls.Children[idGroup][iChild]].Margin	= {3, 2};
-			::gpk::memcpy_s(gui.Controls.Controls[gui.Controls.Children[idGroup][iChild]].Palettes, palettes.Fields.Storage);
-		}
+		::gpk::SCoord2<int16_t>												sizeViewport						= {};
+		int32_t																idViewport							= ((int32_t*)&character.DialogStatGroupViewports)[iMember];
+		dialog.Controls[idViewport].as(viewport);
+		sizeViewport.x													= 220;
+		controlTable.Controls	[viewport->IdGUIControl	].Area.Size		= sizeViewport;
+		controlTable.Text		[viewport->IdTitle		].Align			= ::gpk::ALIGN_TOP_LEFT;
+		::gpk::viewportFold(*viewport, true);
 	}
+	dialog.Controls[character.ViewportCharacter].as(viewport);
+	::gpk::viewportFold(*viewport, true);
 
 	// Create tuners.
-	::dialogCreateTuners(dialog, character.DialogStatGroupFrames.Life				, character.TunersLife				);
-	::dialogCreateTuners(dialog, character.DialogStatGroupFrames.Power				, character.TunersPower				);
-	::dialogCreateTuners(dialog, character.DialogStatGroupFrames.Fitness			, character.TunersFitness			);
-	::dialogCreateTuners(dialog, character.DialogStatGroupFrames.Attack				, character.TunersAttack			);
-	::dialogCreateTuners(dialog, character.DialogStatGroupFrames.DirectDamageLife	, character.TunersDirectDamageLife	);
-	::dialogCreateTuners(dialog, character.DialogStatGroupFrames.DirectDamagePower	, character.TunersDirectDamagePower	);
-	::dialogCreateTuners(dialog, character.DialogStatGroupFrames.DrainLife			, character.TunersDrainLife			);
-	::dialogCreateTuners(dialog, character.DialogStatGroupFrames.DrainPower			, character.TunersDrainPower		);
+	dialog.Controls[character.DialogStatGroupViewports.Life					].as(viewport); ::dialogCreateTuners(dialog, viewport->IdClient, character.TunersLife				);
+	dialog.Controls[character.DialogStatGroupViewports.Power				].as(viewport); ::dialogCreateTuners(dialog, viewport->IdClient, character.TunersPower				);
+	dialog.Controls[character.DialogStatGroupViewports.Fitness				].as(viewport); ::dialogCreateTuners(dialog, viewport->IdClient, character.TunersFitness			);
+	dialog.Controls[character.DialogStatGroupViewports.Attack				].as(viewport); ::dialogCreateTuners(dialog, viewport->IdClient, character.TunersAttack				);
+	dialog.Controls[character.DialogStatGroupViewports.DirectDamageLife		].as(viewport); ::dialogCreateTuners(dialog, viewport->IdClient, character.TunersDirectDamageLife	);
+	dialog.Controls[character.DialogStatGroupViewports.DirectDamagePower	].as(viewport); ::dialogCreateTuners(dialog, viewport->IdClient, character.TunersDirectDamagePower	);
+	dialog.Controls[character.DialogStatGroupViewports.DrainLife			].as(viewport); ::dialogCreateTuners(dialog, viewport->IdClient, character.TunersDrainLife			);
+	dialog.Controls[character.DialogStatGroupViewports.DrainPower			].as(viewport); ::dialogCreateTuners(dialog, viewport->IdClient, character.TunersDrainPower			);
 	return 0;
 }

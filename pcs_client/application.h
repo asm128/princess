@@ -38,12 +38,14 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 
 
 	struct SCharacterUIControls {
+		int32_t																	ViewportCharacter			= -1;
 		int32_t																	DialogCharacter				= -1;
 		//int32_t																	ButtonAttack				= -1;
 
-		SEntityPropertyGroups													DialogStatGroups			= {};
-		SEntityPropertyGroups													DialogStatGroupFrames		= {};
+		//SEntityPropertyGroups													DialogStatGroups			= {};
+		//SEntityPropertyGroups													DialogStatGroupFrames		= {};
 		SEntityPropertyGroups													DialogStatGroupLabels		= {};
+		SEntityPropertyGroups													DialogStatGroupViewports	= {};
 
 		::pcs::SPointsLife														LabelsLife					= {-1, -1,			}; 
 		::pcs::SPointsPower														LabelsPower					= {-1, -1, -1,		}; 	
@@ -65,7 +67,7 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 	};
 
 #pragma pack(pop)
-	::gpk::error_t															dialogCreateCharacter			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character, const SGameUIPalettes & palettes);
+	::gpk::error_t															dialogCreateCharacter			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character);
 	
 	struct SApplication {
 		::gpk::SFramework														Framework;

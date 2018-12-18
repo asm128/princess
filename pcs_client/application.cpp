@@ -15,52 +15,16 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 	return 0; 
 }
 
-static		::gpk::error_t											setupGameUIPalettes		(::gpk::SGUI & gui, ::gme::SGameUIPalettes & palettes)						{ 
-	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_NORMAL				]	= gui.Palettes.push_back({{::gpk::GRAY				, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::WHITE		* .9	,}});
-	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_DISABLED				]	= gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.3	, ::gpk::ORANGE		, ::gpk::YELLOW		, ::gpk::MAGENTA	, ::gpk::CYAN		, {}, ::gpk::LIGHTGRAY	* 1.2	,}});
-	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_HOVER				]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_NORMAL		]; // gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.2	, ::gpk::GRAY		, ::gpk::GRAY		, ::gpk::GRAY		, ::gpk::GRAY		, {}, ::gpk::DARKBLUE	 * .5	,}});
-	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_PRESSED				]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_NORMAL		]; // gui.Palettes.push_back({{::gpk::LIGHTGRAY		, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, {}, ::gpk::BLUE				,}});
-	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_SELECTED				]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_NORMAL		];
-	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_SELECTED_DISABLED	]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_DISABLED	];
-	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_SELECTED_HOVER		]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_HOVER		];
-	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_SELECTED_PRESSED		]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
-	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_EXECUTE				]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
-	palettes.Groups[::gpk::GUI_CONTROL_PALETTE_OUTDATED				]	= palettes.Groups[::gpk::GUI_CONTROL_PALETTE_NORMAL		];
-
-	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_NORMAL				]	= gui.Palettes.push_back({{::gpk::DARKGRAY			, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::WHITE		* .9	,}});
-	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_DISABLED				]	= gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.3	, ::gpk::ORANGE		, ::gpk::YELLOW		, ::gpk::MAGENTA	, ::gpk::CYAN		, {}, ::gpk::LIGHTGRAY	* 1.2	,}});
-	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_HOVER				]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_NORMAL		]; //gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.2	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::DARKBLUE	 * .5	,}});
-	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_PRESSED				]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_NORMAL		]; //gui.Palettes.push_back({{::gpk::LIGHTGRAY		, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, {}, ::gpk::BLUE				,}});
-	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_SELECTED				]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_NORMAL		];
-	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_SELECTED_DISABLED	]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_DISABLED	];
-	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_SELECTED_HOVER		]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_HOVER		];
-	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_SELECTED_PRESSED		]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
-	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_EXECUTE				]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
-	palettes.Fields[::gpk::GUI_CONTROL_PALETTE_OUTDATED				]	= palettes.Fields[::gpk::GUI_CONTROL_PALETTE_NORMAL		];
-
-	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_NORMAL				]	= gui.Palettes.push_back({{::gpk::LIGHTGRAY			, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::BLACK		* .9	,}});
-	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_DISABLED				]	= gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.3	, ::gpk::ORANGE		, ::gpk::YELLOW		, ::gpk::MAGENTA	, ::gpk::CYAN		, {}, ::gpk::LIGHTGRAY	* 1.2	,}});
-	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_HOVER				]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_NORMAL		]; //gui.Palettes.push_back({{::gpk::LIGHTGRAY * 1.2	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, ::gpk::LIGHTGRAY	, {}, ::gpk::DARKBLUE	 * .5	,}});
-	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_PRESSED				]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_NORMAL		]; //gui.Palettes.push_back({{::gpk::LIGHTGRAY		, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, ::gpk::LIGHTBLUE	, {}, ::gpk::BLUE				,}});
-	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_SELECTED				]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_NORMAL		];
-	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_SELECTED_DISABLED	]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_DISABLED	];
-	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_SELECTED_HOVER		]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_HOVER		];
-	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_SELECTED_PRESSED		]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
-	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_EXECUTE				]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_PRESSED	];
-	palettes.Titles[::gpk::GUI_CONTROL_PALETTE_OUTDATED				]	= palettes.Titles[::gpk::GUI_CONTROL_PALETTE_NORMAL		];
-	return 0;
-}
 static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)						{ 
-	::setupGameUIPalettes(*app.Framework.GUI, app.GameUIPalettes);
 	for(uint32_t iCharacter = 0; iCharacter < app.CharacterUIFieldNames.size(); ++iCharacter) {
 		::gpk::SDialog															& dialogCharacter			= app.DialogCharacter[iCharacter];
 		dialogCharacter.GUI													= app.Framework.GUI;
 		dialogCharacter.Input												= app.Framework.Input;
 		::gme::SCharacterUIControls												& controls					= app.CharacterUIFieldNames[iCharacter];
 		::gpk::SGUIControlTable													& controlTable				= dialogCharacter.GUI->Controls;
-		gpk_necall(::gme::dialogCreateCharacter(dialogCharacter, controls, app.GameUIPalettes), "%s", "????");
-		controlTable.Controls[controls.DialogCharacter].Align				= iCharacter ? ::gpk::ALIGN_RIGHT : ::gpk::ALIGN_LEFT;
-		gpk_necall(::gpk::controlSetParent(*dialogCharacter.GUI, controls.DialogCharacter, 0), "%s", "????");
+		gpk_necall(::gme::dialogCreateCharacter(dialogCharacter, controls), "%s", "????");
+		controlTable.Controls[dialogCharacter.Controls[controls.ViewportCharacter]->IdGUIControl].Align				= iCharacter ? ::gpk::ALIGN_RIGHT : ::gpk::ALIGN_LEFT;
+		gpk_necall(::gpk::controlSetParent(*dialogCharacter.GUI, dialogCharacter.Controls[controls.ViewportCharacter]->IdGUIControl, 0), "%s", "????");
 	}
 	return 0;
 }
@@ -69,22 +33,22 @@ static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)					
 	::gpk::SFramework														& framework					= app.Framework;
 	::gpk::SDisplay															& mainWindow				= framework.MainDisplay;
 	framework.GUI														= app.DialogCharacter[0].GUI;
-	::gpk::controlDelete(*framework.GUI, 0);
+	//::gpk::controlDelete(*framework.GUI, 0);
 	error_if(errored(::gpk::mainWindowCreate(mainWindow, framework.RuntimeValues.PlatformDetail, framework.Input)), "%s", "Failed to create main window why?????!?!?!?!?");
 	::gpk::SGUI																& gui						= *framework.GUI;
 	const int32_t															iShades					= 16;
 	gui.ThemeDefault													= app.PaletteColumn * iShades + app.PaletteRow;
 	gui.ColorModeDefault												= ::gpk::GUI_COLOR_MODE_3D;
-	int32_t																	controlTestRoot			= ::gpk::controlCreate(gui);	// control 0
+	int32_t																	controlTestRoot			= 0; //::gpk::controlCreate(gui);	// control 0
 
 	::gpk::SControl															& controlRoot			= gui.Controls.Controls[controlTestRoot];
 	controlRoot.Area													= {{0, 0}, {320, 240}};
-	controlRoot.Border													= {1, 1, 1, 1};
-	controlRoot.Margin													= {0, 0, 0, 10};
+	controlRoot.Border													= {};// {1, 1, 1, 1};
+	controlRoot.Margin													= {};// {0, 0, 0, 10};
 	controlRoot.Align													= ::gpk::ALIGN_CENTER					;
 
 	gui.Controls.Constraints[controlTestRoot].AttachSizeToControl		= {controlTestRoot, controlTestRoot};
-	//gui.Controls.States		[controlTestRoot].Design					= true;
+	//gui.Controls.Modes		[controlTestRoot].Design					= true;
 
 	::setupGameUI(app);
 
@@ -155,8 +119,8 @@ static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)					
 	app;
 	::gpk::ptr_obj<::gpk::SRenderTarget<::gpk::SColorBGRA, uint32_t>>			target;
 	target.create();
-	target->resize(app.Framework.MainDisplay.Size, {0xFF, 0x40, 0x7F, 0xFF}, (uint32_t)-1);
-	::gpk::clearTarget(*target);
+	//target->resize(app.Framework.MainDisplay.Size, {0xFF, 0x40, 0x7F, 0xFF}, (uint32_t)-1);
+	target->resize(app.Framework.MainDisplay.Size, {}, (uint32_t)-1);
 	{
 		::gpk::mutex_guard															lock					(app.LockGUI);
 		::gpk::guiDraw(*app.Framework.GUI, target->Color.View);
