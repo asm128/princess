@@ -8,7 +8,7 @@ static				::gpk::error_t								guiCreateField					(::gpk::SDialog & dialog, con
 	::gpk::SControl														& control						= gui.Controls.Controls	[idControl];
 	::gpk::SControlText													& controlText					= gui.Controls.Text		[idControl];
 	::gpk::SControlMode													& controlMode					= gui.Controls.Modes	[idControl];
-	::gpk::memcpy_s(control.Palettes, dialog.ColorsControl);
+	::gpk::memcpy_s(control.Palettes, dialog.ColorsControl.Storage);
 	control.Area.Size.y												= heightOfField;
 	controlText.Align												= ::gpk::ALIGN_CENTER_LEFT; 
 	controlText.Text												= text; 
