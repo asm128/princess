@@ -11,33 +11,48 @@ namespace pcs
 	struct SCharacterScore {
 		GPKMNDF(, uint64_t, 						MoneyEarned			, ::gpk::DATA_TYPE_INT64)	= 0;
 		GPKMNDF(, uint64_t, 						MoneySpent			, ::gpk::DATA_TYPE_INT64)	= 0;
-
 		GPKMNDF(, uint64_t, 						DamageDealt			, ::gpk::DATA_TYPE_INT64)	= 0;
 		GPKMNDF(, uint64_t, 						DamageTaken			, ::gpk::DATA_TYPE_INT64)	= 0;
-
 		GPKMNDF(, uint64_t, 						TurnsPlayed			, ::gpk::DATA_TYPE_INT64)	= 0;
-
 		GPKMNDF(, uint64_t, 						BattlesWon			, ::gpk::DATA_TYPE_INT64)	= 0;
 		GPKMNDF(, uint64_t, 						BattlesLost			, ::gpk::DATA_TYPE_INT64)	= 0;
-
 		GPKMNDF(, uint64_t, 						EscapesSucceeded	, ::gpk::DATA_TYPE_INT64)	= 0;
 		GPKMNDF(, uint64_t, 						EscapesFailed		, ::gpk::DATA_TYPE_INT64)	= 0;
-
 		GPKMNDF(, uint64_t, 						EnemiesKilled		, ::gpk::DATA_TYPE_INT64)	= 0;
 		GPKMNDF(, uint64_t, 						AttacksHit			, ::gpk::DATA_TYPE_INT64)	= 0;
 		GPKMNDF(, uint64_t, 						AttacksMissed		, ::gpk::DATA_TYPE_INT64)	= 0;
 		GPKMNDF(, uint64_t, 						AttacksReceived		, ::gpk::DATA_TYPE_INT64)	= 0;
 		GPKMNDF(, uint64_t, 						AttacksAvoided		, ::gpk::DATA_TYPE_INT64)	= 0;
 		GPKMNDF(, uint64_t, 						ShotsFired			, ::gpk::DATA_TYPE_INT64)	= 0;
-
 		GPKMNDF(, uint64_t, 						UsedPotions			, ::gpk::DATA_TYPE_INT64)	= 0;
 		GPKMNDF(, uint64_t, 						UsedGrenades		, ::gpk::DATA_TYPE_INT64)	= 0;
 		GPKMNDF(, uint64_t, 						UsedProjectiless	, ::gpk::DATA_TYPE_INT64)	= 0;
-
 		GPKMNDF(, uint64_t, 						CompletedResearch	, ::gpk::DATA_TYPE_INT64)	= 0;
 		GPKMNDF(, uint64_t, 						CompletedProduction	, ::gpk::DATA_TYPE_INT64)	= 0;
 		GPKMNDF(, uint64_t, 						CompletedUpgrade	, ::gpk::DATA_TYPE_INT64)	= 0;
-
+		GPKM_REGISTRY
+			(	GPKM_NAME(MoneyEarned			)
+			,	GPKM_NAME(MoneySpent			)
+			,	GPKM_NAME(DamageDealt			)
+			,	GPKM_NAME(DamageTaken			)
+			,	GPKM_NAME(TurnsPlayed			)
+			,	GPKM_NAME(BattlesWon			)
+			,	GPKM_NAME(BattlesLost			)
+			,	GPKM_NAME(EscapesSucceeded		)
+			,	GPKM_NAME(EscapesFailed			)
+			,	GPKM_NAME(EnemiesKilled			)
+			,	GPKM_NAME(AttacksHit			)
+			,	GPKM_NAME(AttacksMissed			)
+			,	GPKM_NAME(AttacksReceived		)
+			,	GPKM_NAME(AttacksAvoided		)
+			,	GPKM_NAME(ShotsFired			)
+			,	GPKM_NAME(UsedPotions			)
+			,	GPKM_NAME(UsedGrenades			)
+			,	GPKM_NAME(UsedProjectiless		)
+			,	GPKM_NAME(CompletedResearch		)
+			,	GPKM_NAME(CompletedProduction	)
+			,	GPKM_NAME(CompletedUpgrade		)
+			);
 	};
 
 	static constexpr	const size_t			CHARACTER_SCORE_TABLE_SIZE				= sizeof(::pcs::SCharacterScore);

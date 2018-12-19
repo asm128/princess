@@ -36,27 +36,33 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		GPKMNDF( , int32_t,	Invisible			, ::gpk::DATA_TYPE_INT32)				= -1;
 		GPKMNDF( , int32_t,	Rage				, ::gpk::DATA_TYPE_INT32)				= -1;
 		GPKMNDF( , int32_t,	Bullied				, ::gpk::DATA_TYPE_INT32)				= -1;
-	};			   
-struct SCombatStatusGroups {							
+	};
+
+	struct SCombatStatusGroups {							
 		GPKMNDF( , int32_t,	Immunity			, ::gpk::DATA_TYPE_INT32)				= -1;
 		GPKMNDF( , int32_t,	Inflict				, ::gpk::DATA_TYPE_INT32)				= -1;
 		GPKMNDF( , int32_t,	Resistance			, ::gpk::DATA_TYPE_INT32)				= -1;
 		GPKMNDF( , int32_t,	Weakness			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKM_REGISTRY
+			(	GPKM_NAME(Immunity			)
+			,	GPKM_NAME(Inflict			)
+			,	GPKM_NAME(Resistance		)
+			,	GPKM_NAME(Weakness			)
+			);
+	};
 
-	};			   
-
-
+	static constexpr const uint32_t											STATUS_TYPE_COUNT				= 4;
 
 	struct SCharacterUIControls {
-		int32_t																	ViewportCharacter			= -1;
-		int32_t																	DialogCharacter				= -1;
-		::pcs::SEntityPropertyGroups											DialogStatGroupViewports	= {};
-		::pcs::SEntityPropertyPoints											DialogStatLabels			= {};
-		::pcs::SCombatStatusValue												DalogStatusImmunities   ={};
-		::pcs::SCombatStatusValue												DalogStatusInflict      ={};
-		::pcs::SCombatStatusValue												DalogStatusWeaknesses   ={};
-		::pcs::SCombatStatusValue												DalogStatusResistance   ={};
+		int32_t																	ViewportCharacter				= -1;
+		int32_t																	DialogCharacter					= -1;
+		::pcs::SEntityPropertyGroups											DialogPointsGroups				= {};
+		::gme::SCombatStatusGroups												DialogStatusGroups				= {};
 
+		::gpk::ptr_nco<::gpk::SDialogCheckBox>									CheckBoxesImmunity		[::pcs::SCombatStatusValue::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersInflict			[::pcs::SCombatStatusValue::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersResistance		[::pcs::SCombatStatusValue::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersWeakness			[::pcs::SCombatStatusValue::TRegistry::get_member_count()]	= {}; 
 
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersLife				[::pcs::SPointsLife		::TRegistry::get_member_count()]	= {}; 
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersPower				[::pcs::SPointsPower	::TRegistry::get_member_count()]	= {}; 
@@ -102,7 +108,6 @@ struct SCombatStatusGroups {
 		int32_t																	Player											= -1;
 
 		::gpk::array_static<::gme::SCharacterUIControls, 2>						CharacterUIFieldNames;
-
 
 																				SApplication									(::gpk::SRuntimeValues& runtimeValues)	: Framework(runtimeValues)		{}
 	};

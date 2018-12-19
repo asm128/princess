@@ -55,29 +55,54 @@ namespace pcs
 		uint8_t							Rage			:2;
 		uint8_t							Bullied			:2;
 	};
+
 	struct SCombatStatusValue {
-		uint8_t							Blind			= {};
-		uint8_t							Stun			= {};
-		uint8_t							Shock			= {};
-		uint8_t							Bleeding		= {};
-		uint8_t							Burn			= {};
-		uint8_t							Poison			= {};
-		uint8_t							Freezing		= {};
-		uint8_t							Petrify			= {};
-	//													= {}
-		uint8_t							Frozen			= {};
-		uint8_t							Blackout		= {};
-		uint8_t							Charmed			= {};
-		uint8_t							Drunk			= {};
-		uint8_t							Sleep			= {};
-		uint8_t							Slow			= {};
-		uint8_t							Weakness		= {};
-		uint8_t							Panic			= {};
-	//													= {}
-		uint8_t							Berserk			= {};
-		uint8_t							Invisible		= {};
-		uint8_t							Rage			= {};
-		uint8_t							Bullied			= {};
+		GPKMNDF( , int32_t,				Blind			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Stun			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Shock			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Bleeding		, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Burn			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Poison			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Freezing		, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Petrify			, ::gpk::DATA_TYPE_INT32)	= 0;
+	//	GPKMNDF( , int32_t,								, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Frozen			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Blackout		, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Charmed			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Drunk			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Sleep			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Slow			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Weakness		, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Panic			, ::gpk::DATA_TYPE_INT32)	= 0;
+	//	GPKMNDF( , int32_t,								, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Berserk			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Invisible		, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Rage			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,				Bullied			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKM_REGISTRY
+			(	GPKM_NAME(Blind		)
+			,	GPKM_NAME(Stun		)
+			,	GPKM_NAME(Shock		)
+			,	GPKM_NAME(Bleeding	)
+			,	GPKM_NAME(Burn		)
+			,	GPKM_NAME(Poison	)
+			,	GPKM_NAME(Freezing	)
+			,	GPKM_NAME(Petrify	)
+//			,	GPKM_NAME(			)
+			,	GPKM_NAME(Frozen	)
+			,	GPKM_NAME(Blackout	)
+			,	GPKM_NAME(Charmed	)
+			,	GPKM_NAME(Drunk		)
+			,	GPKM_NAME(Sleep		)
+			,	GPKM_NAME(Slow		)
+			,	GPKM_NAME(Weakness	)
+			,	GPKM_NAME(Panic		)
+//			,	GPKM_NAME(			)
+			,	GPKM_NAME(Berserk	)
+			,	GPKM_NAME(Invisible	)
+			,	GPKM_NAME(Rage		)
+			,	GPKM_NAME(Bullied	)
+			);
 	};
 
 	struct SCharacterStatus {
@@ -88,29 +113,29 @@ namespace pcs
 	};
 
 	GDEFINE_ENUM_TYPE(ATTACK_EFFECT, uint16_t);
-	GDEFINE_ENUM_VALUE(ATTACK_EFFECT, NONE				, 0x00		);
-	GDEFINE_ENUM_VALUE(ATTACK_EFFECT, LEECH_HEALTH		, 0x01		);
-	GDEFINE_ENUM_VALUE(ATTACK_EFFECT, LEECH_MANA		, 0x02		);
-	GDEFINE_ENUM_VALUE(ATTACK_EFFECT, LEECH_SHIELD		, 0x04		);
-	GDEFINE_ENUM_VALUE(ATTACK_EFFECT, LEECH_ENERGY		, 0x08		);
-	GDEFINE_ENUM_VALUE(ATTACK_EFFECT, LEECH_STAMINA		, 0x10		);
-	GDEFINE_ENUM_VALUE(ATTACK_EFFECT, STEAL				, 0x20		);
+	GDEFINE_ENUM_VALUE(ATTACK_EFFECT, None				, 0x00		);
+	GDEFINE_ENUM_VALUE(ATTACK_EFFECT, Leech_Health		, 0x01		);
+	GDEFINE_ENUM_VALUE(ATTACK_EFFECT, Leech_Mana		, 0x02		);
+	GDEFINE_ENUM_VALUE(ATTACK_EFFECT, Leech_Shield		, 0x04		);
+	GDEFINE_ENUM_VALUE(ATTACK_EFFECT, Leech_Energy		, 0x08		);
+	GDEFINE_ENUM_VALUE(ATTACK_EFFECT, Leech_Stamina		, 0x10		);
+	GDEFINE_ENUM_VALUE(ATTACK_EFFECT, Steal				, 0x20		);
 
 	GDEFINE_ENUM_TYPE(DEFEND_EFFECT, uint16_t);
-	GDEFINE_ENUM_VALUE(DEFEND_EFFECT, NONE				, 0x00		); 
-	GDEFINE_ENUM_VALUE(DEFEND_EFFECT, REFLECT			, 0x01		); 	// Reflects damage to the attacker
-	GDEFINE_ENUM_VALUE(DEFEND_EFFECT, BLIND				, 0x02		); 	// Blinds the attacker when inflicting 1 to 1 damage.
-	GDEFINE_ENUM_VALUE(DEFEND_EFFECT, IMPENETRABLE		, 0x04		); 	// Reflects damage to the attacker
-	GDEFINE_ENUM_VALUE(DEFEND_EFFECT, DEFLECT			, 0x08		); 	// Reflects damage to the attacker
+	GDEFINE_ENUM_VALUE(DEFEND_EFFECT, None				, 0x00		); 
+	GDEFINE_ENUM_VALUE(DEFEND_EFFECT, Reflect			, 0x01		); 	// Reflects damage to the attacker
+	GDEFINE_ENUM_VALUE(DEFEND_EFFECT, Blind				, 0x02		); 	// Blinds the attacker when inflicting 1 to 1 damage.
+	GDEFINE_ENUM_VALUE(DEFEND_EFFECT, Impenetrable		, 0x04		); 	// Forces 100% damage absorption
+	GDEFINE_ENUM_VALUE(DEFEND_EFFECT, Deflect			, 0x08		); 	// Reflects damage to the attacker
 
 	GDEFINE_ENUM_TYPE(PASSIVE_EFFECT, uint16_t);
-	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, NONE				, 0x00		);
-	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, REGEN_HEALTH		, 0x01		);
-	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, REGEN_MANA		, 0x02		);
-	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, REGEN_SHIELD		, 0x04		);
-	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, REGEN_ENERGY		, 0x08		);
-	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, REGEN_STAMINA	, 0x10		);
-	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, SHIELD_REPAIR	, 0x20		);
+	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, None				, 0x00		);
+	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, Regen_Health		, 0x01		);
+	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, Regen_Shield		, 0x02		);
+	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, Regen_Energy		, 0x04		);
+	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, Regen_Mana		, 0x08		);
+	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, Regen_Stamina	, 0x10		);
+	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, Repair_Shield	, 0x20		);
 #pragma pack(pop)
 } // namespace
 
