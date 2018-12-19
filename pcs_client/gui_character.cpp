@@ -80,19 +80,18 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 	return 0;
 }
 
-					::gpk::error_t								gme::dialogCreateCharacter			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character)	{
-	::gpk::SGUI															& gui								= *dialog.GUI;
+					::gpk::error_t								dialogCreateCharacterStatus			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character)	{
+::gpk::SGUI															& gui								= *dialog.GUI;
 	::gpk::ptr_obj<::gpk::SDialogViewport>								viewport							= {};
-	character.ViewportCharacter										= ::gpk::viewportCreate(dialog, viewport);
-	character.DialogCharacter										= viewport->IdClient;//::gpk::controlCreate(gui); 
-	::gpk::SControl														& controlCharacter					= gui.Controls.Controls[viewport->IdGUIControl];
-	controlCharacter.Area.Size.x									= 220;
-	controlCharacter.Area.Size.y									= 2;
-	gui.Controls.Text[viewport->IdTitle].Text						= "Entity Points";
-	::gpk::viewportAdjustSize(controlCharacter.Area.Size, controlCharacter.Area.Size);
+	character, gui, viewport, dialog;
+	return 0;
+}
 
+					::gpk::error_t								dialogCreateCharacterPoints			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character)	{
 	::pcs::SEntityPropertyGroups										& viewportIds						= character.DialogStatGroupViewports;
 	gpk_necall(::dialogCreateViewportArray(dialog, viewportIds, character.DialogCharacter), "%s", "????");	// Create group control array
+	::gpk::SGUI															& gui								= *dialog.GUI;
+	::gpk::ptr_obj<::gpk::SDialogViewport>								viewport							= {};
 	// -- Fix viewport titles
 	dialog.Controls[viewportIds.DirectDamageLife	].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Direct Damage (Life)";
 	dialog.Controls[viewportIds.DirectDamagePower	].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Direct Damage (Power)";
@@ -130,8 +129,6 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 		controlTable.Text		[viewport->IdTitle		].Align			= ::gpk::ALIGN_TOP_LEFT;
 		::gpk::viewportFold(*viewport, true);
 	}
-	dialog.Controls[character.ViewportCharacter].as(viewport);
-	::gpk::viewportFold(*viewport, true);
 
 	// Create tuners.
 	dialog.Controls[character.DialogStatGroupViewports.Life					].as(viewport); ::dialogCreateTuners(dialog, viewport->IdClient, character.TunersLife				);
@@ -148,5 +145,24 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 	dialog.Controls[character.DialogStatGroupViewports.MaxPower				].as(viewport); ::dialogCreateTuners(dialog, viewport->IdClient, character.TunersMaxPower			);
 	dialog.Controls[character.DialogStatGroupViewports.BonusLife			].as(viewport); ::dialogCreateTuners(dialog, viewport->IdClient, character.TunersBonusLife			);
 	dialog.Controls[character.DialogStatGroupViewports.BonusPower			].as(viewport); ::dialogCreateTuners(dialog, viewport->IdClient, character.TunersBonusPower			);
+return 0;
+					}
+
+
+					::gpk::error_t								gme::dialogCreateCharacter			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character)	{
+	::gpk::SGUI															& gui								= *dialog.GUI;
+	::gpk::ptr_obj<::gpk::SDialogViewport>								viewport							= {};
+	character.ViewportCharacter										= ::gpk::viewportCreate(dialog, viewport);
+	character.DialogCharacter										= viewport->IdClient;//::gpk::controlCreate(gui); 
+	::gpk::SControl														& controlCharacter					= gui.Controls.Controls[viewport->IdGUIControl];
+	controlCharacter.Area.Size.x									= 220;
+	controlCharacter.Area.Size.y									= 2;
+	gui.Controls.Text[viewport->IdTitle].Text						= "Entity Points";
+	::gpk::viewportAdjustSize(controlCharacter.Area.Size, controlCharacter.Area.Size);
+	::dialogCreateCharacterPoints(dialog, character);
+	::dialogCreateCharacterStatus(dialog, character);
+
+	dialog.Controls[character.ViewportCharacter].as(viewport);
+	::gpk::viewportFold(*viewport, true);
 	return 0;
 }

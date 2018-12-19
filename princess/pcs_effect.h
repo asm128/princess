@@ -55,6 +55,30 @@ namespace pcs
 		uint8_t							Rage			:2;
 		uint8_t							Bullied			:2;
 	};
+	struct SCombatStatusValue {
+		uint8_t							Blind			= {};
+		uint8_t							Stun			= {};
+		uint8_t							Shock			= {};
+		uint8_t							Bleeding		= {};
+		uint8_t							Burn			= {};
+		uint8_t							Poison			= {};
+		uint8_t							Freezing		= {};
+		uint8_t							Petrify			= {};
+	//													= {}
+		uint8_t							Frozen			= {};
+		uint8_t							Blackout		= {};
+		uint8_t							Charmed			= {};
+		uint8_t							Drunk			= {};
+		uint8_t							Sleep			= {};
+		uint8_t							Slow			= {};
+		uint8_t							Weakness		= {};
+		uint8_t							Panic			= {};
+	//													= {}
+		uint8_t							Berserk			= {};
+		uint8_t							Invisible		= {};
+		uint8_t							Rage			= {};
+		uint8_t							Bullied			= {};
+	};
 
 	struct SCharacterStatus {
 		COMBAT_STATUS					Immunity		= {};

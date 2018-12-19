@@ -37,6 +37,13 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		GPKMNDF( , int32_t,	Rage				, ::gpk::DATA_TYPE_INT32)				= -1;
 		GPKMNDF( , int32_t,	Bullied				, ::gpk::DATA_TYPE_INT32)				= -1;
 	};			   
+struct SCombatStatusGroups {							
+		GPKMNDF( , int32_t,	Immunity			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Inflict				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Resistance			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Weakness			, ::gpk::DATA_TYPE_INT32)				= -1;
+
+	};			   
 
 
 
@@ -45,6 +52,11 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		int32_t																	DialogCharacter				= -1;
 		::pcs::SEntityPropertyGroups											DialogStatGroupViewports	= {};
 		::pcs::SEntityPropertyPoints											DialogStatLabels			= {};
+		::pcs::SCombatStatusValue												DalogStatusImmunities   ={};
+		::pcs::SCombatStatusValue												DalogStatusInflict      ={};
+		::pcs::SCombatStatusValue												DalogStatusWeaknesses   ={};
+		::pcs::SCombatStatusValue												DalogStatusResistance   ={};
+
 
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersLife				[::pcs::SPointsLife		::TRegistry::get_member_count()]	= {}; 
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersPower				[::pcs::SPointsPower	::TRegistry::get_member_count()]	= {}; 
