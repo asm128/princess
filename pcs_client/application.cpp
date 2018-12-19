@@ -54,7 +54,7 @@ static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)					
 
 	app.IdExit															= ::gpk::controlCreate(gui);
 	::gpk::SControl															& controlExit				= gui.Controls.Controls[app.IdExit];
-	controlExit.Area													= {{0, 0}, {64, 20}};
+	controlExit.Area													= {{0, 0}, {64, 18}};
 	controlExit.Border													= {1, 1, 1, 1};
 	controlExit.Margin													= {1, 1, 1, 1};
 	controlExit.Align													= ::gpk::ALIGN_CENTER_BOTTOM;

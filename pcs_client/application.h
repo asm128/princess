@@ -15,46 +15,37 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			Titles				= {};
 	};
 
-	struct SEntityPropertyGroups {
-		GPKMNDF( , int32_t, Life				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, Power				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, Fitness				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, Attack				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, DirectDamageLife	, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, DirectDamagePower	, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, DrainLife			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, DrainPower			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKM_REGISTRY
-			(	GPKM_NAME(Life				)
-			,	GPKM_NAME(Power				)
-			,	GPKM_NAME(Fitness			)
-			,	GPKM_NAME(Attack			)
-			,	GPKM_NAME(DirectDamageLife	)
-			,	GPKM_NAME(DirectDamagePower	)
-			,	GPKM_NAME(DrainLife			)
-			,	GPKM_NAME(DrainPower		)
-			);
-	};
+	struct SCombatStatusControls {							
+		GPKMNDF( , int32_t,	Blind				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Stun				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Shock				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Bleeding			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Burn				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Poison				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Freezing			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Petrify				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Frozen				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Blackout			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Charmed				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Drunk				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Sleep				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Slow				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Weakness			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Panic				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Berserk				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Invisible			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Rage				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Bullied				, ::gpk::DATA_TYPE_INT32)				= -1;
+	};			   
+
 
 
 	struct SCharacterUIControls {
 		int32_t																	ViewportCharacter			= -1;
 		int32_t																	DialogCharacter				= -1;
-		//int32_t																	ButtonAttack				= -1;
+		::pcs::SEntityPropertyGroups											DialogStatGroupViewports	= {};
+		::pcs::SEntityPropertyPoints											DialogStatLabels			= {};
 
-		//SEntityPropertyGroups													DialogStatGroups			= {};
-		//SEntityPropertyGroups													DialogStatGroupFrames		= {};
-		SEntityPropertyGroups													DialogStatGroupLabels		= {};
-		SEntityPropertyGroups													DialogStatGroupViewports	= {};
-
-		::pcs::SPointsLife														LabelsLife					= {-1, -1,			}; 
-		::pcs::SPointsPower														LabelsPower					= {-1, -1, -1,		}; 	
-		::pcs::SPointsFitness													LabelsFitness				= {-1, -1, -1, -1,	}; 
-		::pcs::SPointsAttack													LabelsAttack				= {-1, -1, -1, -1,	}; 
-		::pcs::SPointsLife														LabelsDirectDamageLife		= {-1, -1,			}; 
-		::pcs::SPointsPower														LabelsDirectDamagePower		= {-1, -1, -1,		}; 
-		::pcs::SPointsLife														LabelsDrainLife				= {-1, -1,			}; 
-		::pcs::SPointsPower														LabelsDrainPower			= {-1, -1, -1,		}; 	
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersLife				[::pcs::SPointsLife		::TRegistry::get_member_count()]	= {}; 
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersPower				[::pcs::SPointsPower	::TRegistry::get_member_count()]	= {}; 
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersFitness			[::pcs::SPointsFitness	::TRegistry::get_member_count()]	= {}; 
@@ -63,7 +54,14 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersDirectDamagePower	[::pcs::SPointsPower	::TRegistry::get_member_count()]	= {}; 
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersDrainLife			[::pcs::SPointsLife		::TRegistry::get_member_count()]	= {}; 
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersDrainPower		[::pcs::SPointsPower	::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersRegenLife			[::pcs::SPointsLife		::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersRegenPower		[::pcs::SPointsPower	::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersMaxLife			[::pcs::SPointsLife		::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersMaxPower			[::pcs::SPointsPower	::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersBonusLife			[::pcs::SPointsLife		::TRegistry::get_member_count()]	= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersBonusPower		[::pcs::SPointsPower	::TRegistry::get_member_count()]	= {}; 
 
+		//int32_t																	ButtonAttack				= -1;
 	};
 
 #pragma pack(pop)

@@ -40,7 +40,7 @@ namespace pcs
 
 	};
 
-	static constexpr	const size_t			CHARACTER_SCORE_TABLE_SIZE		= sizeof(::pcs::SCharacterScore);
+	static constexpr	const size_t			CHARACTER_SCORE_TABLE_SIZE				= sizeof(::pcs::SCharacterScore);
 
 	struct SCharacterProfile {
 		int32_t										Height			;
@@ -53,21 +53,64 @@ namespace pcs
 		::gpk::array_pod<::gpk::view_const_string>	Nationalities	;
 	};
 
-	struct SCharacter {
-		::pcs::SPointsLife							Life					= {};
-		::pcs::SPointsPower							Power					= {};
-		::pcs::SPointsFitness						Fitness					= {};
-		::pcs::SPointsAttack						Attack					= {};
-		::pcs::SPointsLife							DirectDamageLife		= {};
-		::pcs::SPointsPower							DirectDamagePower		= {};
-		::pcs::SPointsLife							DrainLife				= {};
-		::pcs::SPointsPower							DrainPower				= {};
-		::pcs::SCombatStatus						ImmunityInflict			= {};
-		::pcs::SCombatStatus						ResistanceLevel			= {};
-		int32_t										CharacterProfile		= -1;
+	struct SEntityPropertyPoints {
+		::pcs::SPointsLife							Life								= {};
+		::pcs::SPointsPower							Power								= {};
+		::pcs::SPointsFitness						Fitness								= {};
+		::pcs::SPointsAttack						Attack								= {};
+		::pcs::SPointsLife							DirectDamageLife					= {};
+		::pcs::SPointsPower							DirectDamagePower					= {};
+		::pcs::SPointsLife							DrainLife							= {};
+		::pcs::SPointsPower							DrainPower							= {};
+		::pcs::SPointsLife							RegenLife							= {};
+		::pcs::SPointsPower							RegenPower							= {};
+		::pcs::SPointsLife							MaxLife								= {};
+		::pcs::SPointsPower							MaxPower							= {};
+		::pcs::SPointsLife							BonusLife							= {};
+		::pcs::SPointsPower							BonusPower							= {};
+	};
+	struct SEntityPropertyGroups {
+		GPKMNDF( , int32_t, Life				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, Power				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, Fitness				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, Attack				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, DirectDamageLife	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, DirectDamagePower	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, DrainLife			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, DrainPower			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, RegenLife			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, RegenPower			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, MaxLife				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, MaxPower			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, BonusLife			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t, BonusPower			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKM_REGISTRY
+			(	GPKM_NAME(Life				)
+			,	GPKM_NAME(Power				)
+			,	GPKM_NAME(Fitness			)
+			,	GPKM_NAME(Attack			)
+			,	GPKM_NAME(DirectDamageLife	)
+			,	GPKM_NAME(DirectDamagePower	)
+			,	GPKM_NAME(DrainLife			)
+			,	GPKM_NAME(DrainPower		)
+			,	GPKM_NAME(RegenLife			)
+			,	GPKM_NAME(RegenPower		)
+			,	GPKM_NAME(MaxLife			)
+			,	GPKM_NAME(MaxPower			)
+			,	GPKM_NAME(BonusLife			)
+			,	GPKM_NAME(BonusPower		)
+			);
 	};
 
-	static constexpr const size_t      Charsize = sizeof(SCharacter);
+	struct SCharacter {
+		::pcs::SEntityPropertyPoints				Points								= {};
+		::pcs::SEntityPropertyGroups				PointIndices						= {};
+		::pcs::SCombatStatusLevel					ImmunityInflict						= {};
+		::pcs::SCombatStatusLevel					ResistanceLevel						= {};
+		int32_t										CharacterProfile					= -1;
+	};
+
+	static constexpr const size_t				Charsize							= sizeof(SCharacter);
 #pragma pack (pop)
 } // namespace
 

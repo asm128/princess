@@ -30,7 +30,8 @@ namespace pcs
 	GDEFINE_ENUM_VALUE(COMBAT_STATUS, Invisible			, 0x20000	);
 	GDEFINE_ENUM_VALUE(COMBAT_STATUS, Rage				, 0x40000	);
 	GDEFINE_ENUM_VALUE(COMBAT_STATUS, Bullied			, 0x80000	);
-	struct SCombatStatus {
+
+	struct SCombatStatusLevel {
 		uint8_t							Blind			:2;
 		uint8_t							Stun			:2;
 		uint8_t							Shock			:2;
@@ -57,9 +58,9 @@ namespace pcs
 
 	struct SCharacterStatus {
 		COMBAT_STATUS					Immunity		= {};
-		SCombatStatus					Attack			= {};
-		SCombatStatus					Passive			= {};
-		SCombatStatus					Resistance		= {};
+		SCombatStatusLevel				Attack			= {};
+		SCombatStatusLevel				Passive			= {};
+		SCombatStatusLevel				Resistance		= {};
 	};
 
 	GDEFINE_ENUM_TYPE(ATTACK_EFFECT, uint16_t);
