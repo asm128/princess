@@ -58,7 +58,11 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		int32_t																	DialogCharacter					= -1;
 		::pcs::SEntityPropertyGroups											DialogPointsGroups				= {};
 		::gme::SCombatStatusGroups												DialogStatusGroups				= {};
-		::pcs::SDefend     ViewportDefend={};
+		::pcs::SDefend															ViewportDefend					= {};
+
+		::gpk::ptr_nco<::gpk::SDialogCheckBox>									CheckBoxesDefend		[::pcs::SDefend::TRegistry::get_member_count()]				= {}; 
+		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersDefend			[::pcs::SDefend::TRegistry::get_member_count()]				= {}; 
+		
 		::gpk::ptr_nco<::gpk::SDialogCheckBox>									CheckBoxesImmunity		[::pcs::SCombatStatusValue::TRegistry::get_member_count()]	= {}; 
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersInflict			[::pcs::SCombatStatusValue::TRegistry::get_member_count()]	= {}; 
 		::gpk::ptr_nco<::gpk::SDialogTuner>										TunersResistance		[::pcs::SCombatStatusValue::TRegistry::get_member_count()]	= {}; 

@@ -57,7 +57,7 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 		int32_t																idControl							= tuners[iField]->IdGUIControl; 
 		::gpk::SControl														& control							= controlTable.Controls[idControl]; 
 		control.Align													= ::gpk::ALIGN_TOP_RIGHT; 
-		control.Area.Size.x												= 110; 
+		control.Area.Size.x												= 100; 
 		control.Area.Size.y												= controlTable.Controls[idLabel].Area.Size.y; 
 		if(iField) 
 			controlTable.Constraints[idControl].DockToControl.Bottom		= tuners[iField - 1]->IdGUIControl; 
@@ -85,15 +85,24 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 					::gpk::error_t								dialogCreateCharacterEffect			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character)	{
 	::gpk::SGUI															& gui								= *dialog.GUI;
 	::gpk::ptr_obj<::gpk::SDialogViewport>								viewport;
-	int32_t																idDialogControl					= ::gpk::viewportCreate(dialog, viewport);
+	int32_t																idDialogControl						= ::gpk::viewportCreate(dialog, viewport);
 	gui.Controls.Text[viewport->IdTitle].Text						= "Defend Effect";
-	gui.Controls.Controls[viewport->IdTitle].Area.Size.x			= 110;
-	gui.Controls.Controls[viewport->IdTitle].Area.Offset.x			= 220;
 	viewport->DisplacementLock										= {true, true};
 	gpk_necall(::gpk::controlSetParent(gui, viewport->IdGUIControl, character.DialogCharacter), "Invalid group id: %i.", character.DialogCharacter); 
 	::gpk::SGUIControlTable												& controlTable						= gui.Controls;
 	gpk_necall(::dialogCreateFieldArray(dialog, character.ViewportDefend, controlTable.Children[dialog.Controls[idDialogControl]->IdGUIControl][0]), "%s", "????");	// Create label control array
-	return 0;
+	// -- Adjust 
+	int32_t																idViewport							= idDialogControl;
+	dialog.Controls[idViewport].as(viewport);
+	::gpk::SCoord2<int16_t>												sizeViewport						= {};
+	sizeViewport.x													= 220;
+	controlTable.Controls	[viewport->IdGUIControl	].Area.Size		= sizeViewport;
+	controlTable.Controls	[viewport->IdGUIControl	].Align			= ::gpk::ALIGN_TOP_RIGHT;
+	controlTable.Text		[viewport->IdTitle		].Align			= ::gpk::ALIGN_TOP_LEFT;
+	::gpk::viewportFold(*viewport, true);
+
+	::dialogCreateTuners(dialog, viewport->IdClient, character.TunersDefend);
+	return idDialogControl;
 }
 					::gpk::error_t								dialogCreateCharacterStatus			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character)	{
 	::gpk::SGUI															& gui								= *dialog.GUI;
@@ -203,7 +212,9 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 	::gpk::viewportAdjustSize(controlCharacter.Area.Size, controlCharacter.Area.Size);
 	::dialogCreateCharacterPoints(dialog, character);
 	::dialogCreateCharacterStatus(dialog, character);
-	::dialogCreateCharacterStatus(dialog, character);
+	int32_t idViewportDefend = ::dialogCreateCharacterEffect(dialog, character);
+	dialog.Controls[idViewportDefend ].as(viewport);
+	gui.Controls.Constraints[viewport->IdGUIControl].DockToControl.Bottom	= dialog.Controls[character.DialogStatusGroups.Weakness]->IdGUIControl;
 
 	dialog.Controls[character.ViewportCharacter].as(viewport);
 	::gpk::viewportFold(*viewport, true);
