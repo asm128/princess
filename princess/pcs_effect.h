@@ -128,6 +128,18 @@ namespace pcs
 	GDEFINE_ENUM_VALUE(DEFEND_EFFECT, Impenetrable		, 0x04		); 	// Forces 100% damage absorption
 	GDEFINE_ENUM_VALUE(DEFEND_EFFECT, Deflect			, 0x08		); 	// Reflects damage to the attacker
 
+	struct SDefend {
+		GPKMNDF( , int32_t,					 Reflect		, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,					 Blind			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,					 Impenetrable	, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMNDF( , int32_t,					 Deflect		, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKM_REGISTRY
+		(	GPKM_NAME(Reflect			)
+		,	GPKM_NAME(Blind				)
+		,	GPKM_NAME(Impenetrable		)
+		,	GPKM_NAME(Deflect			)
+		);	   
+	};
 	GDEFINE_ENUM_TYPE(PASSIVE_EFFECT, uint16_t);
 	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, None				, 0x00		);
 	GDEFINE_ENUM_VALUE(PASSIVE_EFFECT, Regen_Health		, 0x01		);

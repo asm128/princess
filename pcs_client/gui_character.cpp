@@ -82,6 +82,19 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 	}
 	return 0;
 }
+					::gpk::error_t								dialogCreateCharacterEffect			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character)	{
+	::gpk::SGUI															& gui								= *dialog.GUI;
+	::gpk::ptr_obj<::gpk::SDialogViewport>								viewport;
+	int32_t																idDialogControl					= ::gpk::viewportCreate(dialog, viewport);
+	gui.Controls.Text[viewport->IdTitle].Text						= "Defend Effect";
+	gui.Controls.Controls[viewport->IdTitle].Area.Size.x			= 110;
+	gui.Controls.Controls[viewport->IdTitle].Area.Offset.x			= 220;
+	viewport->DisplacementLock										= {true, true};
+	gpk_necall(::gpk::controlSetParent(gui, viewport->IdGUIControl, character.DialogCharacter), "Invalid group id: %i.", character.DialogCharacter); 
+	::gpk::SGUIControlTable												& controlTable						= gui.Controls;
+	gpk_necall(::dialogCreateFieldArray(dialog, character.ViewportDefend, controlTable.Children[dialog.Controls[idDialogControl]->IdGUIControl][0]), "%s", "????");	// Create label control array
+	return 0;
+}
 					::gpk::error_t								dialogCreateCharacterStatus			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character)	{
 	::gpk::SGUI															& gui								= *dialog.GUI;
 	::gpk::ptr_obj<::gpk::SDialogViewport>								viewport							= {};
@@ -189,6 +202,7 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 	gui.Controls.Text[viewport->IdTitle].Text						= "Entity Points";
 	::gpk::viewportAdjustSize(controlCharacter.Area.Size, controlCharacter.Area.Size);
 	::dialogCreateCharacterPoints(dialog, character);
+	::dialogCreateCharacterStatus(dialog, character);
 	::dialogCreateCharacterStatus(dialog, character);
 
 	dialog.Controls[character.ViewportCharacter].as(viewport);
