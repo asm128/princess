@@ -113,8 +113,8 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 
 	::gpk::SGUIControlTable												& controlTable						= gui.Controls;
 	::pcs::SCombatStatusValue											dialogStatLabels					= {};
-	for(uint32_t iViewport = 0; iViewport < ::gme::SCombatStatusGroups::TRegistry::get_member_count(); ++iViewport) {
-		int32_t																idViewport							= ((int32_t*)&character.DialogStatusGroups)[iViewport];
+	for(uint32_t iMember = 0; iMember < ::gme::SCombatStatusGroups::TRegistry::get_member_count(); ++iMember) {
+		int32_t																idViewport							= ((int32_t*)&viewportIds)[iMember];
 		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels, controlTable.Children[dialog.Controls[idViewport]->IdGUIControl][0]), "%s", "????");	// Create label control array
 	}
 	// -- Adjust 
@@ -144,33 +144,33 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 	::gpk::ptr_obj<::gpk::SDialogViewport>								viewport							= {};
 
 	// -- Fix viewport titles
-	dialog.Controls[viewportIds.DirectDamageLife	].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Direct Damage (Life)";
-	dialog.Controls[viewportIds.DirectDamagePower	].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Direct Damage (Power)";
-	dialog.Controls[viewportIds.DrainLife			].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Drain (Life)";
-	dialog.Controls[viewportIds.DrainPower			].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Drain (Power)";
-	dialog.Controls[viewportIds.RegenLife			].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Regen (Life)";
-	dialog.Controls[viewportIds.RegenPower			].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Regen (Power)";
-	dialog.Controls[viewportIds.MaxLife				].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Max Life";
-	dialog.Controls[viewportIds.MaxPower			].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Max Power";
-	dialog.Controls[viewportIds.BonusLife			].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Bonus Life";
-	dialog.Controls[viewportIds.BonusPower			].as(viewport); gui.Controls.Text[viewport->IdTitle].Text = "Bonus Power";
+	dialog.Controls[viewportIds.DirectDamageLife	].as(viewport);		gui.Controls.Text[viewport->IdTitle].Text = "Direct Damage (Life)";
+	dialog.Controls[viewportIds.DirectDamagePower	].as(viewport);		gui.Controls.Text[viewport->IdTitle].Text = "Direct Damage (Power)";
+	dialog.Controls[viewportIds.DrainLife			].as(viewport);		gui.Controls.Text[viewport->IdTitle].Text = "Drain (Life)";
+	dialog.Controls[viewportIds.DrainPower			].as(viewport);		gui.Controls.Text[viewport->IdTitle].Text = "Drain (Power)";
+	dialog.Controls[viewportIds.RegenLife			].as(viewport);		gui.Controls.Text[viewport->IdTitle].Text = "Regen (Life)";
+	dialog.Controls[viewportIds.RegenPower			].as(viewport);		gui.Controls.Text[viewport->IdTitle].Text = "Regen (Power)";
+	dialog.Controls[viewportIds.MaxLife				].as(viewport);		gui.Controls.Text[viewport->IdTitle].Text = "Max Life";
+	dialog.Controls[viewportIds.MaxPower			].as(viewport);		gui.Controls.Text[viewport->IdTitle].Text = "Max Power";
+	dialog.Controls[viewportIds.BonusLife			].as(viewport);		gui.Controls.Text[viewport->IdTitle].Text = "Bonus Life";
+	dialog.Controls[viewportIds.BonusPower			].as(viewport);		gui.Controls.Text[viewport->IdTitle].Text = "Bonus Power";
 
 	::gpk::SGUIControlTable												& controlTable						= gui.Controls;
 	::pcs::SEntityPropertyPoints										dialogStatLabels					= {};
-	gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.Life				, controlTable.Children[dialog.Controls[viewportIds.Life				]->IdGUIControl][0]), "%s", "????");	// Create label control array
-	gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.Power				, controlTable.Children[dialog.Controls[viewportIds.Power				]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
-	gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.Fitness			, controlTable.Children[dialog.Controls[viewportIds.Fitness				]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
-	gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.Attack				, controlTable.Children[dialog.Controls[viewportIds.Attack				]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
-	gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.DirectDamageLife	, controlTable.Children[dialog.Controls[viewportIds.DirectDamageLife	]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
-	gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.DirectDamagePower	, controlTable.Children[dialog.Controls[viewportIds.DirectDamagePower	]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
-	gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.DrainLife			, controlTable.Children[dialog.Controls[viewportIds.DrainLife			]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
-	gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.DrainPower			, controlTable.Children[dialog.Controls[viewportIds.DrainPower			]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
-	gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.RegenLife			, controlTable.Children[dialog.Controls[viewportIds.RegenLife			]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
-	gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.RegenPower			, controlTable.Children[dialog.Controls[viewportIds.RegenPower			]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
-	gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.MaxLife			, controlTable.Children[dialog.Controls[viewportIds.MaxLife				]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
-	gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.MaxPower			, controlTable.Children[dialog.Controls[viewportIds.MaxPower			]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
-	gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.BonusLife			, controlTable.Children[dialog.Controls[viewportIds.BonusLife			]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
-	gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.BonusPower			, controlTable.Children[dialog.Controls[viewportIds.BonusPower			]->IdGUIControl][0]), "%s", "????"); 	// Create label control array
+	dialog.Controls[viewportIds.Life				].as(viewport);		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.Life				, viewport->IdClient), "%s", "????");	// Create label control array
+	dialog.Controls[viewportIds.Power				].as(viewport);		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.Power				, viewport->IdClient), "%s", "????"); 	// Create label control array
+	dialog.Controls[viewportIds.Fitness				].as(viewport);		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.Fitness			, viewport->IdClient), "%s", "????"); 	// Create label control array
+	dialog.Controls[viewportIds.Attack				].as(viewport);		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.Attack				, viewport->IdClient), "%s", "????"); 	// Create label control array
+	dialog.Controls[viewportIds.DirectDamageLife	].as(viewport);		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.DirectDamageLife	, viewport->IdClient), "%s", "????"); 	// Create label control array
+	dialog.Controls[viewportIds.DirectDamagePower	].as(viewport);		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.DirectDamagePower	, viewport->IdClient), "%s", "????"); 	// Create label control array
+	dialog.Controls[viewportIds.DrainLife			].as(viewport);		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.DrainLife			, viewport->IdClient), "%s", "????"); 	// Create label control array
+	dialog.Controls[viewportIds.DrainPower			].as(viewport);		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.DrainPower			, viewport->IdClient), "%s", "????"); 	// Create label control array
+	dialog.Controls[viewportIds.RegenLife			].as(viewport);		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.RegenLife			, viewport->IdClient), "%s", "????"); 	// Create label control array
+	dialog.Controls[viewportIds.RegenPower			].as(viewport);		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.RegenPower			, viewport->IdClient), "%s", "????"); 	// Create label control array
+	dialog.Controls[viewportIds.MaxLife				].as(viewport);		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.MaxLife			, viewport->IdClient), "%s", "????"); 	// Create label control array
+	dialog.Controls[viewportIds.MaxPower			].as(viewport);		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.MaxPower			, viewport->IdClient), "%s", "????"); 	// Create label control array
+	dialog.Controls[viewportIds.BonusLife			].as(viewport);		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.BonusLife			, viewport->IdClient), "%s", "????"); 	// Create label control array
+	dialog.Controls[viewportIds.BonusPower			].as(viewport);		gpk_necall(::dialogCreateFieldArray(dialog, dialogStatLabels.BonusPower			, viewport->IdClient), "%s", "????"); 	// Create label control array
 
 	// Adjust 
 	for(uint32_t iMember = 0; iMember < ::pcs::SEntityPropertyGroups::TRegistry::get_member_count(); ++iMember) {
@@ -212,8 +212,10 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 	::gpk::viewportAdjustSize(controlCharacter.Area.Size, controlCharacter.Area.Size);
 	::dialogCreateCharacterPoints(dialog, character);
 	::dialogCreateCharacterStatus(dialog, character);
-	int32_t idViewportDefend = ::dialogCreateCharacterEffect(dialog, character);
-	dialog.Controls[idViewportDefend ].as(viewport);
+
+	// -- Dock Defend viewport to last Status viewport
+	int32_t																idViewportDefend					= ::dialogCreateCharacterEffect(dialog, character);
+	dialog.Controls[idViewportDefend].as(viewport);
 	gui.Controls.Constraints[viewport->IdGUIControl].DockToControl.Bottom	= dialog.Controls[character.DialogStatusGroups.Weakness]->IdGUIControl;
 
 	dialog.Controls[character.ViewportCharacter].as(viewport);

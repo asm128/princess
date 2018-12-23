@@ -9,40 +9,34 @@
 namespace gme // I'm gonna use a different namespace in order to test a few things about the macros.
 {
 #pragma pack(push, 1)
-	struct SGameUIPalettes {
-		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			Groups				= {};
-		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			Fields				= {};
-		::gpk::array_static<int32_t, ::gpk::GUI_CONTROL_PALETTE_COUNT>			Titles				= {};
-	};
-
 	struct SCombatStatusControls {							
-		GPKMNDF( , int32_t,	Blind				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Stun				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Shock				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Bleeding			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Burn				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Poison				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Freezing			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Petrify				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Frozen				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Blackout			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Charmed				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Drunk				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Sleep				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Slow				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Weakness			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Panic				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Berserk				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Invisible			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Rage				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Bullied				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Blind		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Stun		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Shock		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Bleeding	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Burn		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Poison		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Freezing	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Petrify		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Frozen		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Blackout	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Charmed		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Drunk		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Sleep		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Slow		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Weakness	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Panic		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Berserk		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Invisible	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Rage		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Bullied		, ::gpk::DATA_TYPE_INT32)				= -1;
 	};
 
-	struct SCombatStatusGroups {							
-		GPKMNDF( , int32_t,	Immunity			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Inflict				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Resistance			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Weakness			, ::gpk::DATA_TYPE_INT32)				= -1;
+	struct SCombatStatusGroups {					
+		GPKMNDF( , int32_t,	Immunity	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Inflict		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Resistance	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMNDF( , int32_t,	Weakness	, ::gpk::DATA_TYPE_INT32)				= -1;
 		GPKM_REGISTRY
 			(	GPKM_NAME(Immunity			)
 			,	GPKM_NAME(Inflict			)
@@ -94,13 +88,14 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		::gpk::ptr_obj<::gpk::SRenderTarget<::gpk::SColorBGRA, uint32_t>>		Offscreen										= {};
 		::gpk::array_static<::gpk::SDialog, 2>									DialogCharacter;
 
+		::pcs::SEntityPropertyPoints											CharacterPoints			[2]						= {};
+
 		int32_t																	Palettes[::gpk::GUI_CONTROL_PALETTE_COUNT]		= {};
 		int32_t																	PaletteRow										= 10;
 		int32_t																	PaletteColumn									= 16;
 
-		SGameUIPalettes															GameUIPalettes									= {};
-
 		int32_t																	IdExit											= -1;
+		int32_t																	IdAttack[2]										= {-1, -1};
 
 		::std::mutex															LockGUI;
 		::std::mutex															LockRender;

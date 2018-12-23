@@ -71,6 +71,7 @@ GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 			client.Queue.Received.clear();
 		}
 	}
+	::gpk::sleep(1);
 
 	//timer.Frame();
 	//warning_printf("Update time: %f.", (float)timer.LastTimeSeconds);

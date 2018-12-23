@@ -29,6 +29,7 @@ static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)					
 	return 0;
 }
 
+
 			::gpk::error_t											setup						(::gme::SApplication & app)						{ 
 	::gpk::SFramework														& framework					= app.Framework;
 	::gpk::SDisplay															& mainWindow				= framework.MainDisplay;
@@ -52,19 +53,52 @@ static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)					
 
 	::setupGameUI(app);
 
-	app.IdExit															= ::gpk::controlCreate(gui);
-	::gpk::SControl															& controlExit				= gui.Controls.Controls[app.IdExit];
-	controlExit.Area													= {{0, 0}, {64, 18}};
-	controlExit.Border													= {1, 1, 1, 1};
-	controlExit.Margin													= {1, 1, 1, 1};
-	controlExit.Align													= ::gpk::ALIGN_CENTER_BOTTOM;
-	::gpk::SControlText														& controlText				= gui.Controls.Text[app.IdExit];
-	controlText.Text													= "Exit";
-	controlText.Align													= ::gpk::ALIGN_CENTER;
-	::gpk::SControlConstraints												& controlConstraints		= gui.Controls.Constraints[app.IdExit];
-	controlConstraints.AttachSizeToText.y								= false;
-	controlConstraints.AttachSizeToText.x								= false;
-	::gpk::controlSetParent(gui, app.IdExit, controlTestRoot);
+	{
+		app.IdExit															= ::gpk::controlCreate(gui);
+		::gpk::SControl															& controlExit				= gui.Controls.Controls[app.IdExit];
+		controlExit.Area													= {{0, 0}, {64, 18}};
+		controlExit.Border													= {1, 1, 1, 1};
+		controlExit.Margin													= {1, 1, 1, 1};
+		controlExit.Align													= ::gpk::ALIGN_CENTER_BOTTOM;
+		::gpk::SControlText														& controlText				= gui.Controls.Text[app.IdExit];
+		controlText.Text													= "Exit";
+		controlText.Align													= ::gpk::ALIGN_CENTER;
+		::gpk::SControlConstraints												& controlConstraints		= gui.Controls.Constraints[app.IdExit];
+		controlConstraints.AttachSizeToText.y								= false;
+		controlConstraints.AttachSizeToText.x								= false;
+		::gpk::controlSetParent(gui, app.IdExit, controlTestRoot);
+	}
+	{
+		app.IdAttack[0]															= ::gpk::controlCreate(gui);
+		::gpk::SControl															& controlExit				= gui.Controls.Controls[app.IdAttack[0]];
+		controlExit.Area													= {{0, 0}, {96, 18}};
+		controlExit.Border													= {1, 1, 1, 1};
+		controlExit.Margin													= {1, 1, 1, 1};
+		controlExit.Align													= ::gpk::ALIGN_BOTTOM_LEFT;
+		::gpk::SControlText														& controlText				= gui.Controls.Text[app.IdAttack[0]];
+		controlText.Text													= "Attack (0)";
+		controlText.Align													= ::gpk::ALIGN_CENTER;
+		::gpk::SControlConstraints												& controlConstraints		= gui.Controls.Constraints[app.IdAttack[0]];
+		controlConstraints.AttachSizeToText.y								= false;
+		controlConstraints.AttachSizeToText.x								= false;
+		::gpk::controlSetParent(gui, app.IdAttack[0], controlTestRoot);
+	}
+
+	{
+		app.IdAttack[1]															= ::gpk::controlCreate(gui);
+		::gpk::SControl															& controlExit				= gui.Controls.Controls[app.IdAttack[1]];
+		controlExit.Area													= {{0, 0}, {96, 18}};
+		controlExit.Border													= {1, 1, 1, 1};
+		controlExit.Margin													= {1, 1, 1, 1};
+		controlExit.Align													= ::gpk::ALIGN_BOTTOM_RIGHT;
+		::gpk::SControlText														& controlText				= gui.Controls.Text[app.IdAttack[1]];
+		controlText.Text													= "Attack (1)";
+		controlText.Align													= ::gpk::ALIGN_CENTER;
+		::gpk::SControlConstraints												& controlConstraints		= gui.Controls.Constraints[app.IdAttack[1]];
+		controlConstraints.AttachSizeToText.y								= false;
+		controlConstraints.AttachSizeToText.x								= false;
+		::gpk::controlSetParent(gui, app.IdAttack[1], controlTestRoot);
+	}
 
 	::gpk::tcpipInitialize();
 
@@ -73,6 +107,27 @@ static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)					
 	::gpk::clientConnect(app.Client);
 	return 0; 
 }
+
+template <typename _tStruct>
+static		::gpk::error_t											syncCharacterPoints			(_tStruct & data, ::gpk::ptr_nco<::gpk::SDialogTuner>* tuners)						{ 
+	for(uint32_t iMember = 0; iMember < _tStruct::TRegistry::get_member_count(); ++iMember) 
+		((int32_t*)&data)[iMember]											= (int32_t)tuners[iMember]->ValueCurrent; 
+	return 0;
+}
+
+template <typename _tStruct>
+static		::gpk::error_t											syncTunersPoints			(_tStruct & data, ::gpk::ptr_nco<::gpk::SDialogTuner>* tuners)						{ 
+	for(uint32_t iMember = 0; iMember < _tStruct::TRegistry::get_member_count(); ++iMember) 
+		::gpk::tunerSetValue(*tuners[iMember], ((int32_t*)&data)[iMember]); 
+	return 0;
+}
+
+static		::gpk::error_t											attack						(::pcs::SEntityPropertyPoints & attacker, ::pcs::SEntityPropertyPoints & attacked)	{ 
+	attacked.Life.Health												-= attacker.Attack.Damage;
+	return 0;
+}
+
+
 			::gpk::error_t											update						(::gme::SApplication & app, bool exitSignal)	{ 
 	::gpk::STimer															timer;
 	retval_info_if(::gpk::APPLICATION_STATE_EXIT, exitSignal, "Exit requested by runtime.");
@@ -96,8 +151,48 @@ static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)					
 			info_printf("Executed %u.", idControl);
 			if(idControl == (uint32_t)app.IdExit)
 				return 1;
+			if(idControl == (uint32_t)app.IdAttack[1] || idControl == (uint32_t)app.IdAttack[0]) {
+				if(idControl == (uint32_t)app.IdAttack[0]) {::attack(app.CharacterPoints[0], app.CharacterPoints[1]); }
+				if(idControl == (uint32_t)app.IdAttack[1]) {::attack(app.CharacterPoints[1], app.CharacterPoints[0]); }
+				for(uint32_t i = 0; i < 2; ++i) {
+					::pcs::SEntityPropertyPoints											& characterPoints			= app.CharacterPoints[i];
+					::gme::SCharacterUIControls												& characterUI				= app.CharacterUIFieldNames[i];
+					::syncTunersPoints(characterPoints.Life					, characterUI.TunersLife				);
+					::syncTunersPoints(characterPoints.Power				, characterUI.TunersPower				);
+					::syncTunersPoints(characterPoints.Fitness				, characterUI.TunersFitness				);
+					::syncTunersPoints(characterPoints.Attack				, characterUI.TunersAttack				);
+					::syncTunersPoints(characterPoints.DirectDamageLife		, characterUI.TunersDirectDamageLife	);
+					::syncTunersPoints(characterPoints.DirectDamagePower	, characterUI.TunersDirectDamagePower	);
+					::syncTunersPoints(characterPoints.DrainLife			, characterUI.TunersDrainLife			);
+					::syncTunersPoints(characterPoints.DrainPower			, characterUI.TunersDrainPower			);
+					::syncTunersPoints(characterPoints.RegenLife			, characterUI.TunersRegenLife			);
+					::syncTunersPoints(characterPoints.RegenPower			, characterUI.TunersRegenPower			);
+					::syncTunersPoints(characterPoints.MaxLife				, characterUI.TunersMaxLife				);
+					::syncTunersPoints(characterPoints.MaxPower				, characterUI.TunersMaxPower			);
+					::syncTunersPoints(characterPoints.BonusLife			, characterUI.TunersBonusLife			);
+					::syncTunersPoints(characterPoints.BonusPower			, characterUI.TunersBonusPower			);
+				}
+			}
 		}
 	}
+	for(uint32_t i = 0; i < 2; ++i) {
+		::pcs::SEntityPropertyPoints											& characterPoints			= app.CharacterPoints[i];
+		::gme::SCharacterUIControls												& characterUI				= app.CharacterUIFieldNames[i];
+		::syncCharacterPoints(characterPoints.Life				, characterUI.TunersLife				);
+		::syncCharacterPoints(characterPoints.Power				, characterUI.TunersPower				);
+		::syncCharacterPoints(characterPoints.Fitness			, characterUI.TunersFitness				);
+		::syncCharacterPoints(characterPoints.Attack			, characterUI.TunersAttack				);
+		::syncCharacterPoints(characterPoints.DirectDamageLife	, characterUI.TunersDirectDamageLife	);
+		::syncCharacterPoints(characterPoints.DirectDamagePower	, characterUI.TunersDirectDamagePower	);
+		::syncCharacterPoints(characterPoints.DrainLife			, characterUI.TunersDrainLife			);
+		::syncCharacterPoints(characterPoints.DrainPower		, characterUI.TunersDrainPower			);
+		::syncCharacterPoints(characterPoints.RegenLife			, characterUI.TunersRegenLife			);
+		::syncCharacterPoints(characterPoints.RegenPower		, characterUI.TunersRegenPower			);
+		::syncCharacterPoints(characterPoints.MaxLife			, characterUI.TunersMaxLife				);
+		::syncCharacterPoints(characterPoints.MaxPower			, characterUI.TunersMaxPower			);
+		::syncCharacterPoints(characterPoints.BonusLife			, characterUI.TunersBonusLife			);
+		::syncCharacterPoints(characterPoints.BonusPower		, characterUI.TunersBonusPower			);
+	}																											 
 
 	reterr_error_if(app.Client.State != ::gpk::UDP_CONNECTION_STATE_IDLE, "Failed to connect to server.")
 	else {
