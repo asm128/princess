@@ -1,6 +1,7 @@
 #include "pcs_points.h"
 #include "pcs_effect.h"
 #include "gpk_array.h"
+#include "gpk_noise.h"
 
 #ifndef PCS_CHArACTER_H_0237498234
 #define PCS_CHArACTER_H_0237498234
@@ -126,7 +127,46 @@ namespace pcs
 		bool										Unused								: 1;
 	};
 
-	static constexpr const size_t				Charsize							= sizeof(SEntity);
+	static constexpr	const size_t			Charsize							= sizeof(SEntity);
+	static constexpr	const uint32_t			POINT_SCALE_INT						= 10000;
+	static constexpr	const double			POINT_SCALE_DOUBLE					= 10000.0;
+
+
+// Returns 2 if deflected, 1 if hit and 
+	::gpk::error_t								attackCalculateHitChanceResult	
+		( ::gpk::SPRNG					& prng
+		, const ::pcs::SPointsAttack	& attackerPoints
+		, const ::pcs::SPointsFitness	& attackerFitness
+		, const ::pcs::SPointsFitness	& attackedFitness
+		, const ::pcs::SCharacterStatus	& attackerStatus
+		, const ::pcs::SCharacterStatus	& attackedStatus
+		, const ::pcs::SDefend			& attackedDefend
+		);
+
+	::gpk::error_t								attackCalculateDamage			
+		( ::pcs::SPointsLife			& lifeRemaining
+		, ::pcs::SPointsLife			& damageDealt
+		, ::pcs::SPointsLife			& damageReflected
+		, ::pcs::SEntityPropertyPoints	& attacker
+		, const ::pcs::SDefend			& attackedDefend
+		);
+
+	::gpk::error_t								attackApplyDrain
+		( ::pcs::SPointsLife			& damageDealt
+		, ::pcs::SPointsLife			& lifeDrained
+		, ::pcs::SPointsLife			& drainPoints
+		);
+	::gpk::error_t								attackMelee						
+		( ::gpk::SPRNG					& prng
+		, ::pcs::SCharacterScore		& scoreAttacker
+		, ::pcs::SCharacterScore		& scoreAttacked
+		, ::pcs::SEntityPropertyPoints	& attacker
+		, ::pcs::SEntityPropertyPoints	& attacked
+		, ::pcs::SCharacterStatus		& attackerStatus
+		, ::pcs::SCharacterStatus		& attackedStatus
+		//, ::pcs::SDefend				& attackerDefend
+		, const ::pcs::SDefend			& attackedDefend
+		);
 #pragma pack (pop)
 } // namespace
 

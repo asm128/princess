@@ -8,19 +8,33 @@
 
 GPK_DEFINE_APPLICATION_ENTRY_POINT(::gme::SApplication, "Module Explorer");
 
-			::gpk::error_t											cleanup					(::gme::SApplication & app)							{ 
+template <typename _tStruct>
+static		::gpk::error_t											syncCharacterPoints			(_tStruct & data, ::gpk::ptr_nco<::gpk::SDialogTuner>* tuners)						{ 
+	for(uint32_t iMember = 0; iMember < _tStruct::TRegistry::get_member_count(); ++iMember) 
+		((int32_t*)&data)[iMember]											= (int32_t)tuners[iMember]->ValueCurrent; 
+	return 0;
+}
+
+template <typename _tStruct>
+static		::gpk::error_t											syncTunersPoints			(_tStruct & data, ::gpk::ptr_nco<::gpk::SDialogTuner>* tuners)						{ 
+	for(uint32_t iMember = 0; iMember < _tStruct::TRegistry::get_member_count(); ++iMember) 
+		::gpk::tunerSetValue(*tuners[iMember], ((int32_t*)&data)[iMember]); 
+	return 0;
+}
+
+			::gpk::error_t											cleanup						(::gme::SApplication & app)							{ 
 	::gpk::mainWindowDestroy(app.Framework.MainDisplay);
 	::gpk::clientDisconnect(app.Client);
 	::gpk::tcpipShutdown();
 	return 0; 
 }
 
-static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)						{ 
-	for(uint32_t iCharacter = 0; iCharacter < app.CharacterUIFieldNames.size(); ++iCharacter) {
+static		::gpk::error_t											setupGameUI					(::gme::SApplication & app)						{ 
+	for(uint32_t iCharacter = 0; iCharacter < app.CharacterUI.size(); ++iCharacter) {
 		::gpk::SDialog															& dialogCharacter			= app.DialogCharacter[iCharacter];
 		dialogCharacter.GUI													= app.Framework.GUI;
 		dialogCharacter.Input												= app.Framework.Input;
-		::gme::SCharacterUIControls												& controls					= app.CharacterUIFieldNames[iCharacter];
+		::gme::SCharacterUIControls												& controls					= app.CharacterUI[iCharacter];
 		::gpk::SGUIControlTable													& controlTable				= dialogCharacter.GUI->Controls;
 		gpk_necall(::gme::dialogCreateCharacter(dialogCharacter, controls), "%s", "????");
 		controlTable.Controls[dialogCharacter.Controls[controls.ViewportCharacter]->IdGUIControl].Align				= iCharacter ? ::gpk::ALIGN_RIGHT : ::gpk::ALIGN_LEFT;
@@ -100,6 +114,35 @@ static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)					
 		::gpk::controlSetParent(gui, app.IdAttack[1], controlTestRoot);
 	}
 
+	for(uint32_t i = 0; i < 2; ++i) {
+		::pcs::SEntityPropertyPoints											& characterPoints			= app.CharacterPoints[i];
+		characterPoints.Attack.Hit											= 5000;
+		characterPoints.Attack.Damage										= 5;
+		characterPoints.Attack.Absorption									= 10;
+		characterPoints.Attack.Range										= 0;
+		characterPoints.Life.Health											= 20;
+		characterPoints.Life.Shield											= 20;
+		characterPoints.DrainLife.Health									= 5000;
+		characterPoints.DrainLife.Shield									= 100;
+		characterPoints.DirectDamageLife.Health								= 2;
+		characterPoints.DirectDamageLife.Shield								= 1;
+		::gme::SCharacterUIControls												& characterUI				= app.CharacterUI[i];
+		::syncTunersPoints(characterPoints.Life					, characterUI.TunersLife				);
+		::syncTunersPoints(characterPoints.Power				, characterUI.TunersPower				);
+		::syncTunersPoints(characterPoints.Fitness				, characterUI.TunersFitness				);
+		::syncTunersPoints(characterPoints.Attack				, characterUI.TunersAttack				);
+		::syncTunersPoints(characterPoints.DirectDamageLife		, characterUI.TunersDirectDamageLife	);
+		::syncTunersPoints(characterPoints.DirectDamagePower	, characterUI.TunersDirectDamagePower	);
+		::syncTunersPoints(characterPoints.DrainLife			, characterUI.TunersDrainLife			);
+		::syncTunersPoints(characterPoints.DrainPower			, characterUI.TunersDrainPower			);
+		::syncTunersPoints(characterPoints.RegenLife			, characterUI.TunersRegenLife			);
+		::syncTunersPoints(characterPoints.RegenPower			, characterUI.TunersRegenPower			);
+		::syncTunersPoints(characterPoints.MaxLife				, characterUI.TunersMaxLife				);
+		::syncTunersPoints(characterPoints.MaxPower				, characterUI.TunersMaxPower			);
+		::syncTunersPoints(characterPoints.BonusLife			, characterUI.TunersBonusLife			);
+		::syncTunersPoints(characterPoints.BonusPower			, characterUI.TunersBonusPower			);
+	}
+
 	::gpk::tcpipInitialize();
 
 	app.Client.AddressConnect											= {};
@@ -108,27 +151,21 @@ static		::gpk::error_t											setupGameUI				(::gme::SApplication & app)					
 	return 0; 
 }
 
-template <typename _tStruct>
-static		::gpk::error_t											syncCharacterPoints			(_tStruct & data, ::gpk::ptr_nco<::gpk::SDialogTuner>* tuners)						{ 
-	for(uint32_t iMember = 0; iMember < _tStruct::TRegistry::get_member_count(); ++iMember) 
-		((int32_t*)&data)[iMember]											= (int32_t)tuners[iMember]->ValueCurrent; 
-	return 0;
+static		::gpk::error_t											attackMelee					(::gme::SApplication & app, int32_t attacker) {
+	const int32_t indexAttacker = attacker % 2;
+	const int32_t indexAttacked = (attacker + 1) % 2;
+	return ::pcs::attackMelee(app.RandomGenerator
+		, app.CharacterScore	[indexAttacker]
+		, app.CharacterScore	[indexAttacked]
+		, app.CharacterPoints	[indexAttacker]
+		, app.CharacterPoints	[indexAttacked]
+		, app.CharacterStatus	[indexAttacker]
+		, app.CharacterStatus	[indexAttacked]
+		, app.CharacterDefend	[indexAttacked]
+	);
 }
 
-template <typename _tStruct>
-static		::gpk::error_t											syncTunersPoints			(_tStruct & data, ::gpk::ptr_nco<::gpk::SDialogTuner>* tuners)						{ 
-	for(uint32_t iMember = 0; iMember < _tStruct::TRegistry::get_member_count(); ++iMember) 
-		::gpk::tunerSetValue(*tuners[iMember], ((int32_t*)&data)[iMember]); 
-	return 0;
-}
-
-static		::gpk::error_t											attack						(::pcs::SEntityPropertyPoints & attacker, ::pcs::SEntityPropertyPoints & attacked)	{ 
-	attacked.Life.Health												-= attacker.Attack.Damage;
-	return 0;
-}
-
-
-			::gpk::error_t											update						(::gme::SApplication & app, bool exitSignal)	{ 
+			::gpk::error_t											update						(::gme::SApplication & app, bool exitSignal)											{ 
 	::gpk::STimer															timer;
 	retval_info_if(::gpk::APPLICATION_STATE_EXIT, exitSignal, "Exit requested by runtime.");
 	{
@@ -152,11 +189,11 @@ static		::gpk::error_t											attack						(::pcs::SEntityPropertyPoints & att
 			if(idControl == (uint32_t)app.IdExit)
 				return 1;
 			if(idControl == (uint32_t)app.IdAttack[1] || idControl == (uint32_t)app.IdAttack[0]) {
-				if(idControl == (uint32_t)app.IdAttack[0]) {::attack(app.CharacterPoints[0], app.CharacterPoints[1]); }
-				if(idControl == (uint32_t)app.IdAttack[1]) {::attack(app.CharacterPoints[1], app.CharacterPoints[0]); }
+				if(idControl == (uint32_t)app.IdAttack[0]) {::attackMelee(app, 0); }
+				if(idControl == (uint32_t)app.IdAttack[1]) {::attackMelee(app, 1); }
 				for(uint32_t i = 0; i < 2; ++i) {
 					::pcs::SEntityPropertyPoints											& characterPoints			= app.CharacterPoints[i];
-					::gme::SCharacterUIControls												& characterUI				= app.CharacterUIFieldNames[i];
+					::gme::SCharacterUIControls												& characterUI				= app.CharacterUI[i];
 					::syncTunersPoints(characterPoints.Life					, characterUI.TunersLife				);
 					::syncTunersPoints(characterPoints.Power				, characterUI.TunersPower				);
 					::syncTunersPoints(characterPoints.Fitness				, characterUI.TunersFitness				);
@@ -177,7 +214,7 @@ static		::gpk::error_t											attack						(::pcs::SEntityPropertyPoints & att
 	}
 	for(uint32_t i = 0; i < 2; ++i) {
 		::pcs::SEntityPropertyPoints											& characterPoints			= app.CharacterPoints[i];
-		::gme::SCharacterUIControls												& characterUI				= app.CharacterUIFieldNames[i];
+		::gme::SCharacterUIControls												& characterUI				= app.CharacterUI[i];
 		::syncCharacterPoints(characterPoints.Life				, characterUI.TunersLife				);
 		::syncCharacterPoints(characterPoints.Power				, characterUI.TunersPower				);
 		::syncCharacterPoints(characterPoints.Fitness			, characterUI.TunersFitness				);

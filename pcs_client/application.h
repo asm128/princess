@@ -2,6 +2,7 @@
 #include "gpk_udp_client.h"
 #include "pcs_game.h"
 #include "gpk_dialog_controls.h"
+#include "gpk_noise.h"
 
 #ifndef APPLICATION_H_2078934982734
 #define APPLICATION_H_2078934982734
@@ -88,7 +89,11 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		::gpk::ptr_obj<::gpk::SRenderTarget<::gpk::SColorBGRA, uint32_t>>		Offscreen										= {};
 		::gpk::array_static<::gpk::SDialog, 2>									DialogCharacter;
 
+		::gpk::SPRNG															RandomGenerator									= {};
 		::pcs::SEntityPropertyPoints											CharacterPoints			[2]						= {};
+		::pcs::SCharacterScore													CharacterScore			[2]						= {};
+		::pcs::SCharacterStatus													CharacterStatus			[2]						= {};
+		::pcs::SDefend															CharacterDefend			[2]						= {};
 
 		int32_t																	Palettes[::gpk::GUI_CONTROL_PALETTE_COUNT]		= {};
 		int32_t																	PaletteRow										= 10;
@@ -106,7 +111,7 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 		::pcs::SGame															Game;
 		int32_t																	Player											= -1;
 
-		::gpk::array_static<::gme::SCharacterUIControls, 2>						CharacterUIFieldNames;
+		::gpk::array_static<::gme::SCharacterUIControls, 2>						CharacterUI;
 
 																				SApplication									(::gpk::SRuntimeValues& runtimeValues)	: Framework(runtimeValues)		{}
 	};
