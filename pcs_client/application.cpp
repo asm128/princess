@@ -113,19 +113,20 @@ static		::gpk::error_t											setupGameUI					(::gme::SApplication & app)				
 		controlConstraints.AttachSizeToText.x								= false;
 		::gpk::controlSetParent(gui, app.IdAttack[1], controlTestRoot);
 	}
-
+	// Set up initial characters
 	for(uint32_t i = 0; i < 2; ++i) {
 		::pcs::SEntityPropertyPoints											& characterPoints			= app.CharacterPoints[i];
 		characterPoints.Attack.Hit											= 5000;
 		characterPoints.Attack.Damage										= 5;
 		characterPoints.Attack.Absorption									= 10;
 		characterPoints.Attack.Range										= 0;
-		characterPoints.Life.Health											= 20;
-		characterPoints.Life.Shield											= 20;
+		characterPoints.MaxLife.Health										= 20;
+		characterPoints.MaxLife.Shield										= 20;
 		characterPoints.DrainLife.Health									= 5000;
 		characterPoints.DrainLife.Shield									= 100;
 		characterPoints.DirectDamageLife.Health								= 2;
 		characterPoints.DirectDamageLife.Shield								= 1;
+		characterPoints.Life												= characterPoints.MaxLife;
 		::gme::SCharacterUIControls												& characterUI				= app.CharacterUI[i];
 		::syncTunersPoints(characterPoints.Life					, characterUI.TunersLife				);
 		::syncTunersPoints(characterPoints.Power				, characterUI.TunersPower				);
@@ -192,8 +193,11 @@ static		::gpk::error_t											attackMelee					(::gme::SApplication & app, int
 				if(idControl == (uint32_t)app.IdAttack[0]) {::attackMelee(app, 0); }
 				if(idControl == (uint32_t)app.IdAttack[1]) {::attackMelee(app, 1); }
 				for(uint32_t i = 0; i < 2; ++i) {
-					::pcs::SEntityPropertyPoints											& characterPoints			= app.CharacterPoints[i];
-					::gme::SCharacterUIControls												& characterUI				= app.CharacterUI[i];
+					::pcs::SEntityPropertyPoints											& characterPoints			= app.CharacterPoints	[i];
+					//::pcs::SCharacterStatus													& characterStatus			= app.CharacterStatus	[i];
+					//::pcs::SCharacterScore													& characterScore			= app.CharacterScore	[i];
+					::pcs::SDefend															& characterDefend			= app.CharacterDefend	[i];
+					::gme::SCharacterUIControls												& characterUI				= app.CharacterUI		[i];
 					::syncTunersPoints(characterPoints.Life					, characterUI.TunersLife				);
 					::syncTunersPoints(characterPoints.Power				, characterUI.TunersPower				);
 					::syncTunersPoints(characterPoints.Fitness				, characterUI.TunersFitness				);
@@ -208,13 +212,16 @@ static		::gpk::error_t											attackMelee					(::gme::SApplication & app, int
 					::syncTunersPoints(characterPoints.MaxPower				, characterUI.TunersMaxPower			);
 					::syncTunersPoints(characterPoints.BonusLife			, characterUI.TunersBonusLife			);
 					::syncTunersPoints(characterPoints.BonusPower			, characterUI.TunersBonusPower			);
+					//
+					::syncTunersPoints(characterDefend						, characterUI.TunersDefend				);
 				}
 			}
 		}
 	}
 	for(uint32_t i = 0; i < 2; ++i) {
-		::pcs::SEntityPropertyPoints											& characterPoints			= app.CharacterPoints[i];
-		::gme::SCharacterUIControls												& characterUI				= app.CharacterUI[i];
+		::pcs::SEntityPropertyPoints											& characterPoints			= app.CharacterPoints	[i];
+		::pcs::SDefend															& characterDefend			= app.CharacterDefend	[i];
+		::gme::SCharacterUIControls												& characterUI				= app.CharacterUI		[i];
 		::syncCharacterPoints(characterPoints.Life				, characterUI.TunersLife				);
 		::syncCharacterPoints(characterPoints.Power				, characterUI.TunersPower				);
 		::syncCharacterPoints(characterPoints.Fitness			, characterUI.TunersFitness				);
@@ -229,6 +236,8 @@ static		::gpk::error_t											attackMelee					(::gme::SApplication & app, int
 		::syncCharacterPoints(characterPoints.MaxPower			, characterUI.TunersMaxPower			);
 		::syncCharacterPoints(characterPoints.BonusLife			, characterUI.TunersBonusLife			);
 		::syncCharacterPoints(characterPoints.BonusPower		, characterUI.TunersBonusPower			);
+		//
+		::syncTunersPoints(characterDefend						, characterUI.TunersDefend				);
 	}																											 
 
 	reterr_error_if(app.Client.State != ::gpk::UDP_CONNECTION_STATE_IDLE, "Failed to connect to server.")

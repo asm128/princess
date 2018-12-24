@@ -147,6 +147,8 @@ namespace pcs
 		( ::pcs::SPointsLife			& lifeRemaining
 		, ::pcs::SPointsLife			& damageDealt
 		, ::pcs::SPointsLife			& damageReflected
+		, ::pcs::SPointsPower			& powerRemaining
+		, ::pcs::SPointsPower			& powerDamageDealt
 		, ::pcs::SEntityPropertyPoints	& attacker
 		, const ::pcs::SDefend			& attackedDefend
 		);
@@ -155,6 +157,9 @@ namespace pcs
 		( ::pcs::SPointsLife			& damageDealt
 		, ::pcs::SPointsLife			& lifeDrained
 		, ::pcs::SPointsLife			& drainPoints
+		, ::pcs::SPointsPower			& powerDamageDealt
+		, ::pcs::SPointsPower			& powerDrained
+		, ::pcs::SPointsPower			& powerDrainPoints
 		);
 	::gpk::error_t								attackMelee						
 		( ::gpk::SPRNG					& prng
