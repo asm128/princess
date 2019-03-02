@@ -39,7 +39,8 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 		::gpk::ptr_obj<::gpk::SDialogViewport>								viewport;
 		int32_t																idDialogControl					= fieldValues[iMember] = ::gpk::viewportCreate(dialog, viewport);
 		gui.Controls.Text[viewport->IdTitle].Text						= _TPoints::TRegistry::get_names()[iMember];
-		viewport->DisplacementLock										= {true, true};
+		viewport->Settings.DisplacementLockX							= true;
+		viewport->Settings.DisplacementLockY							= true;
 		if(iMember)
 			gui.Controls.Constraints[viewport->IdGUIControl].DockToControl.Bottom	= dialog.Controls[idDialogControl - 1]->IdGUIControl;
 		gpk_necall(::gpk::controlSetParent(gui, viewport->IdGUIControl, idParent), "Invalid group id: %i.", idParent); 
@@ -87,7 +88,8 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 	::gpk::ptr_obj<::gpk::SDialogViewport>								viewport;
 	int32_t																idDialogControl						= ::gpk::viewportCreate(dialog, viewport);
 	gui.Controls.Text[viewport->IdTitle].Text						= "Defend Effect";
-	viewport->DisplacementLock										= {true, true};
+	viewport->Settings.DisplacementLockX							= true;
+	viewport->Settings.DisplacementLockY							= true;
 	gpk_necall(::gpk::controlSetParent(gui, viewport->IdGUIControl, character.DialogCharacter), "Invalid group id: %i.", character.DialogCharacter); 
 	::gpk::SGUIControlTable												& controlTable						= gui.Controls;
 	gpk_necall(::dialogCreateFieldArray(dialog, character.ViewportDefend, controlTable.Children[dialog.Controls[idDialogControl]->IdGUIControl][0]), "%s", "????");	// Create label control array

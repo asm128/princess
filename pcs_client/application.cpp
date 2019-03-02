@@ -82,50 +82,34 @@ static		::gpk::error_t											setupGameUI					(::gme::SApplication & app)				
 		controlConstraints.AttachSizeToText.x								= false;
 		::gpk::controlSetParent(gui, app.IdExit, controlTestRoot);
 	}
-	{
-		app.IdAttack[0]															= ::gpk::controlCreate(gui);
-		::gpk::SControl															& controlExit				= gui.Controls.Controls[app.IdAttack[0]];
+	for(uint32_t iButton = 0; iButton < 2; ++iButton) {
+		app.IdAttack[iButton]												= ::gpk::controlCreate(gui);
+		::gpk::SControl															& controlExit				= gui.Controls.Controls[app.IdAttack[iButton]];
 		controlExit.Area													= {{0, 0}, {96, 18}};
 		controlExit.Border													= {1, 1, 1, 1};
 		controlExit.Margin													= {1, 1, 1, 1};
-		controlExit.Align													= ::gpk::ALIGN_BOTTOM_LEFT;
-		::gpk::SControlText														& controlText				= gui.Controls.Text[app.IdAttack[0]];
-		controlText.Text													= "Attack (0)";
+		controlExit.Align													= iButton ? ::gpk::ALIGN_BOTTOM_RIGHT : ::gpk::ALIGN_BOTTOM_LEFT;
+		::gpk::SControlText														& controlText				= gui.Controls.Text[app.IdAttack[iButton]];
+		controlText.Text													= iButton ? "Attack (1)" : "Attack (0)";
 		controlText.Align													= ::gpk::ALIGN_CENTER;
-		::gpk::SControlConstraints												& controlConstraints		= gui.Controls.Constraints[app.IdAttack[0]];
+		::gpk::SControlConstraints												& controlConstraints		= gui.Controls.Constraints[app.IdAttack[iButton]];
 		controlConstraints.AttachSizeToText.y								= false;
 		controlConstraints.AttachSizeToText.x								= false;
-		::gpk::controlSetParent(gui, app.IdAttack[0], controlTestRoot);
-	}
-
-	{
-		app.IdAttack[1]															= ::gpk::controlCreate(gui);
-		::gpk::SControl															& controlExit				= gui.Controls.Controls[app.IdAttack[1]];
-		controlExit.Area													= {{0, 0}, {96, 18}};
-		controlExit.Border													= {1, 1, 1, 1};
-		controlExit.Margin													= {1, 1, 1, 1};
-		controlExit.Align													= ::gpk::ALIGN_BOTTOM_RIGHT;
-		::gpk::SControlText														& controlText				= gui.Controls.Text[app.IdAttack[1]];
-		controlText.Text													= "Attack (1)";
-		controlText.Align													= ::gpk::ALIGN_CENTER;
-		::gpk::SControlConstraints												& controlConstraints		= gui.Controls.Constraints[app.IdAttack[1]];
-		controlConstraints.AttachSizeToText.y								= false;
-		controlConstraints.AttachSizeToText.x								= false;
-		::gpk::controlSetParent(gui, app.IdAttack[1], controlTestRoot);
+		::gpk::controlSetParent(gui, app.IdAttack[iButton], controlTestRoot);
 	}
 	// Set up initial characters
 	for(uint32_t i = 0; i < 2; ++i) {
 		::pcs::SEntityPropertyPoints											& characterPoints			= app.CharacterPoints[i];
 		characterPoints.Attack.Hit											= 5000;
 		characterPoints.Attack.Damage										= 5;
-		characterPoints.Attack.Absorption									= 10;
+		characterPoints.Attack.Absorption									= 2500 + (i * 2500);
 		characterPoints.Attack.Range										= 0;
 		characterPoints.MaxLife.Health										= 20;
 		characterPoints.MaxLife.Shield										= 20;
-		characterPoints.DrainLife.Health									= 5000;
-		characterPoints.DrainLife.Shield									= 100;
-		characterPoints.DirectDamageLife.Health								= 2;
-		characterPoints.DirectDamageLife.Shield								= 1;
+		//characterPoints.DrainLife.Health									= 5000;
+		//characterPoints.DrainLife.Shield									= 100;
+		//characterPoints.DirectDamageLife.Health								= 2;
+		//characterPoints.DirectDamageLife.Shield								= 1;
 		characterPoints.Life												= characterPoints.MaxLife;
 		::gme::SCharacterUIControls												& characterUI				= app.CharacterUI[i];
 		::syncTunersPoints(characterPoints.Life					, characterUI.TunersLife				);

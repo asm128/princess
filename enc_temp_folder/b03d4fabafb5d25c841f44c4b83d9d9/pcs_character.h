@@ -151,7 +151,7 @@ namespace pcs
 		, ::pcs::SPointsPower			& powerDamageDealt
 		, ::pcs::SEntityPropertyPoints	& attacker
 		, const ::pcs::SDefend			& attackedDefend
-		, int32_t						absorption
+	, int32_t							absorption
 		);
 
 	::gpk::error_t								attackApplyDrain

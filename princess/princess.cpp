@@ -115,6 +115,7 @@ static	::gpk::error_t													gameEntityCreate					(::gpk::array_pod<::pcs::
 	, ::pcs::SPointsPower				& powerDamageDealt
 	, ::pcs::SEntityPropertyPoints		& attacker
 	, const ::pcs::SDefend				& attackedDefend
+	, int32_t							absorption
 	) {
 	if(1 == attacker.Attack.Damage) {
 		if(lifeRemaining.Shield) {
@@ -127,10 +128,11 @@ static	::gpk::error_t													gameEntityCreate					(::gpk::array_pod<::pcs::
 		}
 	}
 	else  {
-		damageDealt.Health														= (attacker.Attack.Damage / 2);
-		damageDealt.Shield														= (attacker.Attack.Damage / 2) + (attacker.Attack.Damage % 2);
+		double																		absorptionFactor						= absorption * (1.0 / ::pcs::POINT_SCALE_DOUBLE);
+		damageDealt.Health														= (int32_t)(attacker.Attack.Damage * (1.0 - absorptionFactor));
+		damageDealt.Shield														= (int32_t)(attacker.Attack.Damage * absorptionFactor + (attacker.Attack.Damage % 2));
 		if(attackedDefend.Reflect > 0) {	// If the target reflect	s damage, it only takes a portion of the damage and assign the reflected damage values to the proper structure
-			double																		factor									= attackedDefend.Reflect * (1 / POINT_SCALE_DOUBLE);
+			double																		factor									= attackedDefend.Reflect * (1.0 / ::pcs::POINT_SCALE_DOUBLE);
 			double																		factorInv								= 1.0 - factor;
 			damageReflected.Health													+= (int32_t)(damageDealt.Health * factor);
 			damageReflected.Shield													+= (int32_t)(damageDealt.Shield * factor);
@@ -207,7 +209,7 @@ static	::gpk::error_t													gameEntityCreate					(::gpk::array_pod<::pcs::
 
 	::pcs::SPointsPower															powerDamageDealt							= {};
 	::pcs::SPointsPower															powerRemaining								= attacked.Power;
-	::pcs::attackCalculateDamage(lifeRemaining, damageDealt, damageReflected, powerRemaining, powerDamageDealt, attacker, attackedDefend);
+	::pcs::attackCalculateDamage(lifeRemaining, damageDealt, damageReflected, powerRemaining, powerDamageDealt, attacker, attackedDefend, attacked.Attack.Absorption);
 
 	::pcs::SPointsLife															lifeDrained									= {};
 	::pcs::SPointsPower															powerDrained								= {};
