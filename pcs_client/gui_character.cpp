@@ -109,7 +109,6 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 					::gpk::error_t								dialogCreateCharacterStatus			(::gpk::SDialog & dialog, ::gme::SCharacterUIControls & character)	{
 	::gpk::SGUI															& gui								= *dialog.GUI;
 	::gpk::ptr_obj<::gpk::SDialogViewport>								viewport							= {};
-	gui;
 	::gme::SCombatStatusGroups											& viewportIds						= character.DialogStatusGroups;
 	gpk_necall(::dialogCreateViewportArray(dialog, viewportIds, character.DialogCharacter), "%s", "????");	// Create group control array
 
@@ -218,7 +217,8 @@ static				::gpk::error_t								dialogCreateViewportArray		(::gpk::SDialog & dia
 	// -- Dock Defend viewport to last Status viewport
 	int32_t																idViewportDefend					= ::dialogCreateCharacterEffect(dialog, character);
 	dialog.Controls[idViewportDefend].as(viewport);
-	gui.Controls.Constraints[viewport->IdGUIControl].DockToControl.Bottom	= dialog.Controls[character.DialogStatusGroups.Weakness]->IdGUIControl;
+	gui.Controls.Constraints
+		[viewport->IdGUIControl].DockToControl.Bottom				= dialog.Controls[character.DialogStatusGroups.Weakness]->IdGUIControl;
 
 	dialog.Controls[character.ViewportCharacter].as(viewport);
 	::gpk::viewportFold(*viewport, true);

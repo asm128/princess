@@ -3,32 +3,32 @@
 #include "gpk_array.h"
 #include "gpk_noise.h"
 
-#ifndef PCS_CHArACTER_H_0237498234
-#define PCS_CHArACTER_H_0237498234
+#ifndef PCS_CHARACTER_H_0237498234
+#define PCS_CHARACTER_H_0237498234
 
 namespace pcs 
 {
 #pragma pack (push, 1)
 	struct SCharacterScore {
-		GPKMNDF(, uint64_t, MoneyEarned			, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, MoneySpent			, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, DamageDealt			, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, DamageTaken			, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, TurnsPlayed			, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, BattlesWon			, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, BattlesLost			, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, EnemiesKilled		, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, AttacksHit			, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, AttacksMissed		, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, AttacksReceived		, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, AttacksAvoided		, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, ShotsFired			, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, UsedPotions			, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, UsedGrenades		, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, UsedProjectiles		, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, CompletedResearch	, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, CompletedProduction	, ::gpk::DATA_TYPE_INT64)	= 0;
-		GPKMNDF(, uint64_t, CompletedUpgrade	, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, MoneyEarned			, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, MoneySpent			, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, DamageDealt			, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, DamageTaken			, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, TurnsPlayed			, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, BattlesWon			, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, BattlesLost			, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, EnemiesKilled		, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, AttacksHit			, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, AttacksMissed		, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, AttacksReceived		, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, AttacksAvoided		, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, ShotsFired			, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, UsedPotions			, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, UsedGrenades		, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, UsedProjectiles		, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, CompletedResearch	, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, CompletedProduction	, ::gpk::DATA_TYPE_INT64)	= 0;
+		GPKMBND(, uint64_t, CompletedUpgrade	, ::gpk::DATA_TYPE_INT64)	= 0;
 		GPKM_REGISTRY
 			(	GPKM_NAME(MoneyEarned			)
 			,	GPKM_NAME(MoneySpent			)
@@ -81,21 +81,22 @@ namespace pcs
 		::pcs::SPointsLife							BonusLife							= {};
 		::pcs::SPointsPower							BonusPower							= {};
 	};
+
 	struct SEntityPropertyGroups {
-		GPKMNDF( , int32_t, Life				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, Power				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, Fitness				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, Attack				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, DirectDamageLife	, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, DirectDamagePower	, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, DrainLife			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, DrainPower			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, RegenLife			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, RegenPower			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, MaxLife				, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, MaxPower			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, BonusLife			, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t, BonusPower			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t, Life				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t, Power				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t, Fitness				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t, Attack				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t, DirectDamageLife	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t, DirectDamagePower	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t, DrainLife			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t, DrainPower			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t, RegenLife			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t, RegenPower			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t, MaxLife				, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t, MaxPower			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t, BonusLife			, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t, BonusPower			, ::gpk::DATA_TYPE_INT32)				= -1;
 		GPKM_REGISTRY
 			(	GPKM_NAME(Life				)
 			,	GPKM_NAME(Power				)
@@ -120,7 +121,6 @@ namespace pcs
 		::pcs::SCombatStatusLevel					ImmunityInflict						= {};
 		::pcs::SCombatStatusLevel					ResistanceLevel						= {};
 		int32_t										CharacterProfile					= -1;
-
 	};
 
 	struct SEntityState {
@@ -130,7 +130,6 @@ namespace pcs
 	static constexpr	const size_t			Charsize							= sizeof(SEntity);
 	static constexpr	const uint32_t			POINT_SCALE_INT						= 10000;
 	static constexpr	const double			POINT_SCALE_DOUBLE					= 10000.0;
-
 
 // Returns 2 if deflected, 1 if hit and 
 	::gpk::error_t								attackCalculateHitChanceResult	

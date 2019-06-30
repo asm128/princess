@@ -6,13 +6,13 @@
 namespace pcs 
 {
 	struct SPlayerScore {
-		GPKMNDF(, int32_t									, CharactersKilled	, ::gpk::DATA_TYPE_INT32) = 0;
-		GPKMNDF(, int32_t									, CharactersBought	, ::gpk::DATA_TYPE_INT32) = 0;
-		GPKMNDF(, int32_t									, CharactersSold	, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMBND(, int32_t									, CharactersKilled	, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMBND(, int32_t									, CharactersBought	, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMBND(, int32_t									, CharactersSold	, ::gpk::DATA_TYPE_INT32) = 0;
 
-		GPKMNDF(, int32_t									, MoneySpent		, ::gpk::DATA_TYPE_INT32) = 0;
-		GPKMNDF(, int32_t									, MoneyEarned		, ::gpk::DATA_TYPE_INT32) = 0;
-		GPKMNDF(, int32_t									, MoneyLost			, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMBND(, int32_t									, MoneySpent		, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMBND(, int32_t									, MoneyEarned		, ::gpk::DATA_TYPE_INT32) = 0;
+		GPKMBND(, int32_t									, MoneyLost			, ::gpk::DATA_TYPE_INT32) = 0;
 	};
 
 	struct SPlayer {

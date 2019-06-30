@@ -49,7 +49,7 @@ static		::gpk::error_t											setupGameUI					(::gme::SApplication & app)				
 	::gpk::SDisplay															& mainWindow				= framework.MainDisplay;
 	framework.GUI														= app.DialogCharacter[0].GUI;
 	//::gpk::controlDelete(*framework.GUI, 0);
-	error_if(errored(::gpk::mainWindowCreate(mainWindow, framework.RuntimeValues.PlatformDetail, framework.Input)), "%s", "Failed to create main window why?????!?!?!?!?");
+	gerror_if(errored(::gpk::mainWindowCreate(mainWindow, framework.RuntimeValues.PlatformDetail, framework.Input)), "%s", "Failed to create main window why?????!?!?!?!?");
 	::gpk::SGUI																& gui						= *framework.GUI;
 	const int32_t															iShades					= 16;
 	gui.ThemeDefault													= app.PaletteColumn * iShades + app.PaletteRow;
@@ -152,13 +152,13 @@ static		::gpk::error_t											attackMelee					(::gme::SApplication & app, int
 
 			::gpk::error_t											update						(::gme::SApplication & app, bool exitSignal)											{ 
 	::gpk::STimer															timer;
-	retval_info_if(::gpk::APPLICATION_STATE_EXIT, exitSignal, "Exit requested by runtime.");
+	retval_ginfo_if(::gpk::APPLICATION_STATE_EXIT, exitSignal, "Exit requested by runtime.");
 	{
 		::gpk::mutex_guard														lock						(app.LockRender);
 		app.Framework.MainDisplayOffscreen									= app.Offscreen;
 	}
 	::gpk::SFramework														& framework					= app.Framework;
-	retval_info_if(::gpk::APPLICATION_STATE_EXIT, ::gpk::APPLICATION_STATE_EXIT == ::gpk::updateFramework(app.Framework), "Exit requested by framework update.");
+	retval_ginfo_if(::gpk::APPLICATION_STATE_EXIT, ::gpk::APPLICATION_STATE_EXIT == ::gpk::updateFramework(app.Framework), "Exit requested by framework update.");
 
 	for(uint32_t iCharacter = 0; iCharacter < app.DialogCharacter.size(); ++iCharacter) 
 		app.DialogCharacter[iCharacter].Update();
@@ -224,7 +224,7 @@ static		::gpk::error_t											attackMelee					(::gme::SApplication & app, int
 		::syncTunersPoints(characterDefend						, characterUI.TunersDefend				);
 	}																											 
 
-	reterr_error_if(app.Client.State != ::gpk::UDP_CONNECTION_STATE_IDLE, "Failed to connect to server.")
+	reterr_gerror_if(app.Client.State != ::gpk::UDP_CONNECTION_STATE_IDLE, "Failed to connect to server.")
 	else {
 		::gpk::connectionPushData(app.Client, app.Client.Queue, "Message arrived!");
 		::gpk::connectionPushData(app.Client, app.Client.Queue, "Message arrived! 2");

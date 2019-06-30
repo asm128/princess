@@ -1,0 +1,33 @@
+[{	"profile"	: 
+	{ "height"			: "1.75"
+	, "weight"			: "60"
+	, "time_birth"		: "1976-03-01"
+	, "time_death"		: "1976-03-01"
+	, "score"			: "0"
+	, "names_first"		: "0"
+	, "names_last"		: "0"
+	, "nationalities"	: "0"
+	},
+	"entity"	:
+	{	"max"	: 
+		{	"life"		: {"health" : 10, "shield": 10}
+		,	"power"		: {"energy" : 10, "mana": 10, "stamina": 10}
+		}
+	,	"drain"		:
+		{	"life"		: {"health" : 1, "shield": 1}
+		,	"power"		: {"energy" : 1, "mana": 1, "stamina": 1}
+		}
+	,	"regen"		:
+		{	"life"		: {"health" : 1, "shield": 1}
+		,	"power"		: {"energy" : 1, "mana": 1, "stamina": 1}
+		}
+	,	"bonus"		:
+		{	"life"		: {"health" : 1, "shield": 1}
+		,	"power"		: {"energy" : 1, "mana": 1, "stamina": 1}
+		}
+	,	"damage_direct"	:
+		{	"life"		: {"health" : 1, "shield": 1}
+		,	"power"		: {"energy" : 1, "mana": 1, "stamina": 1}
+		}
+	},
+}]

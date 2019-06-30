@@ -11,33 +11,33 @@ namespace gme // I'm gonna use a different namespace in order to test a few thin
 {
 #pragma pack(push, 1)
 	struct SCombatStatusControls {							
-		GPKMNDF( , int32_t,	Blind		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Stun		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Shock		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Bleeding	, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Burn		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Poison		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Freezing	, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Petrify		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Frozen		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Blackout	, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Charmed		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Drunk		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Sleep		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Slow		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Weakness	, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Panic		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Berserk		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Invisible	, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Rage		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Bullied		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Blind		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Stun		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Shock		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Bleeding	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Burn		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Poison		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Freezing	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Petrify		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Frozen		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Blackout	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Charmed		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Drunk		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Sleep		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Slow		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Weakness	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Panic		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Berserk		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Invisible	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Rage		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Bullied		, ::gpk::DATA_TYPE_INT32)				= -1;
 	};
 
 	struct SCombatStatusGroups {					
-		GPKMNDF( , int32_t,	Immunity	, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Inflict		, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Resistance	, ::gpk::DATA_TYPE_INT32)				= -1;
-		GPKMNDF( , int32_t,	Weakness	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Immunity	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Inflict		, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Resistance	, ::gpk::DATA_TYPE_INT32)				= -1;
+		GPKMBND( , int32_t,	Weakness	, ::gpk::DATA_TYPE_INT32)				= -1;
 		GPKM_REGISTRY
 			(	GPKM_NAME(Immunity			)
 			,	GPKM_NAME(Inflict			)

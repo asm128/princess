@@ -57,28 +57,28 @@ namespace pcs
 	};
 
 	struct SCombatStatusValue {
-		GPKMNDF( , int32_t,				Blind			, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Stun			, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Shock			, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Bleeding		, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Burn			, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Poison			, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Freezing		, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Petrify			, ::gpk::DATA_TYPE_INT32)	= 0;
-	//	GPKMNDF( , int32_t,								, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Frozen			, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Blackout		, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Charmed			, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Drunk			, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Sleep			, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Slow			, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Weakness		, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Panic			, ::gpk::DATA_TYPE_INT32)	= 0;
-	//	GPKMNDF( , int32_t,								, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Berserk			, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Invisible		, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Rage			, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,				Bullied			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Blind			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Stun			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Shock			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Bleeding		, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Burn			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Poison			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Freezing		, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Petrify			, ::gpk::DATA_TYPE_INT32)	= 0;
+	//	GPKMBND( , int32_t,								, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Frozen			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Blackout		, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Charmed			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Drunk			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Sleep			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Slow			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Weakness		, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Panic			, ::gpk::DATA_TYPE_INT32)	= 0;
+	//	GPKMBND( , int32_t,								, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Berserk			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Invisible		, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Rage			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,				Bullied			, ::gpk::DATA_TYPE_INT32)	= 0;
 		GPKM_REGISTRY
 			(	GPKM_NAME(Blind		)
 			,	GPKM_NAME(Stun		)
@@ -129,10 +129,10 @@ namespace pcs
 	GDEFINE_ENUM_VALUE(DEFEND_EFFECT, Deflect			, 0x08		); 	// Reflects damage to the attacker
 
 	struct SDefend {
-		GPKMNDF( , int32_t,					 Reflect		, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,					 Blind			, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,					 Impenetrable	, ::gpk::DATA_TYPE_INT32)	= 0;
-		GPKMNDF( , int32_t,					 Deflect		, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,					 Reflect		, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,					 Blind			, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,					 Impenetrable	, ::gpk::DATA_TYPE_INT32)	= 0;
+		GPKMBND( , int32_t,					 Deflect		, ::gpk::DATA_TYPE_INT32)	= 0;
 		GPKM_REGISTRY
 		(	GPKM_NAME(Reflect			)
 		,	GPKM_NAME(Blind				)
